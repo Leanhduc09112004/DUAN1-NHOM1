@@ -27,33 +27,33 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblTENTAIKHOAN" min="-2" pref="95" max="-2" attributes="0"/>
-                          <Component id="lblMATKHAU" alignment="0" min="-2" pref="79" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblTITLE" min="-2" pref="156" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="btnDANGNHAP" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="btnTHOAT" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="txtMATKHAU" alignment="0" min="-2" pref="269" max="-2" attributes="0"/>
-                              <Component id="txtTENTAIKHOAN" alignment="0" min="-2" pref="269" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                  <Component id="lblTENTAIKHOAN" min="-2" pref="95" max="-2" attributes="0"/>
+                  <Component id="lblMATKHAU" alignment="0" min="-2" pref="79" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="btnDANGNHAP" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnQUENMATKHAU" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnTHOAT" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="txtMATKHAU" alignment="0" min="-2" pref="269" max="-2" attributes="0"/>
+                  <Component id="txtTENTAIKHOAN" alignment="0" min="-2" pref="269" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="lblTITLE" min="-2" pref="156" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="14" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -77,6 +77,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnDANGNHAP" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnTHOAT" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnQUENMATKHAU" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
           </Group>
@@ -131,6 +132,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="THO&#xc1;T"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnQUENMATKHAU">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="QU&#xca;N M&#x1eac;T KH&#x1ea8;U"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnQUENMATKHAUActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
