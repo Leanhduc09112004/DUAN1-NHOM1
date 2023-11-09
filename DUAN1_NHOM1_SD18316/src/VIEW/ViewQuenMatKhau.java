@@ -1,9 +1,13 @@
 package VIEW;
+
+import java.awt.Color;
+
 public class ViewQuenMatKhau extends javax.swing.JFrame {
     public ViewQuenMatKhau() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("QUÊN MẬT KHẨU");
+        setBackground(Color.green);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
