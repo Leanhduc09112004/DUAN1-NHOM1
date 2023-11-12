@@ -20,7 +20,7 @@ public class ViewMenu extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
-
+        setLocationRelativeTo(null);
     }
 
     /**
