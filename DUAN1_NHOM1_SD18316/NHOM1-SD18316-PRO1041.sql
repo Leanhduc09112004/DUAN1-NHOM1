@@ -1,0 +1,184 @@
+CREATE DATABASE PTPM_JAVA_FA23_PRO1041;
+GO
+USE PTPM_JAVA_FA23_PRO1041
+GO
+GO
+--NHAN VIEN--
+CREATE TABLE NhanVien(
+IdNV UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+MaNV nvarchar(50),
+HoTen nvarchar(50),
+GioiTinh nvarchar(10),
+Sdt nvarchar(10),
+NgaySinh date,
+DiaChi nvarchar(50),
+Email nvarchar(50),
+ChucVu nvarchar(50),
+TrangThai nvarchar(50),
+TaiKhoan nvarchar(50),
+MatKhau nvarchar(50),
+CaLam  nvarchar(50)
+)
+--MAU SAC--
+CREATE TABLE MauSac(
+IdMau UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+MaMau nvarchar(50),
+TenMau nvarchar(100)
+)
+GO
+--THUONG HIEU--
+CREATE TABLE HangSanXuat(
+IdHang UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+MaHangSanXuat nvarchar(50),
+TenHangSanXuat nvarchar(100)
+)
+GO
+CREATE TABLE SizeSP(
+IdSize UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+MaSize nvarchar(50),
+Size nvarchar(100)
+)
+CREATE TABLE LoaiSanPham(
+IdLoaiSanPham UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+MaLoaiSanPham nvarchar(50),
+TenLoaiSanPham nvarchar(100)
+)
+--SAN PHAM--
+CREATE TABLE SanPham(
+IdSP UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+MaSP nvarchar(50),
+TenSP nvarchar(100),
+IdLoaiSanPham UNIQUEIDENTIFIER,
+TrangThai nvarchar(50),
+GiaBan float,
+GiaNhap float,
+Mota nvarchar(50),
+Soluong int,
+IdNV UNIQUEIDENTIFIER ,
+IdMau UNIQUEIDENTIFIER ,
+IdHang UNIQUEIDENTIFIER,
+IdSize UNIQUEIDENTIFIER,
+IdKM UNIQUEIDENTIFIER,
+)
+GO
+CREATE TABLE KhuyenMai(
+IdKM UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+MaKM nvarchar(50),
+TenKM nvarchar(100),
+NgayBatDau date,
+NgayKetThuc date,
+DieuKien float,
+TienGiam float,
+TrangThai nvarchar(50)
+)
+GO
+--KHACH HANG--
+CREATE TABLE KhachHang(
+IdKH UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+MaKH nvarchar(50),
+HoTen nvarchar(50),
+Email nvarchar(50),
+Sdt varchar(12),
+GioiTinh nvarchar(10),
+NgaySinh date,
+DiaChi nvarchar(50),
+TrangThai nvarchar(50),
+IdNV UNIQUEIDENTIFIER
+)
+GO
+CREATE TABLE GioHang(
+IdGioHang UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+MaGioHang NVARCHAR(50),
+NgayTao DATE DEFAULT NULL,
+NgayThanhToan DATE DEFAULT NULL,
+Soluong INT,
+DonGia FLOAT,
+TienGiam FLOAT,
+IdKH UNIQUEIDENTIFIER,
+IdNV UNIQUEIDENTIFIER,
+IdSP UNIQUEIDENTIFIER,
+IdKM UNIQUEIDENTIFIER
+)
+--HOA DON--
+CREATE TABLE HoaDon(
+IdHD UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+MaHD nvarchar(50),
+NgayTao date,
+NgayThanhToan date,
+TongTien float,
+TienGiam float,
+TienDua float,
+TienThua float,
+TrangThai nvarchar(50),
+NguoiLap UNIQUEIDENTIFIER ,
+GhiChu nvarchar(50),
+IdKH UNIQUEIDENTIFIER
+)
+GO
+--HOA DON CHI TIET--
+CREATE TABLE HoaDonChiTiet(
+IdHDCT UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+IdSP UNIQUEIDENTIFIER,
+IdHD UNIQUEIDENTIFIER,
+SoLuong int,
+DonGia float,
+)
+ALTER TABLE SanPham
+ADD CONSTRAINT FK_SanPham_MauSac
+FOREIGN KEY (IdMau) REFERENCES MauSac(IdMau);
+
+ALTER TABLE SanPham
+ADD CONSTRAINT FK_SanPham_HangSanXuat
+FOREIGN KEY (IdHang) REFERENCES HangSanXuat(IdHang);
+
+ALTER TABLE SanPham
+ADD CONSTRAINT FK_SanPham_SizeSP
+FOREIGN KEY (IdSize) REFERENCES SizeSP(IdSize);
+
+ALTER TABLE SanPham
+ADD CONSTRAINT FK_SanPham_KhuyenMai
+FOREIGN KEY (IdKM) REFERENCES KhuyenMai(IdKM);
+
+ALTER TABLE HoaDon
+ADD CONSTRAINT FK_HoaDon_NguoiLap
+FOREIGN KEY (NguoiLap) REFERENCES NhanVien(IdNV);
+
+ALTER TABLE HoaDonChiTiet
+ADD CONSTRAINT FK_HoaDon_HoaDonCT
+FOREIGN KEY (IdHD) REFERENCES HoaDon(IdHD);
+
+ALTER TABLE KhachHang
+ADD CONSTRAINT FK_KhachHang_NhanVien
+FOREIGN KEY (IdNV) REFERENCES NhanVien(IdNV);
+
+ALTER TABLE HoaDon
+ADD CONSTRAINT FK_HoaDon_KhachHang
+FOREIGN KEY (IdKH) REFERENCES KhachHang(IdKH);
+
+ALTER TABLE HoaDonChiTiet
+ADD CONSTRAINT FK_SanPham_HoaDonCT
+FOREIGN KEY (IdSP) REFERENCES SanPham(IdSP);
+
+ALTER TABLE SanPham
+ADD CONSTRAINT FK_SanPham_NhanVien
+FOREIGN KEY (IdNV) REFERENCES NhanVien(IdNV);
+
+ALTER TABLE SanPham
+ADD CONSTRAINT FK_SanPham_LoaiSanPham
+FOREIGN KEY (IdLoaiSanPham) REFERENCES LoaiSanPham(IdLoaiSanPham);
+
+ALTER TABLE GioHang
+ADD CONSTRAINT FK_SanPham_GioHang
+FOREIGN KEY (IdSP) REFERENCES SanPham(IdSP);
+
+ALTER TABLE GioHang
+ADD CONSTRAINT FK_KhachHang_GioHang
+FOREIGN KEY (IdKH) REFERENCES KhachHang(IdKH);
+
+ALTER TABLE GioHang
+ADD CONSTRAINT FK_NhanVien_GioHang
+FOREIGN KEY (IdNV) REFERENCES NhanVien(IdNV);
+
+ALTER TABLE GioHang
+ADD CONSTRAINT FK_KhuyenMai_GioHang
+FOREIGN KEY (IdKM) REFERENCES KhuyenMai(IdKM);
