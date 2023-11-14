@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 public class DBConnect {
     public static String USER = "sa";
     public static String PASSWORD = "123";
-     public static String URL = "jdbc:sqlserver://localhost:1433;databaseName=DUAN1;encrypt=true;trustServerCertificate=true; ";
+     public static String URL = "jdbc:sqlserver://localhost:1433;databaseName=PTPM_JAVA_FA23_PRO1041;encrypt=true;trustServerCertificate=true; ";
      static {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
