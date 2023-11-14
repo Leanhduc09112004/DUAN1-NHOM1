@@ -74,6 +74,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(jTable4);
 
+        jButton1.setBackground(new java.awt.Color(255, 204, 204));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
         jButton1.setText("Lưu danh sách hóa đơn");
 
@@ -142,6 +143,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(jTable5);
 
+        jButton2.setBackground(new java.awt.Color(255, 204, 204));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/xls.png"))); // NOI18N
         jButton2.setText("In hóa đơn chi tiết");
 
