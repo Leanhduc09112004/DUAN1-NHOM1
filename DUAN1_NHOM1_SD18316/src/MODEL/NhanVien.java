@@ -13,7 +13,7 @@ public class NhanVien {
     private String DiaChi;
     private String Email;
     private String ChucVu;
-    private Boolean TrangThai;
+    private Boolean TrangThai;   
     private String MatKhau;
 
     public NhanVien() {
