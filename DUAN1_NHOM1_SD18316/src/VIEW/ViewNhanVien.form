@@ -11,6 +11,9 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -139,7 +142,7 @@
             </Container>
             <Component class="javax.swing.JButton" name="btnKhoiPhuc">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Kh&#xf4;i ph&#x1ee5;c tr&#x1ea1;ng th&#xe1;i l&#xe0;m vi&#x1ec7;c"/>
+                <Property name="text" type="java.lang.String" value="Tr&#x1ea1;ng th&#xe1;i l&#xe0;m vi&#x1ec7;c"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnKhoiPhucActionPerformed"/>

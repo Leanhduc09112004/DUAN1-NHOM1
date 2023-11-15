@@ -7,19 +7,19 @@ public class NhanVien {
     private int ID;
     private String MaNV;
     private String HoTen;
-    private String GioiTinh;
+    private Boolean GioiTinh;
     private String SĐT;
     private Date NgaySinh;
     private String DiaChi;
     private String Email;
-    private String ChucVu;
+    private Boolean ChucVu;
     private Boolean TrangThai;   
     private String MatKhau;
 
     public NhanVien() {
     }
 
-    public NhanVien(int ID, String MaNV, String HoTen, String GioiTinh, String SĐT, Date NgaySinh, String DiaChi, String Email, String ChucVu, Boolean TrangThai, String MatKhau) {
+    public NhanVien(int ID, String MaNV, String HoTen, Boolean GioiTinh, String SĐT, Date NgaySinh, String DiaChi, String Email, Boolean ChucVu, Boolean TrangThai, String MatKhau) {
         this.ID = ID;
         this.MaNV = MaNV;
         this.HoTen = HoTen;
@@ -57,11 +57,11 @@ public class NhanVien {
         this.HoTen = HoTen;
     }
 
-    public String getGioiTinh() {
+    public Boolean getGioiTinh() {
         return GioiTinh;
     }
 
-    public void setGioiTinh(String GioiTinh) {
+    public void setGioiTinh(Boolean GioiTinh) {
         this.GioiTinh = GioiTinh;
     }
 
@@ -97,11 +97,11 @@ public class NhanVien {
         this.Email = Email;
     }
 
-    public String getChucVu() {
+    public Boolean getChucVu() {
         return ChucVu;
     }
 
-    public void setChucVu(String ChucVu) {
+    public void setChucVu(Boolean ChucVu) {
         this.ChucVu = ChucVu;
     }
 
@@ -125,5 +125,5 @@ public class NhanVien {
     public String toString() {
         return "NhanVien{" + "ID=" + ID + ", MaNV=" + MaNV + ", HoTen=" + HoTen + ", GioiTinh=" + GioiTinh + ", S\u0110T=" + SĐT + ", NgaySinh=" + NgaySinh + ", DiaChi=" + DiaChi + ", Email=" + Email + ", ChucVu=" + ChucVu + ", TrangThai=" + TrangThai + ", MatKhau=" + MatKhau + '}';
     }
-    
+
 }

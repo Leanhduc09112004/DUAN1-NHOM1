@@ -3,7 +3,12 @@ package VIEW;
 import MODEL.NhanVien;
 import REPO.NhanVienInterface;
 import SERVICE.NhanVienService;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,30 +32,34 @@ public class ViewNhanVien extends javax.swing.JFrame {
         tblmodel.setRowCount(0);
         list = service.getAll();
         for (NhanVien nv : list) {
-            tblmodel.addRow(new Object[]{nv.getMaNV(), nv.getHoTen(), nv.getGioiTinh(), nv.getSĐT(), nv.getNgaySinh(), nv.getDiaChi(), nv.getEmail(), nv.getChucVu(), nv.getTrangThai() ? "Đang làm" : "Đã nghỉ", nv.getMatKhau()});
+            tblmodel.addRow(new Object[]{nv.getMaNV(), nv.getHoTen(), nv.getGioiTinh()?"Nam":"Nữ", nv.getSĐT(), nv.getNgaySinh(),nv.getDiaChi(),nv.getEmail(),nv.getChucVu() ? "Quản lí":"Nhân viên",nv.getTrangThai() ? "Đang làm":"Đã nghỉ",nv.getMatKhau()});
         }
     }
 
     void ShowNhanVien() {
         int index = tblNhanVien.getSelectedRow();
         if (index != -1) {
-            txtMaNV.setText(tblNhanVien.getValueAt(index, 1).toString());
-            txtTenNV.setText(tblNhanVien.getValueAt(index, 2).toString());
-            txtSoDienThoai.setText(tblNhanVien.getValueAt(index, 4).toString());
-//            txtNgaySinh.setToolTipText(tblNhanVien.getValueAt(index, 5).toString());
-            txtDiaChi.setText(tblNhanVien.getValueAt(index, 6).toString());
-            txtEmail.setText(tblNhanVien.getValueAt(index, 7).toString());
-            txtMatKhau.setText(tblNhanVien.getValueAt(index, 10).toString());
-            boolean gioitinh = tblNhanVien.getValueAt(index, 3).toString().equalsIgnoreCase("Nam") ? true : false;
+            txtMaNV.setText(tblNhanVien.getValueAt(index, 0).toString());
+            txtTenNV.setText(tblNhanVien.getValueAt(index, 1).toString());
+            boolean gioitinh = tblNhanVien.getValueAt(index, 2).toString().equalsIgnoreCase("Nam") ? true : false;
             rdoNam.setSelected(gioitinh);
             rdoNu.setSelected(!gioitinh);
-            boolean vaitro = tblNhanVien.getValueAt(index, 8).toString().equalsIgnoreCase("Quản lí") ? true : false;
+            txtSoDienThoai.setText(tblNhanVien.getValueAt(index, 3).toString());
+            try {
+                Date date = new SimpleDateFormat("yyyy-MM-dd").parse((String)tblmodel.getValueAt(index,4).toString());
+                txtNgaySinh.setDate(date);
+            } catch (ParseException ex) {
+                Logger.getLogger(ViewNhanVien.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            txtDiaChi.setText(tblNhanVien.getValueAt(index, 5).toString());
+            txtEmail.setText(tblNhanVien.getValueAt(index, 6).toString());
+            txtMatKhau.setText(tblNhanVien.getValueAt(index, 9).toString());
+            boolean vaitro = tblNhanVien.getValueAt(index, 7).toString().equalsIgnoreCase("Quản lí") ? true : false;
             rdoQuanLy.setSelected(vaitro);
             rdoNhanVien.setSelected(!vaitro);
-            boolean trangthai = tblNhanVien.getValueAt(index, 9).toString().equalsIgnoreCase("Đang làm") ? true:false;
+            boolean trangthai = tblNhanVien.getValueAt(index, 8).toString().equalsIgnoreCase("Đang làm") ? true:false;
             rdoDangLam.setSelected(trangthai);
             rdoDaNghi.setSelected(!trangthai);
-//            txtNgaySinh.setCalendar(tblNhanVien.getValueAt(index, 5).toString());
         }
     }
     
@@ -103,6 +112,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
         txtID = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jTabbedPane4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
@@ -124,7 +134,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 .addGap(0, 6, Short.MAX_VALUE))
         );
 
-        btnKhoiPhuc.setText("Khôi phục trạng thái làm việc");
+        btnKhoiPhuc.setText("Trạng thái làm việc");
         btnKhoiPhuc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnKhoiPhucActionPerformed(evt);
