@@ -64,14 +64,38 @@ public class NhanVienService implements NhanVienInterface {
     }
 
     @Override
-    public Integer xoaNhanVien(int  ID) {
+    public Integer xoaNhanVien(int ID) {
         Integer row = null;
         try {
-        String sql ="DELETE FROM NhanVien WHERE IdNV=?";
-        Connection cn = DBConnect.getConnection();
-        PreparedStatement pst = cn.prepareStatement(sql);
-        pst.setInt(1, ID);
-        row = pst.executeUpdate();
+            String sql = "DELETE FROM NhanVien WHERE IdNV=?";
+            Connection cn = DBConnect.getConnection();
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setInt(1, ID);
+            row = pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        return row;
+    }
+
+    public Integer updateNhanVien(NhanVien nv) {
+        Integer row = null;
+        try {
+            String sql = "UPDATE NhanVien SET MaNV = ?, HoTen = ?, GioiTinh = ?, Sdt = ?, NgaySinh = ?, DiaChi = ?, Email = ?, ChucVu = ?, TrangThai = ?, MatKhau = ? WHERE IdNV=? ";
+            Connection cn = DBConnect.getConnection();
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setString(1, nv.getMaNV());
+            pst.setString(2, nv.getHoTen());
+            pst.setBoolean(3, nv.getGioiTinh());
+            pst.setString(4, nv.getSĐT());
+            pst.setDate(5, new java.sql.Date(nv.getNgaySinh().getTime()));
+            pst.setString(6, nv.getDiaChi());
+            pst.setString(7, nv.getEmail());
+            pst.setBoolean(8, nv.getChucVu());
+            pst.setBoolean(9, nv.getTrangThai());
+            pst.setString(10, nv.getMatKhau());
+            pst.setInt(11, nv.getID());
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);

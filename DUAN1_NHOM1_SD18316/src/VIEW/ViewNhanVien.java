@@ -3,10 +3,13 @@ package VIEW;
 import MODEL.NhanVien;
 import REPO.NhanVienInterface;
 import SERVICE.NhanVienService;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -24,45 +27,68 @@ public class ViewNhanVien extends javax.swing.JFrame {
         txtID.setVisible(false);
         setTitle("Quản lý nhân viên");
         tblmodel = (DefaultTableModel) tblNhanVien.getModel();
-        LoadDataTableDangLam();
+        LoadDataTableNhanVien();
         ShowNhanVien();
     }
 
-    void LoadDataTableDangLam() {
+    void LoadDataTableNhanVien() {
         tblmodel.setRowCount(0);
+        int i = 1;
         list = service.getAll();
         for (NhanVien nv : list) {
-            tblmodel.addRow(new Object[]{nv.getMaNV(), nv.getHoTen(), nv.getGioiTinh()?"Nam":"Nữ", nv.getSĐT(), nv.getNgaySinh(),nv.getDiaChi(),nv.getEmail(),nv.getChucVu() ? "Quản lí":"Nhân viên",nv.getTrangThai() ? "Đang làm":"Đã nghỉ",nv.getMatKhau()});
+            tblmodel.addRow(new Object[]{i++, nv.getMaNV(), nv.getHoTen(), nv.getGioiTinh() ? "Nam" : "Nữ", nv.getSĐT(), nv.getNgaySinh(), nv.getDiaChi(), nv.getEmail(), nv.getChucVu() ? "Quản lí" : "Nhân viên", nv.getTrangThai() ? "Đang làm" : "Đã nghỉ", nv.getMatKhau()});
         }
     }
 
     void ShowNhanVien() {
         int index = tblNhanVien.getSelectedRow();
         if (index != -1) {
-            txtMaNV.setText(tblNhanVien.getValueAt(index, 0).toString());
-            txtTenNV.setText(tblNhanVien.getValueAt(index, 1).toString());
-            boolean gioitinh = tblNhanVien.getValueAt(index, 2).toString().equalsIgnoreCase("Nam") ? true : false;
+            txtMaNV.setText(tblNhanVien.getValueAt(index, 1).toString());
+            txtTenNV.setText(tblNhanVien.getValueAt(index, 2).toString());
+            boolean gioitinh = tblNhanVien.getValueAt(index, 3).toString().equalsIgnoreCase("Nam") ? true : false;
             rdoNam.setSelected(gioitinh);
             rdoNu.setSelected(!gioitinh);
-            txtSoDienThoai.setText(tblNhanVien.getValueAt(index, 3).toString());
+            txtSoDienThoai.setText(tblNhanVien.getValueAt(index, 4).toString());
             try {
-                Date date = new SimpleDateFormat("yyyy-MM-dd").parse((String)tblmodel.getValueAt(index,4).toString());
-                txtNgaySinh.setDate(date);
+                Date date = new SimpleDateFormat("yyyy-MM-dd").parse((String) tblmodel.getValueAt(index, 5).toString());
+                JdateChooserNgaySinh.setDate(date);
             } catch (ParseException ex) {
                 Logger.getLogger(ViewNhanVien.class.getName()).log(Level.SEVERE, null, ex);
             }
-            txtDiaChi.setText(tblNhanVien.getValueAt(index, 5).toString());
-            txtEmail.setText(tblNhanVien.getValueAt(index, 6).toString());
-            txtMatKhau.setText(tblNhanVien.getValueAt(index, 9).toString());
-            boolean vaitro = tblNhanVien.getValueAt(index, 7).toString().equalsIgnoreCase("Quản lí") ? true : false;
+            txtDiaChi.setText(tblNhanVien.getValueAt(index, 6).toString());
+            txtEmail.setText(tblNhanVien.getValueAt(index, 7).toString());
+            boolean vaitro = tblNhanVien.getValueAt(index, 8).toString().equalsIgnoreCase("Quản lí") ? true : false;
             rdoQuanLy.setSelected(vaitro);
             rdoNhanVien.setSelected(!vaitro);
-            boolean trangthai = tblNhanVien.getValueAt(index, 8).toString().equalsIgnoreCase("Đang làm") ? true:false;
+            boolean trangthai = tblNhanVien.getValueAt(index, 9).toString().equalsIgnoreCase("Đang làm") ? true : false;
             rdoDangLam.setSelected(trangthai);
             rdoDaNghi.setSelected(!trangthai);
+            txtMatKhau.setText(tblNhanVien.getValueAt(index, 10).toString());
         }
     }
-    
+
+    private NhanVien getFORMINPUT() {
+        NhanVien nv = new NhanVien();
+        nv.setMaNV(txtMaNV.getText());
+        nv.setHoTen(txtTenNV.getText());
+        nv.setGioiTinh(rdoNam.isSelected() ? true : false);
+        nv.setSĐT(txtSoDienThoai.getText());
+        try {
+            SimpleDateFormat input = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+            Date date = input.parse(JdateChooserNgaySinh.getDate().toString());
+            SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = output.format(date);
+            nv.setNgaySinh(output.parse(formattedDate));
+        } catch (ParseException ex) {
+            Logger.getLogger(ViewNhanVien.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        nv.setDiaChi(txtDiaChi.getText());
+        nv.setEmail(txtEmail.getText());
+        nv.setMatKhau(txtMatKhau.getText());
+        nv.setChucVu(rdoQuanLy.isSelected());
+        nv.setTrangThai(rdoDangLam.isSelected());
+        return nv;
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -105,7 +131,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
         btnMoi = new javax.swing.JButton();
         rdoDangLam = new javax.swing.JRadioButton();
         rdoDaNghi = new javax.swing.JRadioButton();
-        txtNgaySinh = new com.toedter.calendar.JDateChooser();
+        JdateChooserNgaySinh = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtMatKhau = new javax.swing.JTextField();
@@ -143,20 +169,20 @@ public class ViewNhanVien extends javax.swing.JFrame {
 
         tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã nhân viên", "Họ Tên", "Giới Tính", "SĐT", "Ngày Sinh", "Địa chỉ", "Email", "Chức Vụ", "Trạng Thái", "Mật Khẩu", "Select"
+                "STT", "Mã nhân viên", "Họ Tên", "Giới Tính", "SĐT", "Ngày Sinh", "Địa chỉ", "Email", "Chức Vụ", "Trạng Thái", "Mật Khẩu", "Select"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -209,8 +235,10 @@ public class ViewNhanVien extends javax.swing.JFrame {
 
         jLabel63.setText("Tên nhân viên");
 
+        jLabel64.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel64.setText("Giới tính");
 
+        jLabel65.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel65.setText("Số điện thoại");
 
         jLabel66.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -343,7 +371,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
                     .addGroup(jPanel38Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
-                        .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(JdateChooserNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel38Layout.createSequentialGroup()
                         .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel38Layout.createSequentialGroup()
@@ -409,7 +437,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
                     .addGroup(jPanel38Layout.createSequentialGroup()
                         .addGap(0, 2, Short.MAX_VALUE)
                         .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JdateChooserNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
                         .addGap(42, 42, 42)
                         .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -440,7 +468,50 @@ public class ViewNhanVien extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
+        try {
+            int chon = JOptionPane.showConfirmDialog(this, "Bạn muốn thêm nhân viên này ?");
+            if (chon != JOptionPane.YES_OPTION) {
+                return;
+            }
+            if (txtMaNV.getText().equalsIgnoreCase("")) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập mã nhân viên");
+                return;
+            }
+            if (txtTenNV.getText().equalsIgnoreCase("")) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên nhân viên");
+                return;
+            }
+            if (!txtSoDienThoai.getText().matches("^0\\d{9}$")) {
+                JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ");
+                return;
+            }
+            if (txtSoDienThoai.getText().equalsIgnoreCase("")) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập số điện thoại");
+                return;
+            }
+            if (txtSoDienThoai.getText().length() > 10 || txtSoDienThoai.getText().length() < 10) {
+                JOptionPane.showMessageDialog(this, "Số điện thoại gồm 10 số");
+                return;
+            }
+            String email = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+            if (!txtEmail.getText().matches(email)) {
+                JOptionPane.showMessageDialog(this, "Email không hợp lệ");
+                return;
+            }
+            if (JdateChooserNgaySinh.getDate() == null) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày sinh");
+                return;
+            }
+            NhanVien nv = getFORMINPUT();
+            if (service.addNhanVien(nv) != null) {
+                JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công");
+                LoadDataTableNhanVien();
+            } else {
+                JOptionPane.showMessageDialog(this, "Thêm thất bại do lỗi dữ liệu");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi thêm dữ liệu kiểm tra lại");
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnKhoiPhucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoiPhucActionPerformed
@@ -483,6 +554,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser JdateChooserNgaySinh;
     private javax.swing.JButton btnExport;
     private javax.swing.JButton btnImport;
     private javax.swing.JButton btnKhoiPhuc;
@@ -522,7 +594,6 @@ public class ViewNhanVien extends javax.swing.JFrame {
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtMaNV;
     private javax.swing.JTextField txtMatKhau;
-    private com.toedter.calendar.JDateChooser txtNgaySinh;
     private javax.swing.JTextField txtSoDienThoai;
     private javax.swing.JTextField txtTenNV;
     // End of variables declaration//GEN-END:variables
