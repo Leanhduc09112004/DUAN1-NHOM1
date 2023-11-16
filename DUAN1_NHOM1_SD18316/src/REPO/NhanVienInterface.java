@@ -6,6 +6,5 @@ import java.util.ArrayList;
 public interface NhanVienInterface {
     public ArrayList<NhanVien> getAll();
     public Integer addNhanVien(NhanVien nv);
-    public Integer xoaNhanVien(int ID);
     public Integer updateNhanVien(NhanVien nv);
 }

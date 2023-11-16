@@ -63,27 +63,13 @@ public class NhanVienService implements NhanVienInterface {
         return row;
     }
 
-    @Override
-    public Integer xoaNhanVien(int ID) {
-        Integer row = null;
-        try {
-            String sql = "DELETE FROM NhanVien WHERE IdNV=?";
-            Connection cn = DBConnect.getConnection();
-            PreparedStatement pst = cn.prepareStatement(sql);
-            pst.setInt(1, ID);
-            row = pst.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
-        }
-        return row;
-    }
-
     public Integer updateNhanVien(NhanVien nv) {
         Integer row = null;
         try {
             String sql = "UPDATE NhanVien SET MaNV = ?, HoTen = ?, GioiTinh = ?, Sdt = ?, NgaySinh = ?, DiaChi = ?, Email = ?, ChucVu = ?, TrangThai = ?, MatKhau = ? WHERE IdNV=? ";
             Connection cn = DBConnect.getConnection();
+//            System.out.println("SQL Statement: " + sql); 
+//             System.out.println("ID before update: " + nv.getID());
             PreparedStatement pst = cn.prepareStatement(sql);
             pst.setString(1, nv.getMaNV());
             pst.setString(2, nv.getHoTen());
@@ -96,9 +82,11 @@ public class NhanVienService implements NhanVienInterface {
             pst.setBoolean(9, nv.getTrangThai());
             pst.setString(10, nv.getMatKhau());
             pst.setInt(11, nv.getID());
+            cn.commit();
+            row = pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e);
+            System.out.println("Error updating NhanVien: " + e.getMessage());
         }
         return row;
     }
