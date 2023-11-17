@@ -3,8 +3,6 @@ package MODEL;
 import java.util.Date;
 
 public class NhanVien {
-
-    private int ID;
     private String MaNV;
     private String HoTen;
     private Boolean GioiTinh;
@@ -19,8 +17,7 @@ public class NhanVien {
     public NhanVien() {
     }
 
-    public NhanVien(int ID, String MaNV, String HoTen, Boolean GioiTinh, String SĐT, Date NgaySinh, String DiaChi, String Email, Boolean ChucVu, Boolean TrangThai, String MatKhau) {
-        this.ID = ID;
+    public NhanVien(String MaNV, String HoTen, Boolean GioiTinh, String SĐT, Date NgaySinh, String DiaChi, String Email, Boolean ChucVu, Boolean TrangThai, String MatKhau) {
         this.MaNV = MaNV;
         this.HoTen = HoTen;
         this.GioiTinh = GioiTinh;
@@ -31,14 +28,6 @@ public class NhanVien {
         this.ChucVu = ChucVu;
         this.TrangThai = TrangThai;
         this.MatKhau = MatKhau;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
     public String getMaNV() {
@@ -123,7 +112,8 @@ public class NhanVien {
 
     @Override
     public String toString() {
-        return "NhanVien{" + "ID=" + ID + ", MaNV=" + MaNV + ", HoTen=" + HoTen + ", GioiTinh=" + GioiTinh + ", S\u0110T=" + SĐT + ", NgaySinh=" + NgaySinh + ", DiaChi=" + DiaChi + ", Email=" + Email + ", ChucVu=" + ChucVu + ", TrangThai=" + TrangThai + ", MatKhau=" + MatKhau + '}';
+        return "NhanVien{" + "MaNV=" + MaNV + ", HoTen=" + HoTen + ", GioiTinh=" + GioiTinh + ", S\u0110T=" + SĐT + ", NgaySinh=" + NgaySinh + ", DiaChi=" + DiaChi + ", Email=" + Email + ", ChucVu=" + ChucVu + ", TrangThai=" + TrangThai + ", MatKhau=" + MatKhau + '}';
     }
 
+   
 }
