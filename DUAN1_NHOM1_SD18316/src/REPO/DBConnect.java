@@ -1,9 +1,13 @@
 package REPO;
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 public class DBConnect {
-    public static String USER = "sa";
+public static String USER = "sa";
     public static String PASSWORD = "123";
      public static String URL = "jdbc:sqlserver://localhost:1433;databaseName=DA1;encrypt=true;trustServerCertificate=true; ";
      static {

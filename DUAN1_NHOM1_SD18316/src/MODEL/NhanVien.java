@@ -29,7 +29,6 @@ public class NhanVien {
         this.TrangThai = TrangThai;
         this.MatKhau = MatKhau;
     }
-
     public String getMaNV() {
         return MaNV;
     }
@@ -109,11 +108,9 @@ public class NhanVien {
     public void setMatKhau(String MatKhau) {
         this.MatKhau = MatKhau;
     }
-
     @Override
     public String toString() {
         return "NhanVien{" + "MaNV=" + MaNV + ", HoTen=" + HoTen + ", GioiTinh=" + GioiTinh + ", S\u0110T=" + SĐT + ", NgaySinh=" + NgaySinh + ", DiaChi=" + DiaChi + ", Email=" + Email + ", ChucVu=" + ChucVu + ", TrangThai=" + TrangThai + ", MatKhau=" + MatKhau + '}';
     }
-
-   
 }
+

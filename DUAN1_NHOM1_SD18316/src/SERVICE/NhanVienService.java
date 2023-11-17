@@ -1,10 +1,9 @@
 package SERVICE;
-
 import MODEL.NhanVien;
 import REPO.DBConnect;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.*;
-import java.util.ArrayList;
-
 public class NhanVienService {
 
     public ArrayList<NhanVien> getAll() {
@@ -146,5 +145,4 @@ public class NhanVienService {
         }
         return ketQuaTimKiem;
     }
-
 }
