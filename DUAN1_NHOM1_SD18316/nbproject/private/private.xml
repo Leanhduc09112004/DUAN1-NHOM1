@@ -3,9 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/JAVA3-SOF203/BaiTap/DUAN1-NHOM1/DUAN1_NHOM1_SD18316/src/REPO/DBConnect.java</file>
             <file>file:/D:/JAVA3-SOF203/BaiTap/DUAN1-NHOM1/DUAN1_NHOM1_SD18316/src/MODEL/NhanVien.java</file>
             <file>file:/D:/JAVA3-SOF203/BaiTap/DUAN1-NHOM1/DUAN1_NHOM1_SD18316/src/VIEW/ViewNhanVien.java</file>
+            <file>file:/D:/JAVA3-SOF203/BaiTap/DUAN1-NHOM1/DUAN1_NHOM1_SD18316/src/VIEW/ViewKhachHang.java</file>
             <file>file:/D:/JAVA3-SOF203/BaiTap/DUAN1-NHOM1/DUAN1_NHOM1_SD18316/src/SERVICE/NhanVienService.java</file>
+            <file>file:/D:/JAVA3-SOF203/BaiTap/DUAN1-NHOM1/DUAN1_NHOM1_SD18316/src/REPO/CheckAuth.java</file>
+            <file>file:/D:/JAVA3-SOF203/BaiTap/DUAN1-NHOM1/DUAN1_NHOM1_SD18316/src/VIEW/ViewLogin.java</file>
         </group>
     </open-files>
 </project-private>

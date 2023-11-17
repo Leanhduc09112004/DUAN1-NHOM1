@@ -155,7 +155,6 @@ NhanVienService service = new NhanVienService();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
         String username = txtUsername.getText();
         String pass = new String(txtPassword.getPassword());
 
@@ -171,10 +170,6 @@ NhanVienService service = new NhanVienService();
         }
 
     }//GEN-LAST:event_btnLoginActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
