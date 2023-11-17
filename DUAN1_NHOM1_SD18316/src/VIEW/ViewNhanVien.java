@@ -1,7 +1,6 @@
 package VIEW;
 
 import MODEL.NhanVien;
-import REPO.NhanVienInterface;
 import SERVICE.NhanVienService;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -18,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 public class ViewNhanVien extends javax.swing.JFrame {
 
     private DefaultTableModel tblmodel = new DefaultTableModel();
-    private NhanVienInterface service = new NhanVienService();
+    private NhanVienService service = new NhanVienService();
     private ArrayList<NhanVien> list;
 
     public ViewNhanVien() {

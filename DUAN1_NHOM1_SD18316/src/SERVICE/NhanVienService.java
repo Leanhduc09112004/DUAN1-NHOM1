@@ -2,13 +2,11 @@ package SERVICE;
 
 import MODEL.NhanVien;
 import REPO.DBConnect;
-import REPO.NhanVienInterface;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class NhanVienService implements NhanVienInterface {
+public class NhanVienService {
 
-    @Override
     public ArrayList<NhanVien> getAll() {
         ArrayList<NhanVien> list = new ArrayList<>();
         try {
@@ -37,7 +35,6 @@ public class NhanVienService implements NhanVienInterface {
         return list;
     }
 
-    @Override
     public Integer addNhanVien(NhanVien nv) {
         Integer row = null;
         try {
@@ -88,7 +85,6 @@ public class NhanVienService implements NhanVienInterface {
         return row;
     }
 
-    @Override
     public ArrayList<NhanVien> timKiemNhanVienMaNV(String maNV) {
         ArrayList<NhanVien> ketQuaTimKiem = new ArrayList<>();
         try {
@@ -119,7 +115,6 @@ public class NhanVienService implements NhanVienInterface {
         return ketQuaTimKiem;
     }
 
-    @Override
     public ArrayList<NhanVien> timKiemNhanVienTheoDieuKien(boolean trangThai, boolean chucVu) {
         ArrayList<NhanVien> ketQuaTimKiem = new ArrayList<>();
         try {
