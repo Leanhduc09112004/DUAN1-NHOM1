@@ -60,6 +60,7 @@ public class ChiTietSanPhamService {
                 ctsp.setIdMauSac(mau);
                 ctsp.setIdHang(hsx);
                 list.add(ctsp);
+                //AHAHAHA
             }
         } catch (Exception e) {
             e.printStackTrace();
