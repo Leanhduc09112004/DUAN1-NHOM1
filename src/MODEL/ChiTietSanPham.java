@@ -1,42 +1,32 @@
 package MODEL;
 public class ChiTietSanPham {
-    private int idctsp;
-    private SanPham idSP;
-    private int idLoaiSanPham;
-    private float giaBan;
-    private float giaNhap;
-    private String anh;
-    private String mota;
-    private int soLuong;
-    private NhanVien nv;
-    private HangSX hang;
-    private MauSac mau;
-    private SizeSP size;
-    //LE DUC ANH
+  private SanPham idSP;
+    private LoaiSanPham idLoaiSP;
+    private Double GiaBan;
+    private Double GiaNhap;
+    private String HinhAnh;
+    private String MoTa;
+    private int Soluong;
+    private MauSac IdMauSac;
+    private SizeSP IdSize;
+    private HangSX IdHang;
+    private KhuyenMai IdKM;
+
     public ChiTietSanPham() {
     }
 
-    public ChiTietSanPham(int idctsp, SanPham idSP, int idLoaiSanPham, float giaBan, float giaNhap, String anh, String mota, int soLuong, NhanVien nv, HangSX hang, MauSac mau, SizeSP size) {
-        this.idctsp = idctsp;
+    public ChiTietSanPham(SanPham idSP, LoaiSanPham idLoaiSP, Double GiaBan, Double GiaNhap, String HinhAnh, String MoTa, int Soluong, MauSac IdMauSac, SizeSP IdSize, HangSX IdHang, KhuyenMai IdKM) {
         this.idSP = idSP;
-        this.idLoaiSanPham = idLoaiSanPham;
-        this.giaBan = giaBan;
-        this.giaNhap = giaNhap;
-        this.anh = anh;
-        this.mota = mota;
-        this.soLuong = soLuong;
-        this.nv = nv;
-        this.hang = hang;
-        this.mau = mau;
-        this.size = size;
-    }
-
-    public int getIdctsp() {
-        return idctsp;
-    }
-
-    public void setIdctsp(int idctsp) {
-        this.idctsp = idctsp;
+        this.idLoaiSP = idLoaiSP;
+        this.GiaBan = GiaBan;
+        this.GiaNhap = GiaNhap;
+        this.HinhAnh = HinhAnh;
+        this.MoTa = MoTa;
+        this.Soluong = Soluong;
+        this.IdMauSac = IdMauSac;
+        this.IdSize = IdSize;
+        this.IdHang = IdHang;
+        this.IdKM = IdKM;
     }
 
     public SanPham getIdSP() {
@@ -47,86 +37,83 @@ public class ChiTietSanPham {
         this.idSP = idSP;
     }
 
-    public int getIdLoaiSanPham() {
-        return idLoaiSanPham;
+    public LoaiSanPham getIdLoaiSP() {
+        return idLoaiSP;
     }
 
-    public void setIdLoaiSanPham(int idLoaiSanPham) {
-        this.idLoaiSanPham = idLoaiSanPham;
+    public void setIdLoaiSP(LoaiSanPham idLoaiSP) {
+        this.idLoaiSP = idLoaiSP;
     }
 
-    public float getGiaBan() {
-        return giaBan;
+    public Double getGiaBan() {
+        return GiaBan;
     }
 
-    public void setGiaBan(float giaBan) {
-        this.giaBan = giaBan;
+    public void setGiaBan(Double GiaBan) {
+        this.GiaBan = GiaBan;
     }
 
-    public float getGiaNhap() {
-        return giaNhap;
+    public Double getGiaNhap() {
+        return GiaNhap;
     }
 
-    public void setGiaNhap(float giaNhap) {
-        this.giaNhap = giaNhap;
+    public void setGiaNhap(Double GiaNhap) {
+        this.GiaNhap = GiaNhap;
     }
 
-    public String getAnh() {
-        return anh;
+    public String getHinhAnh() {
+        return HinhAnh;
     }
 
-    public void setAnh(String anh) {
-        this.anh = anh;
+    public void setHinhAnh(String HinhAnh) {
+        this.HinhAnh = HinhAnh;
     }
 
-    public String getMota() {
-        return mota;
+    public String getMoTa() {
+        return MoTa;
     }
 
-    public void setMota(String mota) {
-        this.mota = mota;
+    public void setMoTa(String MoTa) {
+        this.MoTa = MoTa;
     }
 
-    public int getSoLuong() {
-        return soLuong;
+    public int getSoluong() {
+        return Soluong;
     }
 
-    public void setSoLuong(int soLuong) {
-        this.soLuong = soLuong;
+    public void setSoluong(int Soluong) {
+        this.Soluong = Soluong;
     }
 
-    public NhanVien getNv() {
-        return nv;
+    public MauSac getIdMauSac() {
+        return IdMauSac;
     }
 
-    public void setNv(NhanVien nv) {
-        this.nv = nv;
+    public void setIdMauSac(MauSac IdMauSac) {
+        this.IdMauSac = IdMauSac;
     }
 
-    public HangSX getHang() {
-        return hang;
+    public SizeSP getIdSize() {
+        return IdSize;
     }
 
-    public void setHang(HangSX hang) {
-        this.hang = hang;
+    public void setIdSize(SizeSP IdSize) {
+        this.IdSize = IdSize;
     }
 
-    public MauSac getMau() {
-        return mau;
+    public HangSX getIdHang() {
+        return IdHang;
     }
 
-    public void setMau(MauSac mau) {
-        this.mau = mau;
+    public void setIdHang(HangSX IdHang) {
+        this.IdHang = IdHang;
     }
 
-    public SizeSP getSize() {
-        return size;
+    public KhuyenMai getIdKM() {
+        return IdKM;
     }
 
-    public void setSize(SizeSP size) {
-        this.size = size;
-    }
-
-    
-   
+    public void setIdKM(KhuyenMai IdKM) {
+        this.IdKM = IdKM;
+    }  
 }

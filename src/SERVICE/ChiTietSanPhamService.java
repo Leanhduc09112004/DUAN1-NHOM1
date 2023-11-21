@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package SERVICE;
 
 import MODEL.ChiTietSanPham;
@@ -27,8 +23,7 @@ public class ChiTietSanPhamService {
         ArrayList<ChiTietSanPham> list = new ArrayList<>();
         try {
             String sql = """
-                         select sp.MaSP,
-                         		sp.TenSP,
+                         select sp.MaSP,sp.TenSP,
                          		mau.TenMau,
                          		size.Size,
                          		hsx.TenHangSanXuat,
@@ -61,9 +56,9 @@ public class ChiTietSanPhamService {
                 hsx.setTenHangSX(rs.getString("TenHangSanXuat"));
 
                 ctsp.setIdSP(sp);
-                ctsp.setSize(size);
-                ctsp.setMau(mau);
-                ctsp.setHang(hsx);
+                ctsp.setIdSize(size);
+                ctsp.setIdMauSac(mau);
+                ctsp.setIdHang(hsx);
                 list.add(ctsp);
             }
         } catch (Exception e) {

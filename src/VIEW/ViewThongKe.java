@@ -1,18 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package VIEW;
 
 import MODEL.ChiTietSanPham;
 import SERVICE.ChiTietSanPhamService;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
-
-/**
- *
- * @author DELL
- */
 public class ViewThongKe extends javax.swing.JFrame {
 
     private DefaultTableModel dtm = new DefaultTableModel();
@@ -31,9 +22,9 @@ public class ViewThongKe extends javax.swing.JFrame {
             dtm.addRow(new Object[]{
                 ctsp.getIdSP().getMaSP(),
                 ctsp.getIdSP().getTenSP(),
-                ctsp.getMau().getMauSP(),
-                ctsp.getSize().getSizeSP(),
-                ctsp.getHang().getTenHangSX(),
+                ctsp.getIdMauSac().getMauSP(),
+                ctsp.getIdSize().getSizeSP(),
+                ctsp.getIdHang().getTenHangSX(),
                 ctsp.getIdSP().isTrangThai() ? "Còn hàng" : "Hết hàng"
             });
 
