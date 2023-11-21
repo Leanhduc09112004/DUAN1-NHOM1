@@ -1,19 +1,19 @@
-﻿USE MASTER
-CREATE DATABASE PTPM_JAVA_FA23_PRO1041;
+USE MASTER
+CREATE DATABASE DA1;
 GO
-USE PTPM_JAVA_FA23_PRO1041
+USE DA1
 GO
 --NHAN VIEN--
 CREATE TABLE NhanVien(
 IdNV INT IDENTITY PRIMARY KEY,
 MaNV nvarchar(50),
 HoTen nvarchar(50),
-GioiTinh nvarchar(10),
+GioiTinh bit,
 Sdt nvarchar(10),
 NgaySinh date,
 DiaChi nvarchar(50),
 Email nvarchar(50),
-ChucVu nvarchar(50),
+ChucVu bit,
 TrangThai bit,
 MatKhau nvarchar(50)
 )
@@ -81,17 +81,9 @@ MaKH nvarchar(50),
 HoTen nvarchar(50),
 Email nvarchar(50),
 Sdt varchar(12),
-GioiTinh nvarchar(10),
+GioiTinh bit,
 NgaySinh date,
 DiaChi nvarchar(50),
-TrangThai bit,
-IdNV INT,
-IdLoaiKhachHang INT
-)
-CREATE TABLE LoaiKhachHang(
-IdLoaiKhachHang INT IDENTITY PRIMARY KEY,
-MaLoaiKhachHang NVARCHAR(50),
-TenLoaiKhachHang NVARCHAR(MAX)
 )
 --HOA DON--
 CREATE TABLE HoaDon(
@@ -141,14 +133,6 @@ ALTER TABLE HoaDonChiTiet
 ADD CONSTRAINT FK_HoaDon_HoaDonCT
 FOREIGN KEY (IdHD) REFERENCES HoaDon(IdHD);
 
-ALTER TABLE KhachHang
-ADD CONSTRAINT FK_KhachHang_NhanVien
-FOREIGN KEY (IdNV) REFERENCES NhanVien(IdNV);
-
-ALTER TABLE KhachHang
-ADD CONSTRAINT FK_KhachHang_LoaiKhachHang
-FOREIGN KEY (IdLoaiKhachHang) REFERENCES LoaiKhachHang(IdLoaiKhachHang);
-
 ALTER TABLE HoaDon
 ADD CONSTRAINT FK_HoaDon_KhachHang
 FOREIGN KEY (IdKH) REFERENCES KhachHang(IdKH);
@@ -169,14 +153,16 @@ ALTER TABLE ChiTietSanPham
 ADD CONSTRAINT FK_CTSanPham_SanPham
 FOREIGN KEY (IdSP) REFERENCES SanPham(IdSP);
 
- USE PTPM_JAVA_FA23_PRO1041
-
  INSERT INTO NhanVien (MaNV, HoTen, GioiTinh, Sdt, NgaySinh, DiaChi, Email, ChucVu, TrangThai, MatKhau)
-VALUES ('NV001', N'Lê Đức Anh', N'Nam', '0123456789', '2000-01-01', N'Hà Nội', N'nv1@example.com', N'Quản lý', 1, '123456'),
-       ('NV002', N'Nguyễn Thị Thu Quyên', N'Nữ', '0987654321', '2001-02-02', N'Hà Nội', 'nv2@example.com', N'Quản lý', 1, '123456'),
-       ('NV003', N'Đằng Trần Giang Sơn', N'Nam', '0369852147', '1999-03-03', N'Tuyên Quang', 'nv3@example.com', N'Nhân viên', 1, '123456'),
-       ('NV004', N'Nguyễn Thị Vân', N'Nữ', '0358746921', '1998-04-04', N'Hà Nội', 'nv4@example.com', N'Nhân viên', 1, '123456'),
-       ('NV005', N'Cao Bá Trường', N'Nam', '0936284715', '1997-05-05', N'Tuyên Quang', 'nv5@example.com', N'Quản lý', 1, '123456');
+VALUES ('NV001', N'Lê Đức Anh', 1, '0123456789', '2000-01-01', N'Hà Nội', N'nv1@example.com', 1, 1, '123456'),
+       ('NV002', N'Nguyễn Thị Thu Quyên', 0, '0987654321', '2001-02-02', N'Hà Nội', 'nv2@example.com', 1, 1, '123456'),
+       ('NV003', N'Đằng Trần Giang Sơn', 1, '0369852147', '1999-03-03', N'Tuyên Quang', 'nv3@example.com', 1, 1, '123456'),
+       ('NV004', N'Nguyễn Thị Vân', 0, '0358746921', '1998-04-04', N'Hà Nội', 'nv4@example.com', 0, 1, '123456'),
+       ('NV005', N'Cao Bá Trường', 1, '0936284715', '1997-05-05', N'Tuyên Quang', 'nv5@example.com',1, 1, '123456'),
+	   ('NV006', N'Phạm Văn An', 1, '086284715', '1999-05-05', N'Nam Định', 'nv6@example.com', 0, 0, '123'),
+	   ('NV007', N'Lê Bảo Ngân', 0, '0999984715', '2000-02-11', N'Hải Phòng', 'nv7@example.com', 1, 0, '123'),
+	   ('NV008', N'Nguyễn Như Quỳnh', 0, '082224715', '1999-05-05', N'TP HCM', 'nv8@example.com', 0, 0, '123');
+
 SELECT *FROM NhanVien
 
 INSERT INTO MauSac (MaMau, TenMau)
@@ -226,12 +212,13 @@ VALUES ('SP001', N'Adidas Ultraboost', 1),
 SELECT*FROM SanPham
 
 INSERT INTO KhuyenMai (MaKM, TenKM, NgayBatDau, NgayKetThuc, DieuKien, TienGiam, TrangThai, IdSP)
-VALUES ('KM001', N'Khuyến mãi 1', '2023-01-01', '2023-01-10', N'Áp dụng cho đơn hàng trên 1 triệu đồng', 150000, 1, 1),
-       ('KM002', N'Khuyến mãi 2', '2023-02-01', '2023-02-28', N'Áp dụng cho tất cả đơn hàng', 50000, 1, 2),
-       ('KM003', N'Khuyến mãi 3', '2023-03-01', '2023-03-15', N'Áp dụng cho đơn hàng trên 500 nghìn đồng', 60000, 1, 3),
-       ('KM004', N'Khuyến mãi 4', '2023-04-01', '2023-04-30', N'Áp dụng cho đơn hàng trên 2 triệu đồng', 250000, 1, 4),
-       ('KM005', N'Khuyến mãi 5', '2023-05-01', '2023-05-31', N'Áp dụng cho đơn hàng trên 5 triệu đồng', 300000, 1, 5);
-SELECT * FROM KhuyenMai A JOIN SanPham B ON A.IdSP= B.IdSP JOIN ChiTietSanPham C ON B.IdSP= C.IdSP
+VALUES ('KM001', N'Khuyến mãi 1', '2023-10-10', '2023-12-12', N'Áp dụng cho đơn hàng trên 1 triệu đồng', 150000, 1, 1),
+       ('KM002', N'Khuyến mãi 2', '2023-09-01', '2023-12-29', N'Áp dụng cho tất cả đơn hàng', 50000, 1, 2),
+       ('KM003', N'Khuyến mãi 3', '2023-08-01', '2023-12-28', N'Áp dụng cho đơn hàng trên 500 nghìn đồng', 60000, 1, 3),
+       ('KM004', N'Khuyến mãi 4', '2023-07-01', '2024-01-30', N'Áp dụng cho đơn hàng trên 2 triệu đồng', 250000, 1, 4),
+       ('KM005', N'Khuyến mãi 5', '2023-05-01', '2024-01-01', N'Áp dụng cho đơn hàng trên 5 triệu đồng', 300000, 1, 5),
+	   ('KM006', N'Khuyến mãi 6', '2023-06-01', '2023-10-10', N'Áp dụng cho đơn hàng trên 1 triệu đồng', 300000, 0, 1),
+	   ('KM007', N'Khuyến mãi 7', '2023-07-01', '2023-09-12', N'Áp dụng cho đơn hàng trên 2 triệu đồng', 300000, 0, 5);
 
 INSERT INTO ChiTietSanPham (IdSP, IdLoaiSanPham, GiaBan, GiaNhap, HinhAnh, Mota, Soluong, IdNV, IdMau, IdHang, IdSize, IdKM)
 VALUES (1, 1, 2000000, 1500000, 'adidasultra.jpg', N'Giày chạy bộ Adidas', 10, 1, 1, 1, 1, 1),
@@ -240,31 +227,31 @@ VALUES (1, 1, 2000000, 1500000, 'adidasultra.jpg', N'Giày chạy bộ Adidas', 
        (4, 2, 3000000, 2000000, 'nikeair.jpg', N'Giày thời trang Nike', 20, 2, 4, 4, 4, 4),
        (5, 1, 3500000, 3000000, 'nikereact.jpg', N'Giày chạy bộ Nike', 15, 2, 5, 5, 5, 5);
 
-  INSERT INTO LoaiKhachHang (MaLoaiKhachHang, TenLoaiKhachHang)
-VALUES ('LKH001', N'Khách lẻ'),
-       ('LKH002', N'Khách doanh nghiệp')
+SELECT * FROM KhuyenMai A JOIN SanPham B ON A.IdSP= B.IdSP JOIN ChiTietSanPham C ON B.IdSP= C.IdSP
 
-INSERT INTO KhachHang (MaKH, HoTen, Email, Sdt, GioiTinh, NgaySinh, DiaChi, TrangThai, IdNV, IdLoaiKhachHang)
-VALUES ('KH001', N'Nguyễn Văn An', 'nva@example.com', '0123456789', N'Nam', '1995-01-01', N'Hà Nội', 1, 1, 1),
-       ('KH002', N'Trần Thị Bình', 'ttb@example.com', '0987654321', N'Nữ', '1996-02-02', N'Hải Phòng', 1, 2, 2),
-       ('KH003', N'Phan Văn Khánh', 'pvk@example.com', '0369852147', N'Nam', '1997-03-03', N'Đà Nẵng', 1, 3, 2),
-       ('KH004', N'Hoàng Thị Lan', 'htl4@example.com', '0358746921', N'Nữ', '1998-04-04', N'Cần Thơ', 1, 4, 1),
-       ('KH005', N'Lê Văn Nam', 'lvn@example.com', '0936284715', N'Nam', '1999-05-05', N'Quảng Ninh', 1, 5, 1);
+INSERT INTO KhachHang (MaKH, HoTen, Email, Sdt, GioiTinh, NgaySinh, DiaChi)
+VALUES ('KH001', N'Nguyễn Văn An', 'nva@example.com', '0123456789', 1, '1995-01-01', N'Hà Nội'),
+       ('KH002', N'Trần Thị Bình', 'ttb@example.com', '0987654321',0, '1996-02-02', N'Hải Phòng'),
+       ('KH003', N'Phan Văn Khánh', 'pvk@example.com', '0369852147', 1, '1997-03-03', N'Đà Nẵng'),
+       ('KH004', N'Hoàng Thị Lan', 'htl4@example.com', '0358746921', 0, '1998-04-04', N'Cần Thơ'),
+       ('KH005', N'Lê Văn Nam', 'lvn@example.com', '0936284715', 1, '1999-05-05', N'Quảng Ninh');
 
-	   SELECT * FROM KhachHang A Join LoaiKhachHang B ON A.IdLoaiKhachHang=B.IdLoaiKhachHang
+	   SELECT * FROM KhachHang 
 INSERT INTO HoaDon (MaHD, NgayTao, NgayThanhToan, TongTien, TienGiam, TienDua, TienThua, TrangThai, IdNV, GhiChu, IdKH)
 VALUES ('HD001', '2023-01-01', '2023-01-03', 2000000, 150000, 2000000,1850000, 1, 1, '', 1),
        ('HD002', '2023-02-01', '2023-02-02', 3000000, 50000, 3000000, 2950000, 1, 1, '', 2),
        ('HD003', '2023-03-01', '2023-03-15', 1500000, 60000, 1500000, 1440000, 1, 2, '', 3),
        ('HD004', '2023-04-01', '2023-04-03', 6000000, 250000, 6000000, 5750000, 1, 2, '', 4);
+
 INSERT INTO HoaDonChiTiet (IdCTSP, IdHD, SoLuong, DonGia)
 VALUES 
     (1, 1, 1, 2000000),
     (2, 2, 1, 3000000),
     (3, 3, 1, 1500000), 
     (4, 4, 2, 6000000); 
-	SELECT* FROM HoaDon A JOIN HoaDonChiTiet B ON A.IdHD=B.IdHD
- 
 
+SELECT* FROM HoaDon A JOIN HoaDonChiTiet B ON A.IdHD=B.IdHD
+ 
+ SELECT * FROM HoaDon
 
 
