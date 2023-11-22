@@ -1,9 +1,66 @@
 package VIEW;
+
+import MODEL.ChiTietSanPham;
+import MODEL.HangSX;
+import MODEL.LoaiSanPham;
+import MODEL.MauSac;
+import MODEL.SizeSP;
+import SERVICE.SanPhamService;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+
 public class ViewSanPham extends javax.swing.JFrame {
+
+    private SanPhamService service = new SanPhamService();
+    private DefaultComboBoxModel<HangSX> cbomodelHang = new DefaultComboBoxModel<>();
+    private DefaultComboBoxModel<MauSac> cbomodelMau = new DefaultComboBoxModel<>();
+    private DefaultComboBoxModel<LoaiSanPham> cbomodelLoaiSP = new DefaultComboBoxModel<>();
+    private DefaultComboBoxModel<SizeSP> cbomodelSIZE = new DefaultComboBoxModel<>();
+    private ArrayList<ChiTietSanPham> list;
+    private DefaultTableModel tblmodel = new DefaultTableModel();
+
     public ViewSanPham() {
         initComponents();
         setLocationRelativeTo(null);
+        tblmodel = (DefaultTableModel) tblSANPHAM.getModel();
+        cboHANGSP.setModel((DefaultComboBoxModel)cbomodelHang);
+        cboMauSac.setModel((DefaultComboBoxModel)cbomodelMau);
+        cboSize.setModel((DefaultComboBoxModel)cbomodelSIZE);
+        cboLOAISP.setModel((DefaultComboBoxModel)cbomodelLoaiSP);
+        LoadDataComboHang();
+        LoadDataTableSP();
+        ShowSanPham();
     }
+
+    void LoadDataComboHang(){
+    cbomodelHang.removeAllElements();
+    }
+    void LoadDataTableSP() {
+        tblmodel.setRowCount(0);
+        list = service.getAll();
+        int i = 1;
+        for (ChiTietSanPham ct : list) {
+            tblmodel.addRow(new Object[]{i++, ct.getIdSP().getMaSP(),
+                ct.getIdSP().getTenSP(),
+                ct.getIdLoaiSP().getTenLoaiSP(),
+                ct.getGiaBan(), ct.getGiaNhap(),
+                ct.getHinhAnh(), ct.getMoTa(),
+                ct.getSoluong(), ct.getIdMauSac().getMauSP(),
+                ct.getIdSize().getSizeSP(),
+                ct.getIdHang().getTenHangSX(),
+                ct.getIdKM().getTenKM(),
+                ct.getIdSP().isTrangThai() ? "Còn hàng" : "Hết hàng"});
+        }
+    }
+
+    void ShowSanPham() {
+        int index = tblSANPHAM.getSelectedRow();
+        if (index != -1) {
+            txtMASP.setText(tblSANPHAM.getValueAt(index, 1).toString());
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -22,7 +79,7 @@ public class ViewSanPham extends javax.swing.JFrame {
         cboMauSac = new javax.swing.JComboBox<>();
         cboSize = new javax.swing.JComboBox<>();
         cboHANGSP = new javax.swing.JComboBox<>();
-        jPanel19 = new javax.swing.JPanel();
+        pnAnhSP = new javax.swing.JPanel();
         jLabel38 = new javax.swing.JLabel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
@@ -93,16 +150,16 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         cboHANGSP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jPanel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        pnAnhSP.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
 
-        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
-        jPanel19.setLayout(jPanel19Layout);
-        jPanel19Layout.setHorizontalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout pnAnhSPLayout = new javax.swing.GroupLayout(pnAnhSP);
+        pnAnhSP.setLayout(pnAnhSPLayout);
+        pnAnhSPLayout.setHorizontalGroup(
+            pnAnhSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 132, Short.MAX_VALUE)
         );
-        jPanel19Layout.setVerticalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnAnhSPLayout.setVerticalGroup(
+            pnAnhSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 150, Short.MAX_VALUE)
         );
 
@@ -122,7 +179,7 @@ public class ViewSanPham extends javax.swing.JFrame {
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnAnhSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel14Layout.createSequentialGroup()
@@ -166,7 +223,7 @@ public class ViewSanPham extends javax.swing.JFrame {
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnAnhSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel14Layout.createSequentialGroup()
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -311,20 +368,20 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         tblSANPHAM.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã sản phẩm", "Tên sản phẩm", "Loại Sản Phẩm", "Giá Bán", "Giá Nhập", "Hình Ảnh", "Mô Tả", "Số Lượng", "Màu sắc", "Size", "Hãng", "Khuyến Mãi", "Trạng thái", "Select"
+                "STT", "Mã sản phẩm", "Tên sản phẩm", "Loại Sản Phẩm", "Giá Bán", "Giá Nhập", "Hình Ảnh", "Mô Tả", "Số Lượng", "Màu sắc", "Size", "Hãng", "Khuyến Mãi", "Trạng thái", "Select"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -370,16 +427,16 @@ public class ViewSanPham extends javax.swing.JFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(24, Short.MAX_VALUE))
         );
@@ -655,7 +712,6 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
@@ -667,6 +723,7 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable7;
+    private javax.swing.JPanel pnAnhSP;
     private javax.swing.JRadioButton rdoHANG;
     private javax.swing.JRadioButton rdoLOAISANPHAM;
     private javax.swing.JRadioButton rdoMAUSAC;
