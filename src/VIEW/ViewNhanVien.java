@@ -1,5 +1,4 @@
 package VIEW;
-//LEANH09112004
 import MODEL.NhanVien;
 import SERVICE.NhanVienService;
 import java.io.File;

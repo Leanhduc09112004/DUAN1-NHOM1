@@ -1,13 +1,13 @@
 package VIEW;
 
 import MODEL.ChiTietSanPham;
-import SERVICE.ChiTietSanPhamService;
+import SERVICE.SanPhamService;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 public class ViewThongKe extends javax.swing.JFrame {
 
     private DefaultTableModel dtm = new DefaultTableModel();
-    private ChiTietSanPhamService service = new ChiTietSanPhamService();
+    private SanPhamService service = new SanPhamService();
 
     public ViewThongKe() {
         initComponents();
