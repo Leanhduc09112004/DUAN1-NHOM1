@@ -4,13 +4,7 @@ import MODEL.ChiTietSanPham;
 import MODEL.HangSX;
 import MODEL.MauSac;
 import MODEL.SanPham;
-
 import MODEL.SizeSP;
-import REPO.DBConnect;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import REPO.DBConnect;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,8 +17,7 @@ public class SanPhamService {
         ArrayList<ChiTietSanPham> list = new ArrayList<>();
         try {
             String sql = """
-                         select sp.MaSP,sp.TenSP,
-                         		mau.TenMau,
+                         select sp.MaSP,sp.TenSP,mau.TenMau,
                          		size.Size,
                          		hsx.TenHangSanXuat,
                          		sp.TrangThai
