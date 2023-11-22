@@ -5,6 +5,7 @@ import MODEL.HangSX;
 import MODEL.LoaiSanPham;
 import MODEL.MauSac;
 import MODEL.SizeSP;
+import SERVICE.HangSPService;
 import SERVICE.SanPhamService;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
@@ -18,7 +19,9 @@ public class ViewSanPham extends javax.swing.JFrame {
     private DefaultComboBoxModel<LoaiSanPham> cbomodelLoaiSP = new DefaultComboBoxModel<>();
     private DefaultComboBoxModel<SizeSP> cbomodelSIZE = new DefaultComboBoxModel<>();
     private ArrayList<ChiTietSanPham> list;
+    private ArrayList<HangSX> listHang;
     private DefaultTableModel tblmodel = new DefaultTableModel();
+    private HangSPService serviceHang= new HangSPService();
 
     public ViewSanPham() {
         initComponents();
@@ -35,6 +38,10 @@ public class ViewSanPham extends javax.swing.JFrame {
 
     void LoadDataComboHang(){
     cbomodelHang.removeAllElements();
+    listHang= serviceHang.getAll();
+        for (HangSX hsx: listHang) {
+            cbomodelHang.addElement(hsx);
+        }
     }
     void LoadDataTableSP() {
         tblmodel.setRowCount(0);
@@ -65,6 +72,7 @@ public class ViewSanPham extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel11 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
@@ -165,8 +173,10 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         jLabel38.setText("Trạng thái");
 
+        buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("Còn hàng");
 
+        buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("Hết hàng");
 
         jLabel1.setText("Loại SP");
@@ -688,6 +698,7 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JButton btnTHEM;
     private javax.swing.JButton btnTHEMSP;
     private javax.swing.JButton btnTRANGTHAI;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboHANGSP;
     private javax.swing.JComboBox<String> cboLOAISP;
     private javax.swing.JComboBox<String> cboMauSac;

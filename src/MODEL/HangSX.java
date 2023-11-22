@@ -37,5 +37,8 @@ public class HangSX {
         this.TenHangSX = TenHangSX;
     }
 
-   
+    @Override
+    public String toString() {
+        return TenHangSX ;
+    }
 }
