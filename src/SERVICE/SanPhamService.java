@@ -98,7 +98,7 @@ public class SanPhamService {
             row = pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         return row;
     }

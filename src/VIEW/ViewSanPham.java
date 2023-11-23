@@ -193,8 +193,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 }
             }
             cbomodelHang.setSelectedItem(hang);
-
-            // Xử lý KhuyenMai
+            
             Object valueKM = tblSANPHAM.getValueAt(index, 12);
             KhuyenMai km = null;
             if (valueKM instanceof KhuyenMai) {
@@ -225,7 +224,8 @@ public class ViewSanPham extends javax.swing.JFrame {
 
     private ChiTietSanPham getFORMINPUT() {
         ChiTietSanPham ctsp = new ChiTietSanPham();
-
+       
+        ctsp.setIdSP(new SanPham());
         ctsp.getIdSP().setMaSP(txtMASP.getText());
         ctsp.getIdSP().setTenSP(txtTENSP.getText());
 
@@ -978,6 +978,8 @@ public class ViewSanPham extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Thêm sản phẩm thất bại");
             }
         } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
             JOptionPane.showMessageDialog(this, "Thêm bị lỗi vui lòng kiểm tra lại");
         }
     }//GEN-LAST:event_btnTHEMSPActionPerformed
