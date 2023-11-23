@@ -36,6 +36,10 @@ public class MauSac {
     public void setMauSP(String MauSP) {
         this.MauSP = MauSP;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return  MauSP ;
+    }
+     
 }

@@ -2,6 +2,7 @@ package MODEL;
 import java.util.Date;
 public class KhuyenMai {
     private int IdKM;
+    private String MaKM;
     private String TenKM;
     private Date NgayBatDau;
     private Date NgayKetThuc;
@@ -13,8 +14,9 @@ public class KhuyenMai {
     public KhuyenMai() {
     }
 
-    public KhuyenMai(int IdKM, String TenKM, Date NgayBatDau, Date NgayKetThuc, String DieuKien, Double TienGiam, Boolean TrangThai, SanPham IdSp) {
+    public KhuyenMai(int IdKM, String MaKM, String TenKM, Date NgayBatDau, Date NgayKetThuc, String DieuKien, Double TienGiam, Boolean TrangThai, SanPham IdSp) {
         this.IdKM = IdKM;
+        this.MaKM = MaKM;
         this.TenKM = TenKM;
         this.NgayBatDau = NgayBatDau;
         this.NgayKetThuc = NgayKetThuc;
@@ -30,6 +32,14 @@ public class KhuyenMai {
 
     public void setIdKM(int IdKM) {
         this.IdKM = IdKM;
+    }
+
+    public String getMaKM() {
+        return MaKM;
+    }
+
+    public void setMaKM(String MaKM) {
+        this.MaKM = MaKM;
     }
 
     public String getTenKM() {
@@ -87,5 +97,11 @@ public class KhuyenMai {
     public void setIdSp(SanPham IdSp) {
         this.IdSp = IdSp;
     }
-    
+
+    @Override
+    public String toString() {
+        return TenKM ;
+    }
+
+   
 }

@@ -669,7 +669,6 @@ public class ViewNhanVien extends javax.swing.JFrame {
                     break;
                 }
             }
-
             if (updatedSuccessfully) {
                 JOptionPane.showMessageDialog(this, "Cập nhật trạng thái thành công");
                 LoadDataTableNhanVien();

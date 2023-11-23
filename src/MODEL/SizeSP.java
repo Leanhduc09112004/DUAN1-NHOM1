@@ -37,4 +37,8 @@ public class SizeSP {
         this.SizeSP = SizeSP;
     }
 
+    @Override
+    public String toString() {
+        return SizeSP ;
+    }  
 }

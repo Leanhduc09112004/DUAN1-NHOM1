@@ -1,4 +1,5 @@
 package SERVICE;
+
 import MODEL.ChiTietSanPham;
 import MODEL.HangSX;
 import MODEL.KhuyenMai;
@@ -39,33 +40,33 @@ public class SanPhamService {
                 sp.setTenSP(rs.getString("TenSP"));
                 sp.setTrangThai(rs.getBoolean("TrangThai"));
                 ctsp.setIdSP(sp);
-                
+
                 LoaiSanPham lsp = new LoaiSanPham();
                 lsp.setTenLoaiSP(rs.getString("TenLoaiSanPham"));
                 ctsp.setIdLoaiSP(lsp);
-                
+
                 ctsp.setGiaBan(rs.getDouble("GiaBan"));
                 ctsp.setGiaNhap(rs.getDouble("GiaNhap"));
                 ctsp.setHinhAnh(rs.getString("HinhAnh"));
                 ctsp.setMoTa(rs.getString("MoTa"));
                 ctsp.setSoluong(rs.getInt("SoLuong"));
-                
+
                 MauSac mau = new MauSac();
                 mau.setMauSP(rs.getString("TenMau"));
                 ctsp.setIdMauSac(mau);
-                
+
                 SizeSP sz = new SizeSP();
                 sz.setSizeSP(rs.getString("Size"));
                 ctsp.setIdSize(sz);
-                
+
                 HangSX hsx = new HangSX();
                 hsx.setTenHangSX(rs.getString("TenHangSanXuat"));
                 ctsp.setIdHang(hsx);
-                
+
                 KhuyenMai km = new KhuyenMai();
                 km.setTenKM(rs.getString("TenKM"));
                 ctsp.setIdKM(km);
-                
+
                 list.add(ctsp);
             }
         } catch (Exception e) {
@@ -73,5 +74,32 @@ public class SanPhamService {
             System.out.println(e);
         }
         return list;
+    }
+
+    public Integer addSanPham(ChiTietSanPham ctsp) {
+        Integer row = null;
+        try {
+            String sql = "INSERT INTO ChiTietSanPham (IdSP, IdLoaiSanPham, GiaBan, GiaNhap, HinhAnh, MoTa, SoLuong, IdMau, IdHang, IdSize, IdKM) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+            Connection cn = DBConnect.getConnection();
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setString(1, ctsp.getIdSP().getMaSP());
+            pst.setString(2, ctsp.getIdSP().getTenSP());
+            pst.setString(3, ctsp.getIdLoaiSP().getTenLoaiSP());
+            pst.setDouble(4, ctsp.getGiaBan());
+            pst.setDouble(5, ctsp.getGiaNhap());
+            pst.setString(6, ctsp.getHinhAnh());
+            pst.setString(7, ctsp.getMoTa());
+            pst.setInt(8, ctsp.getSoluong());
+            pst.setString(9, ctsp.getIdMauSac().getMauSP());
+            pst.setString(10, ctsp.getIdHang().getTenHangSX());
+            pst.setString(11, ctsp.getIdSize().getSizeSP());
+            pst.setString(12, ctsp.getIdKM().getTenKM());
+            pst.setBoolean(13, ctsp.getIdSP().isTrangThai());
+            row = pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        return row;
     }
 }

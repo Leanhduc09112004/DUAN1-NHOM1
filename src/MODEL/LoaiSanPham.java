@@ -37,5 +37,9 @@ public class LoaiSanPham {
         this.TenLoaiSP = TenLoaiSP;
     }
 
+    @Override
+    public String toString() {
+        return TenLoaiSP;
+    }
   
 }

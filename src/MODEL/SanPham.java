@@ -7,7 +7,6 @@ public class SanPham {
 
     public SanPham() {
     }
-
     public SanPham(int IdSP, String MaSP, String TenSP, boolean TrangThai) {
         this.IdSP = IdSP;
         this.MaSP = MaSP;
@@ -45,8 +44,5 @@ public class SanPham {
 
     public void setTrangThai(boolean TrangThai) {
         this.TrangThai = TrangThai;
-    }
-
-    
-    
+    }    
 }
