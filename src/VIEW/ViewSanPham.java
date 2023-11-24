@@ -97,7 +97,7 @@ public class ViewSanPham extends javax.swing.JFrame {
 
     void LoadDataComboKM() {
         cbomodelKM.removeAllElements();
-        listKM = serviceKM.getAll();
+        listKM = serviceKM.getAllCBO();
         for (KhuyenMai km : listKM) {
             cbomodelKM.addElement(km);
         }

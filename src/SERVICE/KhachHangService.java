@@ -1,5 +1,6 @@
 package SERVICE;
 
+import MODEL.HoaDon;
 import MODEL.KhachHang;
 import REPO.DBConnect;
 import java.util.ArrayList;
@@ -35,7 +36,29 @@ public class KhachHangService {
         }
         return list;
     }
-
+        public ArrayList<HoaDon> getHD(String ma) {
+        ArrayList<HoaDon> list = new ArrayList<>();
+        String sql = "SELECT HoaDon.MaHD, HoaDon.NgayThanhToan, HoaDon.TongTien, HoaDon.TrangThai\n"
+                + "FROM KhachHang JOIN HoaDon ON KhachHang.IdKH = HoaDon.IdKH\n"
+                + "WHERE KhachHang.MaKH LIKE ?";
+        try {
+            Connection cn = DBConnect.getConnection();
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, "%" + ma + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                HoaDon hd = new HoaDon();      
+                hd.setMaHD(rs.getString(1));
+                hd.setNgayThanhToan(rs.getDate(2));
+                hd.setTongTien(rs.getFloat(3));
+                hd.setTrangThai(rs.getBoolean(4));
+                list.add(hd);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
     public Integer addKH(KhachHang k) {
         Integer row = null;
         String sql = "INSERT INTO KhachHang (MaKH, HoTen, Email, Sdt, GioiTinh, NgaySinh, DiaChi)\n"

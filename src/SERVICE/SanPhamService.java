@@ -76,6 +76,50 @@ public class SanPhamService {
         return list;
     }
 
+    public ArrayList<ChiTietSanPham> getList(String loaiSP) {
+        ArrayList<ChiTietSanPham> list = new ArrayList<>();
+        String sql = "SELECT B.MaSP, B.TenSP, A.GiaBan, S.Size, M.TenMau, H.TenHangSanXuat\n"
+                + "FROM ChiTietSanPham A JOIN SanPham B ON A.IdSP = B.IdSP\n"
+                + "JOIN HangSanXuat H ON A.IdHang = H.IdHang\n"
+                + "JOIN SizeSP S ON A.IdSize = S.IdSize\n"
+                + "JOIN LoaiSanPham L ON A.IdLoaiSanPham = L.IdLoaiSanPham\n"
+                + "JOIN MauSac M ON A.IdMau = M.IdMau\n"
+                + "WHERE L.TenLoaiSanPham LIKE ?";
+        try {
+            Connection cn = DBConnect.getConnection();
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, "%" + loaiSP + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setMaSP(rs.getString(1));
+                sp.setTenSP(rs.getString(2));
+
+                MauSac mau = new MauSac();
+                mau.setMauSP(rs.getString(5));
+
+                SizeSP sz = new SizeSP();
+                sz.setSizeSP(rs.getString(4));
+
+                HangSX hsx = new HangSX();
+                hsx.setTenHangSX(rs.getString(6));
+
+//                KhuyenMai km = new KhuyenMai();
+//                km.setTenKM(rs.getString("TenKM"));
+                ChiTietSanPham ct = new ChiTietSanPham();
+                ct.setIdSP(sp);
+                ct.setGiaBan(rs.getDouble(3));
+                ct.setIdSize(sz);
+                ct.setIdMauSac(mau);
+                ct.setIdHang(hsx);
+                list.add(ct);
+            }
+        } catch (Exception e) {
+            System.out.println(e + "ff");
+        }
+        return list;
+    }
+
     public Integer addSanPham(ChiTietSanPham ctsp) {
         Integer row = null;
         try {
