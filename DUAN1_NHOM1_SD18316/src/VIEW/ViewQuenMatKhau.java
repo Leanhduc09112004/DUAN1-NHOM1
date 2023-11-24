@@ -30,7 +30,7 @@ public class ViewQuenMatKhau extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logoda.png"))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setText("MẬT KHẨU CŨ ");
+        jLabel2.setText("TÊN ĐĂNG NHẬP");
 
         txtMATKHAUCU.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -46,17 +46,14 @@ public class ViewQuenMatKhau extends javax.swing.JFrame {
 
         btnXACNHAN.setBackground(new java.awt.Color(102, 255, 153));
         btnXACNHAN.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnXACNHAN.setForeground(new java.awt.Color(0, 0, 0));
         btnXACNHAN.setText("XÁC NHẬN");
 
         btnDANGNHAP.setBackground(new java.awt.Color(102, 255, 153));
         btnDANGNHAP.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnDANGNHAP.setForeground(new java.awt.Color(0, 0, 0));
         btnDANGNHAP.setText("ĐĂNG NHẬP");
 
         btnTHOAT.setBackground(new java.awt.Color(102, 255, 153));
         btnTHOAT.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnTHOAT.setForeground(new java.awt.Color(0, 0, 0));
         btnTHOAT.setText("THOÁT");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
