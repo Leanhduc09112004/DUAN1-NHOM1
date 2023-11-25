@@ -23,7 +23,7 @@ public class SanPhamService {
                     + ",A.GiaNhap,A.HinhAnh\n"
                     + ",A.Soluong,F.Size\n"
                     + ",C.TenMau,E.TenHangSanXuat\n"
-                    + ",A.Mota,G.TenKM,B.TrangThai \n"
+                    + ",A.Mota,G.TenKM,A.TrangThai \n"
                     + "FROM ChiTietSanPham A JOIN SanPham B ON A.IdSP=B.IdSP \n"
                     + "JOIN MauSac C ON C.IdMau=A.IdMau \n"
                     + "JOIN LoaiSanPham D ON D.IdLoaiSanPham=A.IdLoaiSanPham\n"
@@ -38,7 +38,6 @@ public class SanPhamService {
                 SanPham sp = new SanPham();
                 sp.setMaSP(rs.getString("MaSP"));
                 sp.setTenSP(rs.getString("TenSP"));
-                sp.setTrangThai(rs.getBoolean("TrangThai"));
                 ctsp.setIdSP(sp);
 
                 LoaiSanPham lsp = new LoaiSanPham();
@@ -66,7 +65,8 @@ public class SanPhamService {
                 KhuyenMai km = new KhuyenMai();
                 km.setTenKM(rs.getString("TenKM"));
                 ctsp.setIdKM(km);
-
+                
+                ctsp .setTrangThai(rs.getBoolean("TrangThai"));
                 list.add(ctsp);
             }
         } catch (Exception e) {
@@ -120,29 +120,28 @@ public class SanPhamService {
         return list;
     }
 
-    public Integer addSanPham(ChiTietSanPham ctsp) {
+    public Integer addSanPham(ChiTietSanPham chiTietSanPham) {
         Integer row = null;
         try {
-            String sql = "INSERT INTO ChiTietSanPham (IdSP, IdLoaiSanPham, GiaBan, GiaNhap, HinhAnh, MoTa, SoLuong, IdMau, IdHang, IdSize, IdKM) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO ChiTietSanPham (IdSP, IdLoaiSanPham, GiaBan, GiaNhap, HinhAnh, Mota, Soluong, IdMau, IdHang, IdSize, IdKM, TrangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             Connection cn = DBConnect.getConnection();
             PreparedStatement pst = cn.prepareStatement(sql);
-            pst.setString(1, ctsp.getIdSP().getMaSP());
-            pst.setString(2, ctsp.getIdSP().getTenSP());
-            pst.setString(3, ctsp.getIdLoaiSP().getTenLoaiSP());
-            pst.setDouble(4, ctsp.getGiaBan());
-            pst.setDouble(5, ctsp.getGiaNhap());
-            pst.setString(6, ctsp.getHinhAnh());
-            pst.setString(7, ctsp.getMoTa());
-            pst.setInt(8, ctsp.getSoluong());
-            pst.setString(9, ctsp.getIdMauSac().getMauSP());
-            pst.setString(10, ctsp.getIdHang().getTenHangSX());
-            pst.setString(11, ctsp.getIdSize().getSizeSP());
-            pst.setString(12, ctsp.getIdKM().getTenKM());
-            pst.setBoolean(13, ctsp.getIdSP().isTrangThai());
-            row = pst.executeUpdate();
+            pst.setInt(1, chiTietSanPham.getIdSP().getIdSP());
+            pst.setInt(2, chiTietSanPham.getIdLoaiSP().getIdLoaiSP());
+            pst.setDouble(3, chiTietSanPham.getGiaBan());
+            pst.setDouble(4, chiTietSanPham.getGiaNhap());
+            pst.setString(5, chiTietSanPham.getHinhAnh());
+            pst.setString(6, chiTietSanPham.getMoTa());
+            pst.setInt(7, chiTietSanPham.getSoluong());
+            pst.setInt(8, chiTietSanPham.getIdMauSac().getIdMauSP());
+            pst.setInt(9, chiTietSanPham.getIdHang().getIdHangSX());
+            pst.setInt(10, chiTietSanPham.getIdSize().getIdSizeSP());
+            pst.setInt(11, chiTietSanPham.getIdKM().getIdKM());
+            pst.setBoolean(12, chiTietSanPham.isTrangThai());
+            row=pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
         return row;
     }

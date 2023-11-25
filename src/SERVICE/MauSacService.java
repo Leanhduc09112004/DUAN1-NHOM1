@@ -9,13 +9,13 @@ public class MauSacService {
     public ArrayList<MauSac> getAll() {
         ArrayList<MauSac> list = new ArrayList<>();
         try {
-            String sql = "SELECT MaMau, TenMau FROM MauSac";
+            String sql = "SELECT  MaMau,TenMau FROM MauSac";
             Connection cn = DBConnect.getConnection();
             PreparedStatement pst = cn.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {                
                 MauSac mau = new MauSac();
-                mau.setMaMauSP("MaMau");
+                mau.setMaMauSP(rs.getString("MaMau"));
                 mau.setMauSP(rs.getString("TenMau"));
                 list.add(mau);
             }

@@ -11,11 +11,12 @@ public class ChiTietSanPham {
     private SizeSP IdSize;
     private HangSX IdHang;
     private KhuyenMai IdKM;
+    private boolean TrangThai;
 
     public ChiTietSanPham() {
     }
 
-    public ChiTietSanPham(SanPham idSP, LoaiSanPham idLoaiSP, Double GiaBan, Double GiaNhap, String HinhAnh, String MoTa, int Soluong, MauSac IdMauSac, SizeSP IdSize, HangSX IdHang, KhuyenMai IdKM) {
+    public ChiTietSanPham(SanPham idSP, LoaiSanPham idLoaiSP, Double GiaBan, Double GiaNhap, String HinhAnh, String MoTa, int Soluong, MauSac IdMauSac, SizeSP IdSize, HangSX IdHang, KhuyenMai IdKM, boolean TrangThai) {
         this.idSP = idSP;
         this.idLoaiSP = idLoaiSP;
         this.GiaBan = GiaBan;
@@ -27,6 +28,7 @@ public class ChiTietSanPham {
         this.IdSize = IdSize;
         this.IdHang = IdHang;
         this.IdKM = IdKM;
+        this.TrangThai = TrangThai;
     }
 
     public SanPham getIdSP() {
@@ -115,5 +117,15 @@ public class ChiTietSanPham {
 
     public void setIdKM(KhuyenMai IdKM) {
         this.IdKM = IdKM;
-    }  
+    }
+
+    public boolean isTrangThai() {
+        return TrangThai;
+    }
+
+    public void setTrangThai(boolean TrangThai) {
+        this.TrangThai = TrangThai;
+    }
+
+    
 }
