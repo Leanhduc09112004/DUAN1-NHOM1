@@ -129,14 +129,50 @@ public class SanPhamService {
         return row;
     }
 
-    public Integer timKiemTrangThai(boolean TrangThai) {
-        Integer row = null;
+    public ArrayList<SanPham> timKiemTrangThai(boolean TrangThai) {
+        ArrayList<SanPham> ketQuanTimKiem = new ArrayList<>();
         try {
+            String sql = "SELECT A.MaSP, A.TenSP, B.TenLoaiSanPham, A.GiaBan, A.GiaNhap, A.HinhAnh, A.Mota, A.Soluong,C.TenMau,D.TenHangSanXuat,E.Size,A.TrangThai \n"
+                    + "FROM SanPham A JOIN LoaiSanPham B ON A.IdLoaiSanPham=B.IdLoaiSanPham JOIN MauSac C ON A.IdMau=C.IdMau \n"
+                    + "JOIN HangSanXuat D ON A.IdHang=D.IdHang JOIN SizeSP E ON A.IdSize=E.IdSize WHERE A.TrangThai = ?";
+            Connection cn = DBConnect.getConnection();
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setBoolean(1, TrangThai);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setMaSP(rs.getString("MaSP"));
+                sp.setTenSP(rs.getString("TenSP"));
 
+                LoaiSanPham lsp = new LoaiSanPham();
+                lsp.setTenLoaiSP(rs.getString("TenLoaiSanPham"));
+                sp.setIdLoaiSP(lsp);
+
+                sp.setGiaBan(rs.getDouble("GiaBan"));
+                sp.setGiaNhap(rs.getDouble("GiaNhap"));
+                sp.setHinhAnh(rs.getString("HinhAnh"));
+                sp.setMoTa(rs.getString("MoTa"));
+                sp.setSoluong(rs.getInt("SoLuong"));
+
+                MauSac mau = new MauSac();
+                mau.setMauSP(rs.getString("TenMau"));
+                sp.setIdMauSac(mau);
+
+                SizeSP sz = new SizeSP();
+                sz.setSizeSP(rs.getString("Size"));
+                sp.setIdSize(sz);
+
+                HangSX hsx = new HangSX();
+                hsx.setTenHangSX(rs.getString("TenHangSanXuat"));
+                sp.setIdHang(hsx);
+
+                sp.setTrangThai(rs.getBoolean("TrangThai"));
+                ketQuanTimKiem.add(sp);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
         }
-        return row;
+        return ketQuanTimKiem;
     }
 }

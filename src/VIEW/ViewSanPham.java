@@ -47,6 +47,10 @@ public class ViewSanPham extends javax.swing.JFrame {
         tblmodel = (DefaultTableModel) tblSANPHAM.getModel();
         tblmodel2 = (DefaultTableModel) tblThuocTinh.getModel();
         rdoLOAISANPHAM.setSelected(true);
+        cboTRANGTHAI.removeAllItems();
+        cboTRANGTHAI.addItem("Tất cả");
+        cboTRANGTHAI.addItem("Còn hàng");
+        cboTRANGTHAI.addItem("Hết hàng");
         cboHANGSP.setModel((DefaultComboBoxModel) cbomodelHang);
         cboMauSac.setModel((DefaultComboBoxModel) cbomodelMau);
         cboSize.setModel((DefaultComboBoxModel) cbomodelSIZE);
@@ -671,18 +675,24 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         jPanel17.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
+        jLabel35.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel35.setText("Trạng thái");
         jLabel35.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        cboTRANGTHAI.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTRANGTHAI.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cboTRANGTHAI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTRANGTHAIActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel17Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cboTRANGTHAI, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(19, Short.MAX_VALUE))
@@ -1425,10 +1435,10 @@ public class ViewSanPham extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tblSANPHAM.getModel();
         List<Integer> selectedRows = new ArrayList<>();
         boolean updateSuccessfully = false;
-        
+
         for (int i = 0; i < tblSANPHAM.getRowCount(); i++) {
             Boolean selected = (Boolean) model.getValueAt(i, 13);
-            if (selected!=null&& selected) {
+            if (selected != null && selected) {
                 selectedRows.add(i);
             }
         }
@@ -1437,28 +1447,61 @@ public class ViewSanPham extends javax.swing.JFrame {
                 String MaSP = tblSANPHAM.getValueAt(selectedRow, 1).toString();
                 boolean TrangThai = tblSANPHAM.getValueAt(selectedRow, 12).toString().equalsIgnoreCase("Còn hàng");
                 boolean TrangThaiMoi = !TrangThai;
-                
+
                 SanPham selectedSanPham = new SanPham();
                 selectedSanPham.setMaSP(MaSP);
                 selectedSanPham.setTrangThai(TrangThaiMoi);
-                
+
                 SanPhamService service = new SanPhamService();
                 Integer updateRows = service.updateTrangThai(selectedSanPham);
-                if (updateRows!=null && updateRows>0) {
-                updateSuccessfully=true;    
+                if (updateRows != null && updateRows > 0) {
+                    updateSuccessfully = true;
                 } else {
-                JOptionPane.showMessageDialog(this, "Cập nhật trạng thái thất bại");
-                break;
+                    JOptionPane.showMessageDialog(this, "Cập nhật trạng thái thất bại");
+                    break;
                 }
             }
             if (updateSuccessfully) {
                 JOptionPane.showMessageDialog(this, "Cập nhật trạng thái thành công");
                 LoadDataTableSP();
             }
-        }else{
-          JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một hàng để cập nhật trạng thái");
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một hàng để cập nhật trạng thái");
         }
     }//GEN-LAST:event_btnTRANGTHAIActionPerformed
+
+    private void cboTRANGTHAIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTRANGTHAIActionPerformed
+        boolean trangThai;
+        Object selectedItem = cboTRANGTHAI.getSelectedItem();
+        if (selectedItem != null) {
+            String tuKhoa = selectedItem.toString();
+            if (tuKhoa.equalsIgnoreCase("Tất cả")) {
+                LoadDataTableSP();
+            } else {
+                if (tuKhoa.equalsIgnoreCase("Còn hàng")) {
+                    trangThai = true;
+                } else if (tuKhoa.equalsIgnoreCase("Hết hàng")) {
+                    trangThai = false;
+                } else {
+                    trangThai = rdoConHang.isSelected();
+                }
+                ArrayList<SanPham> ketQuaTimKiem = service.timKiemTrangThai(trangThai);
+                tblmodel.setRowCount(0);
+                int i = 0;
+                for (SanPham sp : ketQuaTimKiem) {
+                    tblmodel.addRow(new Object[]{i++, sp.getMaSP(),
+                        sp.getTenSP(),
+                        sp.getIdLoaiSP().getTenLoaiSP(),
+                        sp.getGiaBan(), sp.getGiaNhap(),
+                        sp.getHinhAnh(), sp.getMoTa(),
+                        sp.getSoluong(), sp.getIdMauSac().getMauSP(),
+                        sp.getIdSize().getSizeSP(),
+                        sp.getIdHang().getTenHangSX(),
+                        sp.isTrangThai() ? "Còn hàng" : "Hết hàng"});
+                }
+            }
+        }
+    }//GEN-LAST:event_cboTRANGTHAIActionPerformed
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
