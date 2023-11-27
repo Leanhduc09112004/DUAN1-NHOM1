@@ -10,12 +10,13 @@ public class LoaiSanPhamService {
     public ArrayList<LoaiSanPham> getAll() {
         ArrayList<LoaiSanPham> list = new ArrayList<>();
         try {
-            String sql = "SELECT MaLoaiSanPham, TenLoaiSanPham FROM LoaiSanPham";
+            String sql = "SELECT IdLoaiSanPham, MaLoaiSanPham, TenLoaiSanPham FROM LoaiSanPham";
             Connection cn = DBConnect.getConnection();
             PreparedStatement pst = cn.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 LoaiSanPham lsp = new LoaiSanPham();
+                lsp.setIdLoaiSP(rs.getInt("IdLoaiSanPham"));
                 lsp.setMaLoaiSP(rs.getString("MaLoaiSanPham"));
                 lsp.setTenLoaiSP(rs.getString("TenLoaiSanPham"));
                 list.add(lsp);

@@ -10,12 +10,13 @@ public class SizeService {
     public ArrayList<SizeSP> getAll() {
         ArrayList<SizeSP> list = new ArrayList<>();
         try {
-            String sql = "SELECT MaSize,Size FROM SizeSP";
+            String sql = "SELECT IdSize, MaSize,Size FROM SizeSP";
             Connection cn = DBConnect.getConnection();
             PreparedStatement pst = cn.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 SizeSP size = new SizeSP();
+                size.setIdSizeSP(rs.getInt("IdSize"));
                 size.setMaSizeSP(rs.getString("MaSize"));
                 size.setSizeSP(rs.getString("Size"));
                 list.add(size);

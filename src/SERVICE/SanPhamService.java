@@ -1,7 +1,6 @@
 package SERVICE;
 
 import MODEL.HangSX;
-import MODEL.KhuyenMai;
 import MODEL.LoaiSanPham;
 import MODEL.MauSac;
 import MODEL.SanPham;
@@ -63,16 +62,6 @@ public class SanPhamService {
     public Integer addSanPham(SanPham sp) {
         Integer row = null;
         try {
-            int idLoaiSP = sp.getIdLoaiSP().getIdLoaiSP();
-            int idMau = sp.getIdMauSac().getIdMauSP();
-            int idSize = sp.getIdSize().getIdSizeSP();
-            int idHang = sp.getIdHang().getIdHangSX();
-
-            System.out.println("idLoaiSP: " + idLoaiSP);
-            System.out.println("idMau: " + idMau);
-            System.out.println("idSize: " + idSize);
-            System.out.println("idHang: " + idHang);
-
             String sql = "INSERT INTO SanPham (MaSP, TenSP, IdLoaiSanPham, GiaBan, GiaNhap, HinhAnh, Mota, Soluong, IdMau, IdHang, IdSize, TrangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             Connection cn = DBConnect.getConnection();
             PreparedStatement pst = cn.prepareStatement(sql);
@@ -100,19 +89,19 @@ public class SanPhamService {
     public Integer updateSanPham(SanPham sp) {
         Integer row = null;
         try {
-            String sql = "UPDATE SanPham SET IdLoaiSanPham = ?, GiaBan = ?, GiaNhap = ?, HinhAnh = ?, Mota = ?, Soluong = ?, IdMau = ?, IdHang = ?, IdSize = ?, IdKM = ?, TrangThai = ? WHERE MaSP = ?";
+            String sql = "UPDATE SanPham SET TenSP=?, IdLoaiSanPham = ?, GiaBan = ?, GiaNhap = ?, HinhAnh = ?, Mota = ?, Soluong = ?, IdMau = ?, IdHang = ?, IdSize = ?,TrangThai = ? WHERE MaSP = ?";
             Connection cn = DBConnect.getConnection();
             PreparedStatement pst = cn.prepareStatement(sql);
-            pst.setInt(1, sp.getIdLoaiSP().getIdLoaiSP());
-            pst.setDouble(2, sp.getGiaBan());
-            pst.setDouble(3, sp.getGiaNhap());
-            pst.setString(4, sp.getHinhAnh());
-            pst.setString(5, sp.getMoTa());
-            pst.setInt(6, sp.getSoluong());
-            pst.setInt(7, sp.getIdMauSac().getIdMauSP());
-            pst.setInt(8, sp.getIdHang().getIdHangSX());
-            pst.setInt(9, sp.getIdSize().getIdSizeSP());
-            pst.setInt(10, sp.getIdKM().getIdKM());
+            pst.setString(1, sp.getTenSP());
+            pst.setInt(2, sp.getIdLoaiSP().getIdLoaiSP());
+            pst.setDouble(3, sp.getGiaBan());
+            pst.setDouble(4, sp.getGiaNhap());
+            pst.setString(5, sp.getHinhAnh());
+            pst.setString(6, sp.getMoTa());
+            pst.setInt(7, sp.getSoluong());
+            pst.setInt(8, sp.getIdMauSac().getIdMauSP());
+            pst.setInt(9, sp.getIdHang().getIdHangSX());
+            pst.setInt(10, sp.getIdSize().getIdSizeSP());
             pst.setBoolean(11, sp.isTrangThai());
             pst.setString(12, sp.getMaSP());
 
@@ -124,4 +113,30 @@ public class SanPhamService {
         return row;
     }
 
+    public Integer updateTrangThai(SanPham sp) {
+        Integer row = null;
+        try {
+            String sql = "UPDATE SanPham SET TrangThai=? WHERE MaSP=? ";
+            Connection cn = DBConnect.getConnection();
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setBoolean(1, sp.isTrangThai());
+            pst.setString(2, sp.getMaSP());
+            row = pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        return row;
+    }
+
+    public Integer timKiemTrangThai(boolean TrangThai) {
+        Integer row = null;
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        return row;
+    }
 }
