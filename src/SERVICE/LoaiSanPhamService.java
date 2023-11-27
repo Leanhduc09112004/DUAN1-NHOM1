@@ -58,4 +58,19 @@ public class LoaiSanPhamService {
         }
         return row;
     }
+
+    public Integer deleteLoaiSanPham(String maLoaiSP) {
+        Integer row = null;
+        try {
+            String sql = "DELETE FROM LoaiSanPham WHERE MaLoaiSanPham = ?";
+            Connection cn = DBConnect.getConnection();
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setString(1, maLoaiSP);
+            row = pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return row;
+    }
 }

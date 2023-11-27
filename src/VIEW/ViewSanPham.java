@@ -268,34 +268,62 @@ public class ViewSanPham extends javax.swing.JFrame {
         sp.setTrangThai(trangThai);
         return sp;
     }
-
-    private MauSac getFORMINPUTMAU() {
-        MauSac mau = new MauSac();
-        mau.setMaMauSP(txtMATHUOCTINH.getText());
-        mau.setMauSP(txtTENTHUOCTINH.getText());
-        return mau;
+private MauSac getFORMINPUTMAU() {
+    MauSac mau = new MauSac();
+    String maMau = txtMATHUOCTINH.getText().trim();
+    String tenMau = txtTENTHUOCTINH.getText().trim();
+    if (maMau.isEmpty() || tenMau.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin cho thuộc tính màu.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return null;
     }
 
-    private SizeSP getFORMINPUTSIZE() {
-        SizeSP size = new SizeSP();
-        size.setMaSizeSP(txtMATHUOCTINH.getText());
-        size.setSizeSP(txtTENTHUOCTINH.getText());
-        return size;
+    mau.setMaMauSP(maMau);
+    mau.setMauSP(tenMau);
+    return mau;
+}
+
+private SizeSP getFORMINPUTSIZE() {
+    SizeSP size = new SizeSP();
+    String maSize = txtMATHUOCTINH.getText().trim();
+    String tenSize = txtTENTHUOCTINH.getText().trim();
+    if (maSize.isEmpty() || tenSize.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin cho thuộc tính size.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return null;
     }
 
-    private LoaiSanPham getFORMINPUTLoaiSanPham() {
-        LoaiSanPham loai = new LoaiSanPham();
-        loai.setMaLoaiSP(txtMATHUOCTINH.getText());
-        loai.setTenLoaiSP(txtTENTHUOCTINH.getText());
-        return loai;
+    size.setMaSizeSP(maSize);
+    size.setSizeSP(tenSize);
+    return size;
+}
+
+private LoaiSanPham getFORMINPUTLoaiSanPham() {
+    LoaiSanPham loai = new LoaiSanPham();
+    String maLoai = txtMATHUOCTINH.getText().trim();
+    String tenLoai = txtTENTHUOCTINH.getText().trim();
+    if (maLoai.isEmpty() || tenLoai.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin cho loại sản phẩm.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return null;
     }
 
-    private HangSX getFORMINPUTHang() {
-        HangSX hang = new HangSX();
-        hang.setMaHangSX(txtMATHUOCTINH.getText());
-        hang.setTenHangSX(txtTENTHUOCTINH.getText());
-        return hang;
+    loai.setMaLoaiSP(maLoai);
+    loai.setTenLoaiSP(tenLoai);
+    return loai;
+}
+
+private HangSX getFORMINPUTHang() {
+    HangSX hang = new HangSX();
+    String maHang = txtMATHUOCTINH.getText().trim();
+    String tenHang = txtTENTHUOCTINH.getText().trim();
+    if (maHang.isEmpty() || tenHang.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin cho hãng sản xuất.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return null;
     }
+
+    hang.setMaHangSX(maHang);
+    hang.setTenHangSX(tenHang);
+    return hang;
+}
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -360,6 +388,7 @@ public class ViewSanPham extends javax.swing.JFrame {
         btnTHEMTHUOCTINH = new javax.swing.JButton();
         btnSUATHUOCTINH = new javax.swing.JButton();
         btnCLEARFORMTHUOCTINH = new javax.swing.JButton();
+        btnXOA = new javax.swing.JButton();
         jPanel24 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         tblThuocTinh = new javax.swing.JTable();
@@ -797,7 +826,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTENTHUOCTINH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         buttonGroup1.add(rdoHANG);
@@ -858,19 +887,36 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdoHANG, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rdoLOAISANPHAM))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
-        btnTHEMTHUOCTINH.setText("Thêm");
+        btnTHEMTHUOCTINH.setText("THÊM");
         btnTHEMTHUOCTINH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTHEMTHUOCTINHActionPerformed(evt);
             }
         });
 
-        btnSUATHUOCTINH.setText("Sửa");
+        btnSUATHUOCTINH.setText("SỬA");
+        btnSUATHUOCTINH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSUATHUOCTINHActionPerformed(evt);
+            }
+        });
 
         btnCLEARFORMTHUOCTINH.setText("CLEAR");
+        btnCLEARFORMTHUOCTINH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCLEARFORMTHUOCTINHActionPerformed(evt);
+            }
+        });
+
+        btnXOA.setText("XÓA");
+        btnXOA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXOAActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
         jPanel23.setLayout(jPanel23Layout);
@@ -878,14 +924,15 @@ public class ViewSanPham extends javax.swing.JFrame {
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel23Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCLEARFORMTHUOCTINH)
-                    .addComponent(btnSUATHUOCTINH)
-                    .addComponent(btnTHEMTHUOCTINH))
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCLEARFORMTHUOCTINH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSUATHUOCTINH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnTHEMTHUOCTINH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnXOA, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        jPanel23Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCLEARFORMTHUOCTINH, btnSUATHUOCTINH, btnTHEMTHUOCTINH});
+        jPanel23Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCLEARFORMTHUOCTINH, btnSUATHUOCTINH, btnTHEMTHUOCTINH, btnXOA});
 
         jPanel23Layout.setVerticalGroup(
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -896,7 +943,9 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addComponent(btnSUATHUOCTINH)
                 .addGap(18, 18, 18)
                 .addComponent(btnCLEARFORMTHUOCTINH)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnXOA)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel23Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCLEARFORMTHUOCTINH, btnSUATHUOCTINH, btnTHEMTHUOCTINH});
@@ -980,7 +1029,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Thuộc tính Sản Phẩm", jPanel12);
@@ -1088,21 +1137,183 @@ public class ViewSanPham extends javax.swing.JFrame {
         if (rdoMAUSAC.isSelected()) {
             try {
                 MauSac mau = getFORMINPUTMAU();
-
+                if (serviceMau.addMauSac(mau) != null) {
+                    JOptionPane.showMessageDialog(this, "Thêm thuộc tính màu thành công");
+                    LoadDataTableMau();
+                    LoadDataComboMau();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Thêm thuộc tính màu bị lỗi");
+                }
             } catch (Exception e) {
-
+                JOptionPane.showMessageDialog(this, "Thêm thuộc tính màu bị lỗi");
             }
-
         } else if (rdoSize.isSelected()) {
-            SizeSP size = getFORMINPUTSIZE();
+            try {
+                SizeSP size = getFORMINPUTSIZE();
+                if (serviceSize.addSizeSP(size) != null) {
+                    JOptionPane.showMessageDialog(this, "Thêm thuộc tính size thành công");
+                    LoadDataTableSize();
+                    LoadDataComboSize();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Thêm thuộc tính size bị lỗi");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Thêm thuộc tính size bị lỗi");
+            }
         } else if (rdoLOAISANPHAM.isSelected()) {
-            LoaiSanPham loai = getFORMINPUTLoaiSanPham();
+            try {
+                LoaiSanPham loai = getFORMINPUTLoaiSanPham();
+                if (serviceLoaiSP.addLoaiSanPham(loai) != null) {
+                    JOptionPane.showMessageDialog(this, "Thêm thuộc tính loại sản phẩm thành công");
+                    LoadDataTableLoaiSP();
+                    LoadDataTableLoaiSP();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Thêm thuộc tính loại sản phẩm bị lỗi");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Thêm thuộc tính loại sản phẩm bị lỗi");
+            }
         } else if (rdoHANG.isSelected()) {
-            HangSX hang = getFORMINPUTHang();
+            try {
+                HangSX hang = getFORMINPUTHang();
+                if (serviceHang.addHangSX(hang) != null) {
+                    JOptionPane.showMessageDialog(this, "Thêm thuộc tính hãng sản xuất thành công");
+                    LoadDataTableHang();
+                    LoadDataComboHang();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Thêm thuộc tính hãng sản xuất bị lỗi");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Thêm thuộc tính hãng sản xuất bị lỗi");
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn một loại thuộc tính.");
         }
+        btnCLEARFORMTHUOCTINHActionPerformed(evt);
     }//GEN-LAST:event_btnTHEMTHUOCTINHActionPerformed
+
+    private void btnSUATHUOCTINHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSUATHUOCTINHActionPerformed
+        if (rdoMAUSAC.isSelected()) {
+            try {
+                MauSac mau = getFORMINPUTMAU();
+                if (serviceMau.updateMauSac(mau) != null) {
+                    JOptionPane.showMessageDialog(this, "Sửa thuộc tính màu thành công");
+                    LoadDataTableMau();
+                    LoadDataComboMau();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Sửa thuộc tính màu bị lỗi");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Sửa thuộc tính màu bị lỗi");
+            }
+        } else if (rdoSize.isSelected()) {
+            try {
+                SizeSP size = getFORMINPUTSIZE();
+                if (serviceSize.updateSize(size) != null) {
+                    JOptionPane.showMessageDialog(this, "Sửa thuộc tính size thành công");
+                    LoadDataTableSize();
+                    LoadDataComboSize();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Sửa thuộc tính size bị lỗi");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Sửa thuộc tính size bị lỗi");
+            }
+        } else if (rdoLOAISANPHAM.isSelected()) {
+            try {
+                LoaiSanPham loai = getFORMINPUTLoaiSanPham();
+                if (serviceLoaiSP.updateLoaiSanPham(loai) != null) {
+                    JOptionPane.showMessageDialog(this, "Sửa thuộc tính loại sản phẩm thành công");
+                    LoadDataTableLoaiSP();
+                    LoadDataTableLoaiSP();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Sửa thuộc tính loại sản phẩm bị lỗi");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Sửa thuộc tính loại sản phẩm bị lỗi");
+            }
+        } else if (rdoHANG.isSelected()) {
+            try {
+                HangSX hang = getFORMINPUTHang();
+                if (serviceHang.updateHangSX(hang) != null) {
+                    JOptionPane.showMessageDialog(this, "Sửa thuộc tính hãng sản xuất thành công");
+                    LoadDataTableHang();
+                    LoadDataComboHang();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Sửa thuộc tính hãng sản xuất bị lỗi");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Sửa thuộc tính hãng sản xuất bị lỗi");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một loại thuộc tính.");
+        }
+        btnCLEARFORMTHUOCTINHActionPerformed(evt);
+    }//GEN-LAST:event_btnSUATHUOCTINHActionPerformed
+
+    private void btnXOAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXOAActionPerformed
+        if (rdoMAUSAC.isSelected()) {
+        try {
+            String maMau = txtMATHUOCTINH.getText();
+            if (serviceMau.deleteMauSac(maMau) != null) {
+                JOptionPane.showMessageDialog(this, "Xóa thuộc tính màu thành công");
+                LoadDataTableMau();
+                LoadDataComboMau();
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa thuộc tính màu bị lỗi");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Xóa thuộc tính màu bị lỗi");
+        }
+    } else if (rdoSize.isSelected()) {
+        try {
+            String maSize = txtMATHUOCTINH.getText();
+            if (serviceSize.deleteSizeSP(maSize) != null) {
+                JOptionPane.showMessageDialog(this, "Xóa thuộc tính size thành công");
+                LoadDataTableSize();
+                LoadDataComboSize();
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa thuộc tính size bị lỗi");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Xóa thuộc tính size bị lỗi");
+        }
+    } else if (rdoLOAISANPHAM.isSelected()) {
+        try {
+            String maLoaiSP = txtMATHUOCTINH.getText();
+            if (serviceLoaiSP.deleteLoaiSanPham(maLoaiSP) != null) {
+                JOptionPane.showMessageDialog(this, "Xóa thuộc tính loại sản phẩm thành công");
+                LoadDataTableLoaiSP();
+                LoadDataComboLoaiSP();
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa thuộc tính loại sản phẩm bị lỗi");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Xóa thuộc tính loại sản phẩm bị lỗi");
+        }
+    } else if (rdoHANG.isSelected()) {
+        try {
+            String maHang = txtMATHUOCTINH.getText();
+            if (serviceHang.deleteHangSX(maHang) != null) {
+                JOptionPane.showMessageDialog(this, "Xóa thuộc tính hãng sản xuất thành công");
+                LoadDataTableHang();
+                LoadDataComboHang();
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa thuộc tính hãng sản xuất bị lỗi");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Xóa thuộc tính hãng sản xuất bị lỗi");
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn một loại thuộc tính.");
+    }
+        btnCLEARFORMTHUOCTINHActionPerformed(evt);
+    }//GEN-LAST:event_btnXOAActionPerformed
+
+    private void btnCLEARFORMTHUOCTINHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCLEARFORMTHUOCTINHActionPerformed
+        txtMATHUOCTINH.setText("");
+        txtTENTHUOCTINH.setText("");
+    }//GEN-LAST:event_btnCLEARFORMTHUOCTINHActionPerformed
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -1135,6 +1346,7 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JButton btnTHEMSP;
     private javax.swing.JButton btnTHEMTHUOCTINH;
     private javax.swing.JButton btnTRANGTHAI;
+    private javax.swing.JButton btnXOA;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboHANGSP;
     private javax.swing.JComboBox<String> cboLOAISP;

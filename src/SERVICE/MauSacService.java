@@ -58,4 +58,19 @@ public class MauSacService {
         }
         return row;
     }
+
+    public Integer deleteMauSac(String maMau) {
+        Integer row = null;
+        try {
+            String sql = "DELETE FROM MauSac WHERE MaMau = ?";
+            Connection cn = DBConnect.getConnection();
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setString(1, maMau);
+            row = pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return row;
+    }
 }

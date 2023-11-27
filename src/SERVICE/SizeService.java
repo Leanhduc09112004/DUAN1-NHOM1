@@ -58,4 +58,19 @@ public class SizeService {
         }
         return row;
     }
+
+    public Integer deleteSizeSP(String maSize) {
+        Integer row = null;
+        try {
+            String sql = "DELETE FROM SizeSP WHERE MaSize = ?";
+            Connection cn = DBConnect.getConnection();
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setString(1, maSize);
+            row = pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return row;
+    }
 }
