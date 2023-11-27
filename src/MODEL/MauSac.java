@@ -4,6 +4,11 @@ public class MauSac {
     private String MaMauSP;
     private String MauSP;
 
+    public MauSac(int IdMauSP) {
+        this.IdMauSP = IdMauSP;
+    }
+
+    
     public MauSac() {
     }
 

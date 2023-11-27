@@ -1,14 +1,11 @@
 package VIEW;
 
-import MODEL.ChiTietSanPham;
 import MODEL.HangSX;
-import MODEL.KhuyenMai;
 import MODEL.LoaiSanPham;
 import MODEL.MauSac;
 import MODEL.SanPham;
 import MODEL.SizeSP;
 import SERVICE.HangSPService;
-import SERVICE.KhuyenMaiService;
 import SERVICE.LoaiSanPhamService;
 import SERVICE.MauSacService;
 import SERVICE.SanPhamService;
@@ -30,20 +27,17 @@ public class ViewSanPham extends javax.swing.JFrame {
     private DefaultComboBoxModel<MauSac> cbomodelMau = new DefaultComboBoxModel<>();
     private DefaultComboBoxModel<LoaiSanPham> cbomodelLoaiSP = new DefaultComboBoxModel<>();
     private DefaultComboBoxModel<SizeSP> cbomodelSIZE = new DefaultComboBoxModel<>();
-    private DefaultComboBoxModel<KhuyenMai> cbomodelKM = new DefaultComboBoxModel<>();
-    private ArrayList<ChiTietSanPham> list;
+    private ArrayList<SanPham> list;
     private ArrayList<HangSX> listHang;
     private ArrayList<MauSac> listMau;
     private ArrayList<SizeSP> listSize;
     private ArrayList<LoaiSanPham> listLoaiSP;
-    private ArrayList<KhuyenMai> listKM;
     private DefaultTableModel tblmodel = new DefaultTableModel();
     private DefaultTableModel tblmodel2 = new DefaultTableModel();
     private HangSPService serviceHang = new HangSPService();
     private MauSacService serviceMau = new MauSacService();
     private SizeService serviceSize = new SizeService();
     private LoaiSanPhamService serviceLoaiSP = new LoaiSanPhamService();
-    private KhuyenMaiService serviceKM = new KhuyenMaiService();
     private String strHinhAnh = null;
 
     public ViewSanPham() {
@@ -56,12 +50,10 @@ public class ViewSanPham extends javax.swing.JFrame {
         cboMauSac.setModel((DefaultComboBoxModel) cbomodelMau);
         cboSize.setModel((DefaultComboBoxModel) cbomodelSIZE);
         cboLOAISP.setModel((DefaultComboBoxModel) cbomodelLoaiSP);
-        cboKhuyenMai.setModel((DefaultComboBoxModel) cbomodelKM);
         LoadDataComboHang();
         LoadDataComboMau();
         LoadDataComboSize();
         LoadDataComboLoaiSP();
-        LoadDataComboKM();
         LoadDataTableSize();
         LoadDataTableMau();
         LoadDataTableHang();
@@ -135,35 +127,26 @@ public class ViewSanPham extends javax.swing.JFrame {
         }
     }
 
-    void LoadDataComboKM() {
-        cbomodelKM.removeAllElements();
-        listKM = serviceKM.getAllCBO();
-        for (KhuyenMai km : listKM) {
-            cbomodelKM.addElement(km);
-        }
-    }
-
     void LoadDataTableSP() {
         tblmodel.setRowCount(0);
         list = service.getAll();
         int i = 1;
-        for (ChiTietSanPham ct : list) {
-            tblmodel.addRow(new Object[]{i++, ct.getIdSP().getMaSP(),
-                ct.getIdSP().getTenSP(),
-                ct.getIdLoaiSP().getTenLoaiSP(),
-                ct.getGiaBan(), ct.getGiaNhap(),
-                ct.getHinhAnh(), ct.getMoTa(),
-                ct.getSoluong(), ct.getIdMauSac().getMauSP(),
-                ct.getIdSize().getSizeSP(),
-                ct.getIdHang().getTenHangSX(),
-                ct.getIdKM().getTenKM(),
-                ct.isTrangThai() ? "Còn hàng" : "Hết hàng"});
+        for (SanPham sp : list) {
+            tblmodel.addRow(new Object[]{i++, sp.getMaSP(),
+                sp.getTenSP(),
+                sp.getIdLoaiSP().getTenLoaiSP(),
+                sp.getGiaBan(), sp.getGiaNhap(),
+                sp.getHinhAnh(), sp.getMoTa(),
+                sp.getSoluong(), sp.getIdMauSac().getMauSP(),
+                sp.getIdSize().getSizeSP(),
+                sp.getIdHang().getTenHangSX(),
+                sp.isTrangThai() ? "Còn hàng" : "Hết hàng"});
         }
     }
-    
-    void ShowThuocTinh(){
-    int index2 = tblThuocTinh.getSelectedRow();
-        if (index2!=-1) {
+
+    void ShowThuocTinh() {
+        int index2 = tblThuocTinh.getSelectedRow();
+        if (index2 != -1) {
             txtMATHUOCTINH.setText(tblThuocTinh.getValueAt(index2, 0).toString());
             txtTENTHUOCTINH.setText(tblThuocTinh.getValueAt(index2, 1).toString());
         }
@@ -242,22 +225,7 @@ public class ViewSanPham extends javax.swing.JFrame {
             }
             cbomodelHang.setSelectedItem(hang);
 
-            Object valueKM = tblSANPHAM.getValueAt(index, 12);
-            KhuyenMai km = null;
-            if (valueKM instanceof KhuyenMai) {
-                km = (KhuyenMai) valueKM;
-            } else if (valueKM instanceof String) {
-                String tenKhuyenMai = (String) valueKM;
-                for (KhuyenMai khuyenMai : listKM) {
-                    if (khuyenMai.getTenKM().equals(tenKhuyenMai)) {
-                        km = khuyenMai;
-                        break;
-                    }
-                }
-            }
-            cbomodelKM.setSelectedItem(km);
-
-            boolean trangThai = tblSANPHAM.getValueAt(index, 13).toString().equalsIgnoreCase("Còn hàng") ? true : false;
+            boolean trangThai = tblSANPHAM.getValueAt(index, 12).toString().equalsIgnoreCase("Còn hàng") ? true : false;
             rdoConHang.setSelected(trangThai);
             rdoHetHang.setSelected(!trangThai);
         }
@@ -270,39 +238,63 @@ public class ViewSanPham extends javax.swing.JFrame {
         lblHinhAnh.setIcon(icon);
     }
 
-    private ChiTietSanPham getFORMINPUT() {
-        ChiTietSanPham ctsp = new ChiTietSanPham();
+    private SanPham getFORMINPUT() {
+        SanPham sp = new SanPham();
 
-        ctsp.setIdSP(new SanPham());
-        ctsp.getIdSP().setMaSP(txtMASP.getText());
-        ctsp.getIdSP().setTenSP(txtTENSP.getText());
+        sp.setMaSP(txtMASP.getText());
+        sp.setTenSP(txtTENSP.getText());
 
         LoaiSanPham loaiSP = (LoaiSanPham) cboLOAISP.getSelectedItem();
-        ctsp.setIdLoaiSP(loaiSP);
+        sp.setIdLoaiSP(loaiSP);
 
-        ctsp.setGiaBan(Double.parseDouble(txtGiaBan.getText()));
-        ctsp.setGiaNhap(Double.parseDouble(txtGiaNhap.getText()));
+        sp.setGiaBan(Double.parseDouble(txtGiaBan.getText()));
+        sp.setGiaNhap(Double.parseDouble(txtGiaNhap.getText()));
 
-        ctsp.setHinhAnh(strHinhAnh);
+        sp.setHinhAnh(strHinhAnh);
 
-        ctsp.setMoTa(txtMoTa.getText());
-        ctsp.setSoluong(Integer.parseInt(txtSoLuong.getText()));
+        sp.setMoTa(txtMoTa.getText());
+        sp.setSoluong(Integer.parseInt(txtSoLuong.getText()));
+        int idLoaiSP = ((LoaiSanPham) cboLOAISP.getSelectedItem()).getIdLoaiSP();
+        int idMau = ((MauSac) cboMauSac.getSelectedItem()).getIdMauSP();
+        int idSize = ((SizeSP) cboSize.getSelectedItem()).getIdSizeSP();
+        int idHang = ((HangSX) cboHANGSP.getSelectedItem()).getIdHangSX();
 
-        MauSac mauSac = (MauSac) cboMauSac.getSelectedItem();
-        ctsp.setIdMauSac(mauSac);
-
-        SizeSP sizeSP = (SizeSP) cboSize.getSelectedItem();
-        ctsp.setIdSize(sizeSP);
-
-        HangSX hangSX = (HangSX) cboHANGSP.getSelectedItem();
-        ctsp.setIdHang(hangSX);
-
-        KhuyenMai khuyenMai = (KhuyenMai) cboKhuyenMai.getSelectedItem();
-        ctsp.setIdKM(khuyenMai);
+        sp.setIdLoaiSP(new LoaiSanPham(idLoaiSP));
+        sp.setIdMauSac(new MauSac(idMau));
+        sp.setIdSize(new SizeSP(idSize));
+        sp.setIdHang(new HangSX(idHang));
 
         boolean trangThai = rdoConHang.isSelected();
-        ctsp.setTrangThai(trangThai);
-        return ctsp;
+        sp.setTrangThai(trangThai);
+        return sp;
+    }
+
+    private MauSac getFORMINPUTMAU() {
+        MauSac mau = new MauSac();
+        mau.setMaMauSP(txtMATHUOCTINH.getText());
+        mau.setMauSP(txtTENTHUOCTINH.getText());
+        return mau;
+    }
+
+    private SizeSP getFORMINPUTSIZE() {
+        SizeSP size = new SizeSP();
+        size.setMaSizeSP(txtMATHUOCTINH.getText());
+        size.setSizeSP(txtTENTHUOCTINH.getText());
+        return size;
+    }
+
+    private LoaiSanPham getFORMINPUTLoaiSanPham() {
+        LoaiSanPham loai = new LoaiSanPham();
+        loai.setMaLoaiSP(txtMATHUOCTINH.getText());
+        loai.setTenLoaiSP(txtTENTHUOCTINH.getText());
+        return loai;
+    }
+
+    private HangSX getFORMINPUTHang() {
+        HangSX hang = new HangSX();
+        hang.setMaHangSX(txtMATHUOCTINH.getText());
+        hang.setTenHangSX(txtTENTHUOCTINH.getText());
+        return hang;
     }
 
     @SuppressWarnings("unchecked")
@@ -338,8 +330,6 @@ public class ViewSanPham extends javax.swing.JFrame {
         txtSoLuong = new javax.swing.JTextField();
         txtMoTa = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        cboKhuyenMai = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         btnTHEMSP = new javax.swing.JButton();
         btnSUASP = new javax.swing.JButton();
@@ -440,10 +430,6 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         jLabel5.setText("Mô Tả");
 
-        cboKhuyenMai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel6.setText("Khuyến Mãi");
-
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
@@ -498,19 +484,13 @@ public class ViewSanPham extends javax.swing.JFrame {
                             .addComponent(cboSize, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cboMauSac, 0, 241, Short.MAX_VALUE)))
                     .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel34, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(30, 30, 30))
-                            .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel34, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cboLOAISP, 0, 241, Short.MAX_VALUE)
-                            .addComponent(cboHANGSP, 0, 241, Short.MAX_VALUE)
-                            .addComponent(cboKhuyenMai, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cboHANGSP, 0, 241, Short.MAX_VALUE))))
                 .addGap(19, 19, 19))
         );
 
@@ -568,17 +548,9 @@ public class ViewSanPham extends javax.swing.JFrame {
                                     .addComponent(jLabel3)
                                     .addComponent(txtGiaNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtGiaBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cboKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(txtMoTa)
-                                .addContainerGap())))
+                        .addGap(22, 22, 22)
+                        .addComponent(txtMoTa)
+                        .addContainerGap())
                     .addGroup(jPanel14Layout.createSequentialGroup()
                         .addComponent(lblHinhAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(47, Short.MAX_VALUE))))
@@ -709,20 +681,20 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         tblSANPHAM.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã sản phẩm", "Tên sản phẩm", "Loại Sản Phẩm", "Giá Bán", "Giá Nhập", "Hình Ảnh", "Mô Tả", "Số Lượng", "Màu sắc", "Size", "Hãng", "Khuyến Mãi", "Trạng thái", "Select"
+                "STT", "Mã sản phẩm", "Tên sản phẩm", "Loại Sản Phẩm", "Giá Bán", "Giá Nhập", "Hình Ảnh", "Mô Tả", "Số Lượng", "Màu sắc", "Size", "Hãng", "Trạng thái", "Select"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -890,6 +862,11 @@ public class ViewSanPham extends javax.swing.JFrame {
         );
 
         btnTHEMTHUOCTINH.setText("Thêm");
+        btnTHEMTHUOCTINH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTHEMTHUOCTINHActionPerformed(evt);
+            }
+        });
 
         btnSUATHUOCTINH.setText("Sửa");
 
@@ -1051,8 +1028,11 @@ public class ViewSanPham extends javax.swing.JFrame {
 
     private void btnTHEMSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTHEMSPActionPerformed
         try {
-            ChiTietSanPham ctsp = getFORMINPUT();
-            if (service.addSanPham(ctsp) != null) {
+            System.out.println("Selected MauSac: " + cboMauSac.getSelectedItem());
+            System.out.println("Selected HangSX: " + cboHANGSP.getSelectedItem());
+            System.out.println("Selected SizeSP: " + cboSize.getSelectedItem());
+            SanPham sp = getFORMINPUT();
+            if (service.addSanPham(sp) != null) {
                 JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
                 LoadDataTableSP();
             } else {
@@ -1096,13 +1076,33 @@ public class ViewSanPham extends javax.swing.JFrame {
         try {
             ShowThuocTinh();
         } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Lỗi dữ liệu vui lòng kiểm tra");
+            JOptionPane.showMessageDialog(this, "Lỗi dữ liệu vui lòng kiểm tra");
         }
     }//GEN-LAST:event_tblThuocTinhMouseClicked
 
     private void rdoLOAISANPHAMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdoLOAISANPHAMMouseClicked
-       LoadDataTableLoaiSP();
+        LoadDataTableLoaiSP();
     }//GEN-LAST:event_rdoLOAISANPHAMMouseClicked
+
+    private void btnTHEMTHUOCTINHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTHEMTHUOCTINHActionPerformed
+        if (rdoMAUSAC.isSelected()) {
+            try {
+                MauSac mau = getFORMINPUTMAU();
+
+            } catch (Exception e) {
+
+            }
+
+        } else if (rdoSize.isSelected()) {
+            SizeSP size = getFORMINPUTSIZE();
+        } else if (rdoLOAISANPHAM.isSelected()) {
+            LoaiSanPham loai = getFORMINPUTLoaiSanPham();
+        } else if (rdoHANG.isSelected()) {
+            HangSX hang = getFORMINPUTHang();
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một loại thuộc tính.");
+        }
+    }//GEN-LAST:event_btnTHEMTHUOCTINHActionPerformed
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -1137,7 +1137,6 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JButton btnTRANGTHAI;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboHANGSP;
-    private javax.swing.JComboBox<String> cboKhuyenMai;
     private javax.swing.JComboBox<String> cboLOAISP;
     private javax.swing.JComboBox<String> cboMauSac;
     private javax.swing.JComboBox<String> cboSize;
@@ -1157,7 +1156,6 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;

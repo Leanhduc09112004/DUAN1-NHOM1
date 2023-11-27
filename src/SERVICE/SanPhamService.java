@@ -1,6 +1,5 @@
 package SERVICE;
 
-import MODEL.ChiTietSanPham;
 import MODEL.HangSX;
 import MODEL.KhuyenMai;
 import MODEL.LoaiSanPham;
@@ -15,59 +14,44 @@ import java.util.ArrayList;
 
 public class SanPhamService {
 
-    public ArrayList<ChiTietSanPham> getAll() {
-        ArrayList<ChiTietSanPham> list = new ArrayList<>();
+    public ArrayList<SanPham> getAll() {
+        ArrayList<SanPham> list = new ArrayList<>();
         try {
-            String sql = "SELECT B.MaSP, B.TenSP\n"
-                    + ", D.TenLoaiSanPham ,A.GiaBan\n"
-                    + ",A.GiaNhap,A.HinhAnh\n"
-                    + ",A.Soluong,F.Size\n"
-                    + ",C.TenMau,E.TenHangSanXuat\n"
-                    + ",A.Mota,G.TenKM,A.TrangThai \n"
-                    + "FROM ChiTietSanPham A JOIN SanPham B ON A.IdSP=B.IdSP \n"
-                    + "JOIN MauSac C ON C.IdMau=A.IdMau \n"
-                    + "JOIN LoaiSanPham D ON D.IdLoaiSanPham=A.IdLoaiSanPham\n"
-                    + "JOIN HangSanXuat E ON E.IdHang=A.IdHang \n"
-                    + "JOIN SizeSP F ON F.IdSize=A.IdSize \n"
-                    + "JOIN KhuyenMai G ON G.IdKM=A.IdKM";
+            String sql = "SELECT A.MaSP, A.TenSP, B.TenLoaiSanPham, A.GiaBan, A.GiaNhap, A.HinhAnh, A.Mota, A.Soluong,C.TenMau,D.TenHangSanXuat,E.Size,A.TrangThai FROM \n"
+                    + "SanPham A JOIN LoaiSanPham B ON A.IdLoaiSanPham=B.IdLoaiSanPham JOIN MauSac C ON A.IdMau=C.IdMau \n"
+                    + "JOIN HangSanXuat D ON A.IdHang=D.IdHang JOIN SizeSP E ON A.IdSize=E.IdSize";
             Connection cn = DBConnect.getConnection();
             PreparedStatement pst = cn.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                ChiTietSanPham ctsp = new ChiTietSanPham();
                 SanPham sp = new SanPham();
                 sp.setMaSP(rs.getString("MaSP"));
                 sp.setTenSP(rs.getString("TenSP"));
-                ctsp.setIdSP(sp);
 
                 LoaiSanPham lsp = new LoaiSanPham();
                 lsp.setTenLoaiSP(rs.getString("TenLoaiSanPham"));
-                ctsp.setIdLoaiSP(lsp);
+                sp.setIdLoaiSP(lsp);
 
-                ctsp.setGiaBan(rs.getDouble("GiaBan"));
-                ctsp.setGiaNhap(rs.getDouble("GiaNhap"));
-                ctsp.setHinhAnh(rs.getString("HinhAnh"));
-                ctsp.setMoTa(rs.getString("MoTa"));
-                ctsp.setSoluong(rs.getInt("SoLuong"));
+                sp.setGiaBan(rs.getDouble("GiaBan"));
+                sp.setGiaNhap(rs.getDouble("GiaNhap"));
+                sp.setHinhAnh(rs.getString("HinhAnh"));
+                sp.setMoTa(rs.getString("MoTa"));
+                sp.setSoluong(rs.getInt("SoLuong"));
 
                 MauSac mau = new MauSac();
                 mau.setMauSP(rs.getString("TenMau"));
-                ctsp.setIdMauSac(mau);
+                sp.setIdMauSac(mau);
 
                 SizeSP sz = new SizeSP();
                 sz.setSizeSP(rs.getString("Size"));
-                ctsp.setIdSize(sz);
+                sp.setIdSize(sz);
 
                 HangSX hsx = new HangSX();
                 hsx.setTenHangSX(rs.getString("TenHangSanXuat"));
-                ctsp.setIdHang(hsx);
+                sp.setIdHang(hsx);
 
-                KhuyenMai km = new KhuyenMai();
-                km.setTenKM(rs.getString("TenKM"));
-                ctsp.setIdKM(km);
-                
-                ctsp .setTrangThai(rs.getBoolean("TrangThai"));
-                list.add(ctsp);
+                sp.setTrangThai(rs.getBoolean("TrangThai"));
+                list.add(sp);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,73 +60,68 @@ public class SanPhamService {
         return list;
     }
 
-    public ArrayList<ChiTietSanPham> getList(String loaiSP) {
-        ArrayList<ChiTietSanPham> list = new ArrayList<>();
-        String sql = "SELECT B.MaSP, B.TenSP, A.GiaBan, S.Size, M.TenMau, H.TenHangSanXuat\n"
-                + "FROM ChiTietSanPham A JOIN SanPham B ON A.IdSP = B.IdSP\n"
-                + "JOIN HangSanXuat H ON A.IdHang = H.IdHang\n"
-                + "JOIN SizeSP S ON A.IdSize = S.IdSize\n"
-                + "JOIN LoaiSanPham L ON A.IdLoaiSanPham = L.IdLoaiSanPham\n"
-                + "JOIN MauSac M ON A.IdMau = M.IdMau\n"
-                + "WHERE L.TenLoaiSanPham LIKE ?";
-        try {
-            Connection cn = DBConnect.getConnection();
-            PreparedStatement ps = cn.prepareStatement(sql);
-            ps.setString(1, "%" + loaiSP + "%");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                SanPham sp = new SanPham();
-                sp.setMaSP(rs.getString(1));
-                sp.setTenSP(rs.getString(2));
-
-                MauSac mau = new MauSac();
-                mau.setMauSP(rs.getString(5));
-
-                SizeSP sz = new SizeSP();
-                sz.setSizeSP(rs.getString(4));
-
-                HangSX hsx = new HangSX();
-                hsx.setTenHangSX(rs.getString(6));
-
-//                KhuyenMai km = new KhuyenMai();
-//                km.setTenKM(rs.getString("TenKM"));
-                ChiTietSanPham ct = new ChiTietSanPham();
-                ct.setIdSP(sp);
-                ct.setGiaBan(rs.getDouble(3));
-                ct.setIdSize(sz);
-                ct.setIdMauSac(mau);
-                ct.setIdHang(hsx);
-                list.add(ct);
-            }
-        } catch (Exception e) {
-            System.out.println(e + "ff");
-        }
-        return list;
-    }
-
-    public Integer addSanPham(ChiTietSanPham chiTietSanPham) {
+    public Integer addSanPham(SanPham sp) {
         Integer row = null;
         try {
-            String sql = "INSERT INTO ChiTietSanPham (IdSP, IdLoaiSanPham, GiaBan, GiaNhap, HinhAnh, Mota, Soluong, IdMau, IdHang, IdSize, IdKM, TrangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            int idLoaiSP = sp.getIdLoaiSP().getIdLoaiSP();
+            int idMau = sp.getIdMauSac().getIdMauSP();
+            int idSize = sp.getIdSize().getIdSizeSP();
+            int idHang = sp.getIdHang().getIdHangSX();
+
+            System.out.println("idLoaiSP: " + idLoaiSP);
+            System.out.println("idMau: " + idMau);
+            System.out.println("idSize: " + idSize);
+            System.out.println("idHang: " + idHang);
+
+            String sql = "INSERT INTO SanPham (MaSP, TenSP, IdLoaiSanPham, GiaBan, GiaNhap, HinhAnh, Mota, Soluong, IdMau, IdHang, IdSize, TrangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             Connection cn = DBConnect.getConnection();
             PreparedStatement pst = cn.prepareStatement(sql);
-            pst.setInt(1, chiTietSanPham.getIdSP().getIdSP());
-            pst.setInt(2, chiTietSanPham.getIdLoaiSP().getIdLoaiSP());
-            pst.setDouble(3, chiTietSanPham.getGiaBan());
-            pst.setDouble(4, chiTietSanPham.getGiaNhap());
-            pst.setString(5, chiTietSanPham.getHinhAnh());
-            pst.setString(6, chiTietSanPham.getMoTa());
-            pst.setInt(7, chiTietSanPham.getSoluong());
-            pst.setInt(8, chiTietSanPham.getIdMauSac().getIdMauSP());
-            pst.setInt(9, chiTietSanPham.getIdHang().getIdHangSX());
-            pst.setInt(10, chiTietSanPham.getIdSize().getIdSizeSP());
-            pst.setInt(11, chiTietSanPham.getIdKM().getIdKM());
-            pst.setBoolean(12, chiTietSanPham.isTrangThai());
-            row=pst.executeUpdate();
+            pst.setString(1, sp.getMaSP());
+            pst.setString(2, sp.getTenSP());
+            pst.setInt(3, sp.getIdLoaiSP().getIdLoaiSP());
+            pst.setDouble(4, sp.getGiaBan());
+            pst.setDouble(5, sp.getGiaNhap());
+            pst.setString(6, sp.getHinhAnh());
+            pst.setString(7, sp.getMoTa());
+            pst.setInt(8, sp.getSoluong());
+            pst.setInt(9, sp.getIdMauSac().getIdMauSP());
+            pst.setInt(10, sp.getIdHang().getIdHangSX());
+            pst.setInt(11, sp.getIdSize().getIdSizeSP());
+            pst.setBoolean(12, sp.isTrangThai());
+
+            row = pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error: " + e.getMessage());
         }
         return row;
     }
+
+    public Integer updateSanPham(SanPham sp) {
+        Integer row = null;
+        try {
+            String sql = "UPDATE SanPham SET IdLoaiSanPham = ?, GiaBan = ?, GiaNhap = ?, HinhAnh = ?, Mota = ?, Soluong = ?, IdMau = ?, IdHang = ?, IdSize = ?, IdKM = ?, TrangThai = ? WHERE MaSP = ?";
+            Connection cn = DBConnect.getConnection();
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setInt(1, sp.getIdLoaiSP().getIdLoaiSP());
+            pst.setDouble(2, sp.getGiaBan());
+            pst.setDouble(3, sp.getGiaNhap());
+            pst.setString(4, sp.getHinhAnh());
+            pst.setString(5, sp.getMoTa());
+            pst.setInt(6, sp.getSoluong());
+            pst.setInt(7, sp.getIdMauSac().getIdMauSP());
+            pst.setInt(8, sp.getIdHang().getIdHangSX());
+            pst.setInt(9, sp.getIdSize().getIdSizeSP());
+            pst.setInt(10, sp.getIdKM().getIdKM());
+            pst.setBoolean(11, sp.isTrangThai());
+            pst.setString(12, sp.getMaSP());
+
+            row = pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
+        }
+        return row;
+    }
+
 }

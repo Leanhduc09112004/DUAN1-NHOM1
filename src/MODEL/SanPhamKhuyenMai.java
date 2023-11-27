@@ -4,8 +4,8 @@ public class SanPhamKhuyenMai {
 
     private String maSP;
     private String tenSP;
-    private ChiTietSanPham giaBan;
-    private ChiTietSanPham giaNhap;
+    private SanPham giaBan;
+    private SanPham giaNhap;
     private MauSac mau;
     private HangSX hang;
     private SizeSP size;
@@ -14,7 +14,7 @@ public class SanPhamKhuyenMai {
     public SanPhamKhuyenMai() {
     }
 
-    public SanPhamKhuyenMai(String maSP, String tenSP, ChiTietSanPham giaBan, ChiTietSanPham giaNhap, MauSac mau, HangSX hang, SizeSP size, KhuyenMai maKM) {
+    public SanPhamKhuyenMai(String maSP, String tenSP, SanPham giaBan, SanPham giaNhap, MauSac mau, HangSX hang, SizeSP size, KhuyenMai maKM) {
         this.maSP = maSP;
         this.tenSP = tenSP;
         this.giaBan = giaBan;
@@ -41,19 +41,19 @@ public class SanPhamKhuyenMai {
         this.tenSP = tenSP;
     }
 
-    public ChiTietSanPham getGiaBan() {
+    public SanPham getGiaBan() {
         return giaBan;
     }
 
-    public void setGiaBan(ChiTietSanPham giaBan) {
+    public void setGiaBan(SanPham giaBan) {
         this.giaBan = giaBan;
     }
 
-    public ChiTietSanPham getGiaNhap() {
+    public SanPham getGiaNhap() {
         return giaNhap;
     }
 
-    public void setGiaNhap(ChiTietSanPham giaNhap) {
+    public void setGiaNhap(SanPham giaNhap) {
         this.giaNhap = giaNhap;
     }
 

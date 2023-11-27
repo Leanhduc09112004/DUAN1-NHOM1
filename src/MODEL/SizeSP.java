@@ -4,6 +4,11 @@ public class SizeSP {
     private String MaSizeSP;
     private String SizeSP;
 
+    public SizeSP(int IdSizeSP) {
+        this.IdSizeSP = IdSizeSP;
+    }
+
+    
     public SizeSP() {
     }
 

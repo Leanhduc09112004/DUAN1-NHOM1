@@ -24,44 +24,30 @@ MaMau nvarchar(50),
 TenMau nvarchar(100)
 )
 GO
---THUONG HIEU--
+--HANG SAN XUAT-
 CREATE TABLE HangSanXuat(
 IdHang INT IDENTITY PRIMARY KEY,
 MaHangSanXuat nvarchar(50),
 TenHangSanXuat nvarchar(100)
 )
 GO
+--SIZESP
 CREATE TABLE SizeSP(
 IdSize INT IDENTITY PRIMARY KEY,
 MaSize nvarchar(50),
 Size nvarchar(100)
 )
+--LOAI SAN PHAM
 CREATE TABLE LoaiSanPham(
 IdLoaiSanPham INT IDENTITY PRIMARY KEY,
 MaLoaiSanPham nvarchar(50),
 TenLoaiSanPham nvarchar(100)
 )
-CREATE TABLE KhuyenMai(
-IdKM INT IDENTITY PRIMARY KEY,
-MaKM nvarchar(50),
-TenKM nvarchar(100),
-NgayBatDau date,
-NgayKetThuc date,
-DieuKien nvarchar(max),
-TienGiam float,
-TrangThai bit,
-IdSP INT,
-IdLoaiSP INT
-)
+--SAN PHAM
 CREATE TABLE SanPham(
 IdSP INT IDENTITY PRIMARY KEY,
 MaSP nvarchar(50),
 TenSP nvarchar(100),
-)
---SAN PHAM--
-CREATE TABLE ChiTietSanPham(
-IdCTSP INT IDENTITY PRIMARY KEY,
-IdSP INT,
 IdLoaiSanPham INT,
 GiaBan float,
 GiaNhap float,
@@ -71,8 +57,21 @@ Soluong INT,
 IdMau INT ,
 IdHang INT,
 IdSize INT,
-IdKM INT,
 TrangThai bit
+)
+--GIO HANG
+CREATE TABLE GioHang(
+IdGioHang INT IDENTITY PRIMARY KEY,
+MaGioHang nvarchar(50),
+IdNV INT,
+)
+--GIO HANG CHI TIET
+CREATE TABLE GioHangChiTiet(
+IdGioHangChiTiet INT IDENTITY PRIMARY KEY,
+MaGioHangChiTiet nvarchar(50),
+IdGioHang INT,
+IdSP INT,
+SoLuong INT,
 )
 --KHACH HANG--
 CREATE TABLE KhachHang(
@@ -84,6 +83,18 @@ Sdt varchar(12),
 GioiTinh bit,
 NgaySinh date,
 DiaChi nvarchar(50),
+)
+--KHUYEN MAI
+CREATE TABLE KhuyenMai(
+IdKM INT IDENTITY PRIMARY KEY,
+MaKM nvarchar(50),
+TenKM nvarchar(100),
+NgayBatDau DATE,
+NgayKetThuc DATE,
+DieuKien nvarchar(max),
+GhiChu nvarchar(50),
+TienGiam FLOAT,
+TrangThai bit
 )
 --HOA DON--
 CREATE TABLE HoaDon(
@@ -97,6 +108,7 @@ TienDua float,
 TienThua float,
 TrangThai bit,
 IdNV INT,
+IdKM INT,
 GhiChu nvarchar(50),
 IdKH INT
 )
@@ -104,58 +116,58 @@ GO
 --HOA DON CHI TIET--
 CREATE TABLE HoaDonChiTiet(
 IdHDCT INT IDENTITY PRIMARY KEY,
-IdCTSP INT,
+IdSP INT,
 IdHD INT,
 SoLuong int,
 DonGia float,
 )
-ALTER TABLE ChiTietSanPham
+ALTER TABLE SanPham
 ADD CONSTRAINT FK_SanPhamCT_MauSac
 FOREIGN KEY (IdMau) REFERENCES MauSac(IdMau);
 
-ALTER TABLE KhuyenMai
-ADD CONSTRAINT FK_SanPhamKhuyenMai
-FOREIGN KEY (IdSP) REFERENCES SanPham(IdSP);
-
-ALTER TABLE KhuyenMai
-ADD CONSTRAINT FK_SanPham_LoaiSP
-FOREIGN KEY (IdLoaiSP) REFERENCES LoaiSanPham(IdLoaiSanPham);
-
-ALTER TABLE ChiTietSanPham
+ALTER TABLE SanPham
 ADD CONSTRAINT FK_SanPhamCT_HangSanXuat
 FOREIGN KEY (IdHang) REFERENCES HangSanXuat(IdHang);
 
-ALTER TABLE ChiTietSanPham
+ALTER TABLE SanPham
 ADD CONSTRAINT FK_SanPhamCT_SizeSP
 FOREIGN KEY (IdSize) REFERENCES SizeSP(IdSize);
 
-ALTER TABLE ChiTietSanPham
-ADD CONSTRAINT FK_SanPhamCT_KhuyenMai
-FOREIGN KEY (IdKM) REFERENCES KhuyenMai(IdKM);
+ALTER TABLE SanPham
+ADD CONSTRAINT FK_SanPham_LoaiSanPham
+FOREIGN KEY (IdLoaiSanPham) REFERENCES LoaiSanPham(IdLoaiSanPham);
+
+ALTER TABLE GioHang
+ADD CONSTRAINT FK_GioHang_NhanVien
+FOREIGN KEY (IdNV) REFERENCES NhanVien(IdNV);
+
+ALTER TABLE GioHangChiTiet
+ADD CONSTRAINT FK_GioHangChiTiet_GioHang
+FOREIGN KEY (IdGioHang) REFERENCES GioHang(IdGioHang);
+
+ALTER TABLE GioHangChiTiet
+ADD CONSTRAINT FK_GioHangChiTiet_SanPham
+FOREIGN KEY (IdSP) REFERENCES SanPham(IdSP);
 
 ALTER TABLE HoaDon
 ADD CONSTRAINT FK_HoaDon_NhanVien
 FOREIGN KEY (IdNV) REFERENCES NhanVien(IdNV);
 
-ALTER TABLE HoaDonChiTiet
-ADD CONSTRAINT FK_HoaDon_HoaDonCT
-FOREIGN KEY (IdHD) REFERENCES HoaDon(IdHD);
+ALTER TABLE HoaDon
+ADD CONSTRAINT FK_HoaDon_KhuyenMai
+FOREIGN KEY (IdKM) REFERENCES KhuyenMai(IdKM);
 
 ALTER TABLE HoaDon
 ADD CONSTRAINT FK_HoaDon_KhachHang
 FOREIGN KEY (IdKH) REFERENCES KhachHang(IdKH);
 
 ALTER TABLE HoaDonChiTiet
-ADD CONSTRAINT FK_SanPham_HoaDonCT
-FOREIGN KEY (IdCTSP) REFERENCES ChiTietSanPham(IdCTSP);
-
-ALTER TABLE ChiTietSanPham
-ADD CONSTRAINT FK_SanPham_LoaiSanPham
-FOREIGN KEY (IdLoaiSanPham) REFERENCES LoaiSanPham(IdLoaiSanPham);
-
-ALTER TABLE ChiTietSanPham
-ADD CONSTRAINT FK_CTSanPham_SanPham
+ADD CONSTRAINT FK_HoaDonChiTiet_SanPham
 FOREIGN KEY (IdSP) REFERENCES SanPham(IdSP);
+
+ALTER TABLE HoaDonChiTiet
+ADD CONSTRAINT FK_HoaDonChiTiet_HoaDon
+FOREIGN KEY (IdHD) REFERENCES HoaDon(IdHD);
 
  INSERT INTO NhanVien (MaNV, HoTen, GioiTinh, Sdt, NgaySinh, DiaChi, Email, ChucVu, TrangThai, MatKhau)
 VALUES ('NV001', N'Lê Đức Anh', 1, '0123456789', '2000-01-01', N'Hà Nội', N'nv1@example.com', 1, 1, '123456'),
@@ -205,35 +217,6 @@ VALUES ('LSP001', N'Giày chạy bộ'),
        ('LSP002', N'Giày thời trang'),
        ('LSP003', N'Giày bóng rổ'),
        ('LSP004', N'Giày bóng đá')
-SELECT * FROM LoaiSanPham
-
-INSERT INTO SanPham (MaSP, TenSP)
-VALUES ('SP001', N'Adidas Ultraboost'),
-       ('SP002', N'Converse Chucktaylo 1970'),
-       ('SP003', 'Adidas Forum'),
-       ('SP004', 'Nike AirForce 1'),
-       ('SP005', 'Nike ReactFly');
-SELECT*FROM SanPham
-
-INSERT INTO KhuyenMai (MaKM, TenKM, NgayBatDau, NgayKetThuc, DieuKien, TienGiam, TrangThai, IdSP, IdLoaiSP)
-VALUES ('KM001', N'Khuyến mãi 1', '2023-10-10', '2023-12-12', N'Áp dụng cho đơn hàng trên 1 triệu đồng', 150000, 1, 1,1),
-       ('KM002', N'Khuyến mãi 2', '2023-09-01', '2023-12-29', N'Áp dụng cho tất cả đơn hàng', 50000, 1, 2,2),
-       ('KM003', N'Khuyến mãi 3', '2023-08-01', '2023-12-28', N'Áp dụng cho đơn hàng trên 500 nghìn đồng', 60000, 1, 3, 3),
-       ('KM004', N'Khuyến mãi 4', '2023-07-01', '2024-01-30', N'Áp dụng cho đơn hàng trên 2 triệu đồng', 250000, 1, 4, 4),
-       ('KM005', N'Khuyến mãi 5', '2023-05-01', '2024-01-01', N'Áp dụng cho đơn hàng trên 5 triệu đồng', 300000, 1, 5,3),
-	   ('KM006', N'Khuyến mãi 6', '2023-06-01', '2023-10-10', N'Áp dụng cho đơn hàng trên 1 triệu đồng', 300000, 0, 1,1),
-	   ('KM007', N'Khuyến mãi 7', '2023-07-01', '2023-09-12', N'Áp dụng cho đơn hàng trên 2 triệu đồng', 300000, 0, 5,2);
-
-	   SELECT *FROM KhuyenMai
-
-INSERT INTO ChiTietSanPham (IdSP, IdLoaiSanPham, GiaBan, GiaNhap, HinhAnh, Mota, Soluong,IdMau, IdHang, IdSize, IdKM, TrangThai)
-VALUES (1, 1, 2000000, 1500000, 'adidasultra.jpg', N'Giày chạy bộ Adidas', 10, 1, 1, 1, 1,1),
-               (2, 2, 3000000, 2500000, 'converse.jpg', N'Giày thời trang Converse', 15, 2, 2, 2, 2,1),
-               (3, 2, 1500000, 1000000, 'adidasforum.jpg', N'Giày thời trang Adidas', 8, 3, 3, 3, 3,1),
-               (4, 2, 3000000, 2000000, 'nikeair.jpg', N'Giày thời trang Nike', 20, 4, 4, 4, 4,1),
-             (5, 1, 3500000, 3000000, 'nikereact.jpg', N'Giày chạy bộ Nike', 15, 5, 5, 5, 5,1);
-
-SELECT *FROM ChiTietSanPham
 
 INSERT INTO KhachHang (MaKH, HoTen, Email, Sdt, GioiTinh, NgaySinh, DiaChi)
 VALUES ('KH001', N'Nguyễn Văn An', 'nva@example.com', '0123456789', 1, '1995-01-01', N'Hà Nội'),
@@ -241,19 +224,61 @@ VALUES ('KH001', N'Nguyễn Văn An', 'nva@example.com', '0123456789', 1, '1995-
        ('KH003', N'Phan Văn Khánh', 'pvk@example.com', '0369852147', 1, '1997-03-03', N'Đà Nẵng'),
        ('KH004', N'Hoàng Thị Lan', 'htl4@example.com', '0358746921', 0, '1998-04-04', N'Cần Thơ'),
        ('KH005', N'Lê Văn Nam', 'lvn@example.com', '0936284715', 1, '1999-05-05', N'Quảng Ninh');
+SELECT * FROM KhachHang
 
-	   SELECT * FROM KhachHang 
-INSERT INTO HoaDon (MaHD, NgayTao, NgayThanhToan, TongTien, TienGiam, TienDua, TienThua, TrangThai, IdNV, GhiChu, IdKH)
-VALUES ('HD001', '2023-01-01', '2023-01-03', 2000000, 150000, 2000000,1850000, 1, 1, '', 1),
-       ('HD002', '2023-02-01', '2023-02-02', 3000000, 50000, 3000000, 2950000, 1, 1, '', 2),
-       ('HD003', '2023-03-01', '2023-03-15', 1500000, 60000, 1500000, 1440000, 1, 2, '', 3),
-       ('HD004', '2023-04-01', '2023-04-03', 6000000, 250000, 6000000, 5750000, 1, 2, '', 4);
+INSERT INTO SanPham (MaSP, TenSP, IdLoaiSanPham, GiaBan, GiaNhap, HinhAnh, Mota, Soluong, IdMau, IdHang, IdSize, TrangThai)
+VALUES ('SP001', N'Giày Adidas UltraBoost', 1, 2000000, 1500000, 'adidasultra.jpg', N'Giày chạy bộ Adidas', 10, 1, 1, 1,1),
+               ('SP002', N'Giày Converse ChuckTayLor 1970', 2, 3000000, 2500000, 'converse.jpg', N'Giày thời trang Converse', 15, 2, 2, 2,1),
+               ('SP003', N'Giày Adidas Forum', 2, 1500000, 1000000, 'adidasforum.jpg', N'Giày thời trang Adidas', 8, 3, 3, 3,1),
+               ('SP004', N'Giày Nike React', 1, 3000000, 2000000, 'nikeair.jpg', N'Giày thời trang Nike', 20, 4, 4, 4,1),
+             ('SP005', N'Giày Nike Zoom', 1, 3500000, 3000000, 'nikereact.jpg', N'Giày chạy bộ Nike', 15, 5, 5, 5,1);
 
-INSERT INTO HoaDonChiTiet (IdCTSP, IdHD, SoLuong, DonGia)
-VALUES 
-    (1, 1, 1, 2000000),
-    (2, 2, 1, 3000000),
-    (3, 3, 1, 1500000), 
-    (4, 4, 2, 6000000); 
+SELECT A.MaSP, A.TenSP, B.TenLoaiSanPham, A.GiaBan, A.GiaNhap, A.HinhAnh, A.Mota, A.Soluong,C.TenMau,D.TenHangSanXuat,E.Size,A.TrangThai FROM 
+SanPham A JOIN LoaiSanPham B ON A.IdLoaiSanPham=B.IdLoaiSanPham JOIN MauSac C ON A.IdMau=C.IdMau 
+JOIN HangSanXuat D ON A.IdHang=D.IdHang JOIN SizeSP E ON A.IdSize=E.IdSize
 
+INSERT INTO GioHang (MaGioHang, IdNV)
+VALUES ('GH001', 1),
+       ('GH002', 2),
+       ('GH003', 3),
+       ('GH004', 4),
+       ('GH005', 5);
 
+SELECT * FROM GioHang;
+
+-- Insert into GioHangChiTiet
+INSERT INTO GioHangChiTiet (MaGioHangChiTiet, IdGioHang, IdSP, SoLuong)
+VALUES ('GHCT001', 1, 1, 2),
+       ('GHCT002', 1, 2, 1),
+       ('GHCT003', 2, 3, 3),
+       ('GHCT004', 3, 4, 1),
+       ('GHCT005', 4, 5, 2);
+
+SELECT * FROM GioHangChiTiet;
+
+-- Insert into KhuyenMai
+INSERT INTO KhuyenMai (MaKM, TenKM, NgayBatDau, NgayKetThuc, DieuKien, GhiChu, TienGiam, TrangThai)
+VALUES ('KM001', N'Khuyến mãi hóa đơn 1tr', '2023-11-26', '2023-12-26', N'Giảm 70 nghìn cho hóa đơn trên 1 triệu', N'', 70000, 1),
+       ('KM002', N'Khuyến mãi hóa đơn 2tr', '2023-11-26', '2023-12-26', N'Giảm 150 nghìn cho đơn hàng trên 2 triệu', N'', 150000, 1),
+       ('KM003', N'Khuyến mãi mau hàng lần đầu', '2023-11-26', '2023-12-26', N'Giảm 50 nghìn cho hóa đơn mua hàng lần đầu', N'', 50000, 1),
+       ('KM004', N'Khuyến mãi hóa đơn 3tr', '2023-11-26', '2023-12-26', N'Giảm 200000 cho đơn hàng trên 3 triệu', N'', 200000, 1);
+
+SELECT * FROM KhuyenMai;
+
+-- Insert into HoaDon
+INSERT INTO HoaDon (MaHD, NgayTao, NgayThanhToan, TongTien, TienGiam, TienDua, TienThua, TrangThai, IdNV, IdKM, GhiChu, IdKH)
+VALUES	('HD001', '2023-11-26', '2023-11-27', 5000000, 70000, 5000000, 0, 1, 1, 1, N'Đơn hàng số 1', 1),
+				('HD002', '2023-11-27', '2023-11-28', 4500000, 150000, 4500000, 0, 1, 2, 2, N'Đơn hàng số 2', 2),
+				('HD003', '2023-11-28', '2023-11-29', 3000000, 50000, 3000000, 0, 2, 3, 3, N'Đơn hàng số 3', 3),
+				('HD004', '2023-11-29', '2023-11-30', 3500000, 200000, 3500000, 0, 2, 4, 1, N'Đơn hàng số 4', 4);
+SELECT * FROM HoaDon;
+
+-- Insert into HoaDonChiTiet
+INSERT INTO HoaDonChiTiet (IdSP, IdHD, SoLuong, DonGia)
+VALUES (1, 1, 2, 2000000),
+       (2, 1, 1, 3000000),
+       (3, 2, 3, 1500000),
+       (4, 3, 1, 3000000),
+       (5, 4, 1, 3500000);
+
+SELECT * FROM HoaDonChiTiet;

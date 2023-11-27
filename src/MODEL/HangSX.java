@@ -4,6 +4,11 @@ public class HangSX {
     private String MaHangSX;
     private String TenHangSX;
 
+    public HangSX(int IdHangSX) {
+        this.IdHangSX = IdHangSX;
+    }
+
+    
     public HangSX() {
     }
 

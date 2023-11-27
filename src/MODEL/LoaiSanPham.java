@@ -4,6 +4,11 @@ public class LoaiSanPham {
     private String MaLoaiSP;
     private  String TenLoaiSP;
 
+    public LoaiSanPham(int IdLoaiSP) {
+        this.IdLoaiSP = IdLoaiSP;
+    }
+
+    
     public LoaiSanPham() {
     }
 

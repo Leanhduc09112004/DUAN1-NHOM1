@@ -1,6 +1,4 @@
 package VIEW;
-
-import MODEL.ChiTietSanPham;
 import MODEL.KhuyenMai;
 import MODEL.LoaiSanPham;
 import MODEL.SanPham;
@@ -21,7 +19,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     LoaiSanPhamService serviceLoaiSP = new LoaiSanPhamService();
 
     DefaultTableModel modelSP = new DefaultTableModel();
-    ArrayList<ChiTietSanPham> listSPKM;
+    ArrayList<SanPham> listSPKM;
     SanPhamService servicespKM = new SanPhamService();
 
     DefaultTableModel modelKM = new DefaultTableModel();
@@ -32,12 +30,12 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         fillCboLoaiSP();
-
-        modelSP = (DefaultTableModel) tblSP.getModel();
-        String loai = (String) cboApdungLoaiSP.getSelectedItem();
-        if (loai.equalsIgnoreCase("Tất cả")) {
-            fillSP("");
-        }
+//
+//        modelSP = (DefaultTableModel) tblSP.getModel();
+//        String loai = (String) cboApdungLoaiSP.getSelectedItem();
+//        if (loai.equalsIgnoreCase("Tất cả")) {
+//            fillSP("");
+//        }
 
         modelKM = (DefaultTableModel) tblDanhSachKM.getModel();
         fillKM();
@@ -53,17 +51,17 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         }
     }
 
-    void fillSP(String loai) {
-        listSPKM = servicespKM.getList(loai);
-        modelSP.setRowCount(0);
-        int i = 1;
-        for (ChiTietSanPham x : listSPKM) {
-            modelSP.addRow(new Object[]{
-                i++, x.getIdSP().getMaSP(), x.getIdSP().getTenSP(), x.getGiaBan(), x.getIdSize(),
-                x.getIdMauSac(), x.getIdHang()
-            });
-        }
-    }
+//    void fillSP(String loai) {
+//        listSPKM = servicespKM.getList(loai);
+//        modelSP.setRowCount(0);
+//        int i = 1;
+//        for (ChiTietSanPham x : listSPKM) {
+//            modelSP.addRow(new Object[]{
+//                i++, x.getIdSP().getMaSP(), x.getIdSP().getTenSP(), x.getGiaBan(), x.getIdSize(),
+//                x.getIdMauSac(), x.getIdHang()
+//            });
+//        }
+//    }
 
     void fillKM() {
         listKM = serviceKM.getAll("", "");
@@ -567,7 +565,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
     private void cboApdungLoaiSPItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboApdungLoaiSPItemStateChanged
         // TODO add your handling code here:
-        fillSP((String) cboApdungLoaiSP.getSelectedItem());
+//        fillSP((String) cboApdungLoaiSP.getSelectedItem());
 
     }//GEN-LAST:event_cboApdungLoaiSPItemStateChanged
 

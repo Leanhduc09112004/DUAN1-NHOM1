@@ -1,6 +1,6 @@
 package VIEW;
 
-import MODEL.ChiTietSanPham;
+import MODEL.SanPham;
 import SERVICE.SanPhamService;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -11,24 +11,7 @@ public class ViewThongKe extends javax.swing.JFrame {
 
     public ViewThongKe() {
         initComponents();
-        dtm = (DefaultTableModel)tbl_sp.getModel();
-        showData(service.getAll());
-    }
-
-    //van showData
-    void showData(ArrayList<ChiTietSanPham> list) {
-        dtm.setRowCount(0);
-        for (ChiTietSanPham ctsp : list) {
-            dtm.addRow(new Object[]{
-                ctsp.getIdSP().getMaSP(),
-                ctsp.getIdSP().getTenSP(),
-                ctsp.getIdMauSac().getMauSP(),
-                ctsp.getIdSize().getSizeSP(),
-                ctsp.getIdHang().getTenHangSX(),
-                ctsp.getIdSP().isTrangThai() ? "Còn hàng" : "Hết hàng"
-            });
-
-        }
+        setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
