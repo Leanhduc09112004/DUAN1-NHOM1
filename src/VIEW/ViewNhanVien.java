@@ -20,6 +20,14 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 public class ViewNhanVien extends javax.swing.JFrame {
 
@@ -630,6 +638,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
             if (service.addNhanVien(nv) != null) {
                 JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công");
                 LoadDataTableNhanVien();
+//                sendEmail(nv, "Thành công");
             } else {
                 JOptionPane.showMessageDialog(this, "Thêm thất bại do lỗi dữ liệu");
             }
@@ -638,6 +647,33 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnThemActionPerformed
 
+    private void sendEmail(NhanVien nv, String trangThai) {
+        final String username = "anhldph44493@fpt.edu.vn";
+        final String password = "09112004le";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+        try {
+            String recipientEmail = nv.getEmail();
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+            message.setSubject("Thông báo nhân viên mới");
+            message.setText("Thông tin nhân viên mới:\nMã nhân viên: " + nv.getMaNV() + "\nMật khẩu: " + nv.getMatKhau() + "\nTrạng thái: " + trangThai);
+            Transport.send(message);
+            JOptionPane.showMessageDialog(this, "Đã gửi email thành công");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private void btnTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrangThaiActionPerformed
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
         List<Integer> selectedRows = new ArrayList<>();
@@ -738,6 +774,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
             if (service.updateNhanVien(nv) != null) {
                 JOptionPane.showMessageDialog(this, "Sửa dữ liệu nhân viên thành công");
                 LoadDataTableNhanVien();
+//                sendUpdateEmail(nv, "Thành công");
             } else {
                 JOptionPane.showMessageDialog(this, "Sửa dữ liệu thất bại vui lòng kiểm tra lại");
             }
@@ -746,6 +783,35 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSuaActionPerformed
 
+    private void sendUpdateEmail(NhanVien nv, String trangThai) {
+        final String username = "anhldph44493@fpt.edu.vn";
+        final String password = "09112004le";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            String recipientEmail = nv.getEmail();
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+            message.setSubject("Thông báo sửa đổi thông tin nhân viên");
+            message.setText("Thông tin nhân viên đã được sửa đổi:\nMã nhân viên: " + nv.getMaNV() + "\nMật khẩu: " + nv.getMatKhau() + "\nTrạng thái: " + trangThai);
+            Transport.send(message);
+
+            JOptionPane.showMessageDialog(this,"Đã gửi email thông báo sửa đổi thành công");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
         txtMaNV.setText("");
         txtTenNV.setText("");
