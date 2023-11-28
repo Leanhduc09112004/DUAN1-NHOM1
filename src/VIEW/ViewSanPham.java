@@ -46,7 +46,6 @@ public class ViewSanPham extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         tblmodel = (DefaultTableModel) tblSANPHAM.getModel();
         tblmodel2 = (DefaultTableModel) tblThuocTinh.getModel();
-        rdoLOAISANPHAM.setSelected(true);
         cboTRANGTHAI.removeAllItems();
         cboTRANGTHAI.addItem("Tất cả");
         cboTRANGTHAI.addItem("Còn hàng");
@@ -65,6 +64,9 @@ public class ViewSanPham extends javax.swing.JFrame {
         LoadDataTableLoaiSP();
         LoadDataTableSP();
         ShowThuocTinh();
+        if (tblSANPHAM.getRowCount() > 0) {
+            tblSANPHAM.setRowSelectionInterval(0, 0);
+        }
         ShowSanPham();
     }
 
@@ -674,6 +676,7 @@ public class ViewSanPham extends javax.swing.JFrame {
         jPanel16.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách sản phẩm"));
 
         jPanel17.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel35.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel35.setText("Trạng thái");
@@ -691,11 +694,11 @@ public class ViewSanPham extends javax.swing.JFrame {
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel17Layout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cboTRANGTHAI, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(17, 17, 17)
+                .addComponent(jLabel35)
+                .addGap(18, 18, 18)
+                .addComponent(cboTRANGTHAI, 0, 115, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -708,8 +711,15 @@ public class ViewSanPham extends javax.swing.JFrame {
         );
 
         jPanel18.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel36.setText("Tìm kiếm: ");
+
+        txtTIMKIEM.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTIMKIEMKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
@@ -779,17 +789,22 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane6))
         );
+
+        jPanel16Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel17, jPanel18});
+
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, 44, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel16Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jPanel17, jPanel18});
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -1487,7 +1502,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 }
                 ArrayList<SanPham> ketQuaTimKiem = service.timKiemTrangThai(trangThai);
                 tblmodel.setRowCount(0);
-                int i = 0;
+                int i = 1;
                 for (SanPham sp : ketQuaTimKiem) {
                     tblmodel.addRow(new Object[]{i++, sp.getMaSP(),
                         sp.getTenSP(),
@@ -1502,6 +1517,30 @@ public class ViewSanPham extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_cboTRANGTHAIActionPerformed
+
+    private void txtTIMKIEMKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTIMKIEMKeyTyped
+        String tuKhoa = txtTIMKIEM.getText().trim();
+        ArrayList<SanPham> ketQuaTimKiem;
+        if (tuKhoa.isEmpty()) {
+            LoadDataTableSP();
+        } else {
+            SanPhamService service = new SanPhamService();
+            ketQuaTimKiem = service.timKiemSanPham(tuKhoa);
+            tblmodel.setRowCount(0);
+            int i = 1;
+            for (SanPham sp : ketQuaTimKiem) {
+                tblmodel.addRow(new Object[]{i++, sp.getMaSP(),
+                    sp.getTenSP(),
+                    sp.getIdLoaiSP().getTenLoaiSP(),
+                    sp.getGiaBan(), sp.getGiaNhap(),
+                    sp.getHinhAnh(), sp.getMoTa(),
+                    sp.getSoluong(), sp.getIdMauSac().getMauSP(),
+                    sp.getIdSize().getSizeSP(),
+                    sp.getIdHang().getTenHangSX(),
+                    sp.isTrangThai() ? "Còn hàng" : "Hết hàng"});
+            }
+        }
+    }//GEN-LAST:event_txtTIMKIEMKeyTyped
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

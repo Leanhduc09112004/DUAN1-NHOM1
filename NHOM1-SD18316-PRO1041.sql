@@ -267,11 +267,14 @@ SELECT * FROM KhuyenMai;
 
 -- Insert into HoaDon
 INSERT INTO HoaDon (MaHD, NgayTao, NgayThanhToan, TongTien, TienGiam, TienDua, TienThua, TrangThai, IdNV, IdKM, GhiChu, IdKH)
-VALUES	('HD001', '2023-11-26', '2023-11-27', 5000000, 70000, 5000000, 0, 1, 1, 1, N'Đơn hàng số 1', 1),
-				('HD002', '2023-11-27', '2023-11-28', 4500000, 150000, 4500000, 0, 1, 2, 2, N'Đơn hàng số 2', 2),
-				('HD003', '2023-11-28', '2023-11-29', 3000000, 50000, 3000000, 0, 2, 3, 3, N'Đơn hàng số 3', 3),
-				('HD004', '2023-11-29', '2023-11-30', 3500000, 200000, 3500000, 0, 2, 4, 1, N'Đơn hàng số 4', 4);
-SELECT * FROM HoaDon;
+VALUES			('HD001', '2023-11-26', '2023-11-27', 7000000, 70000, 7000000, 70000, 1, 1, 1, N'Đơn hàng số 1', 1 ),
+				('HD002', '2023-11-27', '2023-11-28', 4500000, 150000, 4350000, 0, 1, 2, 2, N'Đơn hàng số 2', 2),
+				('HD003', '2023-11-28', '2023-11-29', 3000000, 50000, 3000000, 50000, 2, 3, 3, N'Đơn hàng số 3', 3),
+				('HD004', '2023-11-29', '2023-11-30', 3500000, 200000, 3300000, 0, 2, 4, 1, N'Đơn hàng số 4', 4);
+
+INSERT INTO HoaDon (MaHD, NgayTao, NgayThanhToan, TongTien, TienGiam, TienDua, TienThua, TrangThai, IdNV, IdKM, GhiChu, IdKH)
+VALUES			('HD0010', '2023-11-26', '2023-11-27', 3000000, 0, 3000000, 0, 1, 1, 1, N'Đơn hàng số 10', 1 );
+
 
 -- Insert into HoaDonChiTiet
 INSERT INTO HoaDonChiTiet (IdSP, IdHD, SoLuong, DonGia)
@@ -282,3 +285,7 @@ VALUES (1, 1, 2, 2000000),
        (5, 4, 1, 3500000);
 
 SELECT * FROM HoaDonChiTiet;
+
+SELECT A.MaSP, A.TenSP, B.TenLoaiSanPham, A.GiaBan, A.GiaNhap, A.HinhAnh, A.Mota, A.Soluong,C.TenMau,D.TenHangSanXuat,E.Size,A.TrangThai 
+FROM SanPham A JOIN LoaiSanPham B ON A.IdLoaiSanPham=B.IdLoaiSanPham JOIN MauSac C ON A.IdMau=C.IdMau 
+JOIN HangSanXuat D ON A.IdHang=D.IdHang JOIN SizeSP E ON A.IdSize=E.IdSize WHERE A.TrangThai = 0

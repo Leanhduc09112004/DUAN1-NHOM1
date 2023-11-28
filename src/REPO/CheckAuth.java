@@ -9,7 +9,7 @@ public class CheckAuth {
         CheckAuth.user = null;
     }
     public static boolean isLogin(){
-        return CheckAuth.user != null;
+        return CheckAuth.user != null && CheckAuth.user.getTrangThai();
     }
     public static boolean isManager(){
        return CheckAuth.isLogin()&& user.getChucVu();

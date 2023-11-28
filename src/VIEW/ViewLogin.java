@@ -1,16 +1,20 @@
 package VIEW;
+
 import MODEL.NhanVien;
 import REPO.CheckAuth;
 import SERVICE.NhanVienService;
 import javax.swing.JOptionPane;
 
 public class ViewLogin extends javax.swing.JFrame {
-NhanVienService service = new NhanVienService();
+
+    NhanVienService service = new NhanVienService();
+
     public ViewLogin() {
         initComponents();
         this.setLocationRelativeTo(null);
         setTitle("Login");
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -162,13 +166,17 @@ NhanVienService service = new NhanVienService();
         if (nv == null || !pass.equals(nv.getMatKhau())) {
             JOptionPane.showMessageDialog(this, "Tên đăng nhập hoặc mật khẩu không đúng ");
         } else {
-            CheckAuth.user = nv;
-            ViewMenu main = new ViewMenu();
-            setVisible(false);
-            main.setVisible(true);
-            this.dispose();
+            if (nv.getTrangThai()!=false) {
+                CheckAuth.user = nv;
+                ViewMenu main = new ViewMenu();
+                setVisible(false);
+                main.setVisible(true);
+                this.dispose();
+                JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
+            }else{
+            JOptionPane.showMessageDialog(this, "Đăng nhập thất bại do nhân viên đã nghỉ làm");
+            }
         }
-
     }//GEN-LAST:event_btnLoginActionPerformed
     public static void main(String args[]) {
         try {

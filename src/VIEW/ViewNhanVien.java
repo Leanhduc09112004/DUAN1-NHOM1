@@ -1,4 +1,5 @@
 package VIEW;
+
 import MODEL.NhanVien;
 import SERVICE.NhanVienService;
 import java.io.File;
@@ -764,10 +765,11 @@ public class ViewNhanVien extends javax.swing.JFrame {
         if (tuKhoa.isEmpty()) {
             LoadDataTableNhanVien();
         } else {
-            ArrayList<NhanVien> ketQuaTimKiem1 = service.timKiemNhanVienMaNV(tuKhoa);
+            ArrayList<NhanVien> ketQuaTimKiem = service.timKiemNhanVien(tuKhoa, tuKhoa);
+
             tblmodel.setRowCount(0);
             int x = 1;
-            for (NhanVien nv : ketQuaTimKiem1) {
+            for (NhanVien nv : ketQuaTimKiem) {
                 tblmodel.addRow(new Object[]{x++, nv.getMaNV(),
                     nv.getHoTen(), nv.getGioiTinh() ? "Nam" : "Nữ",
                     nv.getSĐT(), nv.getNgaySinh(),
