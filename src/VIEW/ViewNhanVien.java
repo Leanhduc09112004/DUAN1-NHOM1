@@ -174,6 +174,11 @@ public class ViewNhanVien extends javax.swing.JFrame {
 
         jPanel42.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "TÌM KIẾM MÃ NV\n", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
 
+        txtTIMKIEMMANV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTIMKIEMMANVActionPerformed(evt);
+            }
+        });
         txtTIMKIEMMANV.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtTIMKIEMMANVKeyTyped(evt);
@@ -296,7 +301,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
             .addGroup(jPanel41Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
+                    .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE)
                     .addGroup(jPanel41Layout.createSequentialGroup()
                         .addComponent(jPanel42, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -372,6 +377,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
         jLabel69.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel69.setText("Email");
 
+        btnExport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/excel.png"))); // NOI18N
         btnExport.setText("EXPORT");
         btnExport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -413,8 +419,11 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 .addComponent(btnMoi)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExport)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel39Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnExport, btnMoi, btnSua, btnThem});
+
         jPanel39Layout.setVerticalGroup(
             jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel39Layout.createSequentialGroup()
@@ -426,6 +435,8 @@ public class ViewNhanVien extends javax.swing.JFrame {
                     .addComponent(btnExport))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
+
+        jPanel39Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnExport, btnMoi, btnSua, btnThem});
 
         buttonGroup3.add(rdoDangLam);
         rdoDangLam.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -638,7 +649,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
             if (service.addNhanVien(nv) != null) {
                 JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công");
                 LoadDataTableNhanVien();
-//                sendEmail(nv, "Thành công");
+                sendEmail(nv);
             } else {
                 JOptionPane.showMessageDialog(this, "Thêm thất bại do lỗi dữ liệu");
             }
@@ -647,9 +658,9 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnThemActionPerformed
 
-    private void sendEmail(NhanVien nv, String trangThai) {
-        final String username = "anhldph44493@fpt.edu.vn";
-        final String password = "09112004le";
+    private void sendEmail(NhanVien nv) {
+        final String username = "leducanh09112004@gmail.com";
+        final String password = "ulqh stzj wupo ttcb";
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -661,12 +672,11 @@ public class ViewNhanVien extends javax.swing.JFrame {
             }
         });
         try {
-            String recipientEmail = nv.getEmail();
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(nv.getEmail()));
             message.setSubject("Thông báo nhân viên mới");
-            message.setText("Thông tin nhân viên mới:\nMã nhân viên: " + nv.getMaNV() + "\nMật khẩu: " + nv.getMatKhau() + "\nTrạng thái: " + trangThai);
+            message.setText("Thông tin nhân viên mới:\nMã nhân viên (Tài khoản đăng nhập): " + nv.getMaNV() + "\nMật khẩu: " + nv.getMatKhau() + "\nTrạng thái: " + String.valueOf(nv.getTrangThai() ? "Đang làm" : "Đã nghỉ"));
             Transport.send(message);
             JOptionPane.showMessageDialog(this, "Đã gửi email thành công");
 
@@ -709,11 +719,50 @@ public class ViewNhanVien extends javax.swing.JFrame {
             if (updatedSuccessfully) {
                 JOptionPane.showMessageDialog(this, "Cập nhật trạng thái thành công");
                 LoadDataTableNhanVien();
+                sendUpdateEmail(selectedRows);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một hàng để cập nhật trạng thái");
         }
     }//GEN-LAST:event_btnTrangThaiActionPerformed
+    private void sendUpdateEmail(List<Integer> selectedRows) {
+        final String username = "leducanh09112004@gmail.com";
+        final String password = "ulqh stzj wupo ttcb";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            for (int selectedRow : selectedRows) {
+                String maNV = tblmodel.getValueAt(selectedRow, 1).toString();
+                String email = tblmodel.getValueAt(selectedRow, 7).toString();
+                String trangThaiCu = tblmodel.getValueAt(selectedRow, 9).toString();
+                String trangThaiMoi = trangThaiCu.equalsIgnoreCase("Đang làm") ? "Đã nghỉ" : "Đang làm";
+
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(username));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+                message.setSubject("Thông báo cập nhật trạng thái");
+                message.setText("Trạng thái nhân viên với mã " + maNV + " đã được cập nhật từ " + trangThaiCu + " thành " + trangThaiMoi + ".");
+
+                Transport.send(message);
+            }
+
+            JOptionPane.showMessageDialog(this, "Đã gửi email cập nhật trạng thái thành công");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private void tblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseClicked
         try {
@@ -774,7 +823,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
             if (service.updateNhanVien(nv) != null) {
                 JOptionPane.showMessageDialog(this, "Sửa dữ liệu nhân viên thành công");
                 LoadDataTableNhanVien();
-//                sendUpdateEmail(nv, "Thành công");
+                sendUpdateEmail(nv);
             } else {
                 JOptionPane.showMessageDialog(this, "Sửa dữ liệu thất bại vui lòng kiểm tra lại");
             }
@@ -783,9 +832,9 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSuaActionPerformed
 
-    private void sendUpdateEmail(NhanVien nv, String trangThai) {
-        final String username = "anhldph44493@fpt.edu.vn";
-        final String password = "09112004le";
+    private void sendUpdateEmail(NhanVien nv) {
+        final String username = "leducanh09112004@gmail.com";
+        final String password = "ulqh stzj wupo ttcb";
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -803,10 +852,10 @@ public class ViewNhanVien extends javax.swing.JFrame {
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
             message.setSubject("Thông báo sửa đổi thông tin nhân viên");
-            message.setText("Thông tin nhân viên đã được sửa đổi:\nMã nhân viên: " + nv.getMaNV() + "\nMật khẩu: " + nv.getMatKhau() + "\nTrạng thái: " + trangThai);
+            message.setText("Thông tin nhân viên đã được sửa đổi:\nMã nhân viên (Tài khoản đăng nhập): " + nv.getMaNV() + "\nMật khẩu: " + nv.getMatKhau() + "\nTrạng thái: " + String.valueOf(nv.getTrangThai() ? "Đang làm" : "Đã nghỉ"));
             Transport.send(message);
 
-            JOptionPane.showMessageDialog(this,"Đã gửi email thông báo sửa đổi thành công");
+            JOptionPane.showMessageDialog(this, "Đã gửi email thông báo sửa đổi thành công");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -827,11 +876,11 @@ public class ViewNhanVien extends javax.swing.JFrame {
 
     private void txtTIMKIEMMANVKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTIMKIEMMANVKeyTyped
         String tuKhoa = txtTIMKIEMMANV.getText();
-
+        ArrayList<NhanVien> ketQuaTimKiem;
         if (tuKhoa.isEmpty()) {
             LoadDataTableNhanVien();
         } else {
-            ArrayList<NhanVien> ketQuaTimKiem = service.timKiemNhanVien(tuKhoa, tuKhoa);
+            ketQuaTimKiem = service.timKiemNhanVien(tuKhoa);
 
             tblmodel.setRowCount(0);
             int x = 1;
@@ -988,10 +1037,10 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 cell = row.createCell(2, CellType.STRING);
                 cell.setCellValue(list.get(i).getHoTen());
 
-                cell = row.createCell(3, CellType.STRING);
+                cell = row.createCell(4, CellType.STRING);
                 cell.setCellValue(list.get(i).getSĐT());
 
-                cell = row.createCell(4, CellType.BOOLEAN);
+                cell = row.createCell(3, CellType.BOOLEAN);
                 cell.setCellValue(list.get(i).getGioiTinh() ? "Nam" : "Nữ");
 
                 cell = row.createCell(5, CellType.STRING);
@@ -1012,12 +1061,11 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 cell = row.createCell(10, CellType.STRING);
                 cell.setCellValue(list.get(i).getMatKhau());
             }
-            File file = new File("D://DanhSachNhanVien.xlsx");
+            File file = new File("D://NHOM 1- DU AN 1-SD18316//DUAN1-NHOM1//DUAN1_NHOM1_SD18316//DanhSachNhanVien.xlsx");
             try {
                 FileOutputStream fo = new FileOutputStream(file);
                 workbook.write(fo);
                 JOptionPane.showMessageDialog(this, "Xuất file Excel thành công");
-                tblmodel.setRowCount(0);
                 fo.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -1028,6 +1076,10 @@ public class ViewNhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Lỗi khi xuất file Excel:\n" + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnExportActionPerformed
+
+    private void txtTIMKIEMMANVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTIMKIEMMANVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTIMKIEMMANVActionPerformed
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

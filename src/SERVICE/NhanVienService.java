@@ -115,14 +115,14 @@ public class NhanVienService {
         return row;
     }
 
-    public ArrayList<NhanVien> timKiemNhanVien(String maNV, String tenNV) {
+    public ArrayList<NhanVien> timKiemNhanVien(String keyword) {
         ArrayList<NhanVien> ketQuaTimKiem = new ArrayList<>();
         try {
-            String sql = "SELECT MaNV, HoTen, GioiTinh, Sdt, NgaySinh, DiaChi, Email, ChucVu, TrangThai, MatKhau FROM NhanVien WHERE MaNV = ? AND HoTen LIKE ?";
+            String sql = "SELECT MaNV, HoTen, GioiTinh, Sdt, NgaySinh, DiaChi, Email, ChucVu, TrangThai, MatKhau FROM NhanVien WHERE MaNV LIKE ? OR HoTen LIKE ?";
             Connection cn = DBConnect.getConnection();
             PreparedStatement pst = cn.prepareStatement(sql);
-            pst.setString(1, maNV); // Tìm tuyệt đối cho mã nhân viên
-            pst.setString(2, "%" + tenNV + "%"); // Tìm tương đối cho tên nhân viên
+            pst.setString(1, "%"+keyword+"%"); // Tìm tuyệt đối cho mã nhân viên
+            pst.setString(2, "%" + keyword + "%"); // Tìm tương đối cho tên nhân viên
 
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
