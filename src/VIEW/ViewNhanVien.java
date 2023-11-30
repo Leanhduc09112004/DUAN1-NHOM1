@@ -1,5 +1,6 @@
 package VIEW;
 //LDA
+
 import MODEL.NhanVien;
 import SERVICE.NhanVienService;
 import java.io.File;
@@ -745,8 +746,9 @@ public class ViewNhanVien extends javax.swing.JFrame {
             for (int selectedRow : selectedRows) {
                 String maNV = tblmodel.getValueAt(selectedRow, 1).toString();
                 String email = tblmodel.getValueAt(selectedRow, 7).toString();
-                String trangThaiCu = tblmodel.getValueAt(selectedRow, 9).toString();
-                String trangThaiMoi = trangThaiCu.equalsIgnoreCase("Đang làm") ? "Đã nghỉ" : "Đang làm";
+                boolean trangThai = tblmodel.getValueAt(selectedRow, 9).toString().equalsIgnoreCase("Đang làm");
+                String trangThaiCu = trangThai ? "Đang làm" : "Đã nghỉ";
+                String trangThaiMoi = trangThai ? "Đã nghỉ" : "Đang làm";
 
                 Message message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(username));
