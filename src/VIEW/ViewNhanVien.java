@@ -725,6 +725,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất một hàng để cập nhật trạng thái");
         }
+        btnMoiActionPerformed(evt);
     }//GEN-LAST:event_btnTrangThaiActionPerformed
     private void sendUpdateEmail(List<Integer> selectedRows) {
         final String username = "leducanh09112004@gmail.com";
