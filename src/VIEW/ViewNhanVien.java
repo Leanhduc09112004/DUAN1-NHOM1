@@ -1,10 +1,8 @@
 package VIEW;
-//LDA
-
 import MODEL.NhanVien;
 import SERVICE.NhanVienService;
+import java.awt.HeadlessException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,6 +27,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class ViewNhanVien extends javax.swing.JFrame {
 
@@ -1063,15 +1063,19 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 cell = row.createCell(10, CellType.STRING);
                 cell.setCellValue(list.get(i).getMatKhau());
             }
-            File file = new File("D://NHOM 1- DU AN 1-SD18316//DUAN1-NHOM1//DUAN1_NHOM1_SD18316//DanhSachNhanVien.xlsx");
-            try {
-                FileOutputStream fo = new FileOutputStream(file);
-                workbook.write(fo);
-                JOptionPane.showMessageDialog(this, "Xuất file Excel thành công");
-                fo.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Lỗi khi xuất file Excel:\n" + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Chọn nơi lưu file");
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Excel Files (*.xlsx)", "xlsx"));
+            int userSelection = fileChooser.showSaveDialog(null);
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
+                try (FileOutputStream fos = new FileOutputStream(fileToSave.getAbsolutePath() + ".xlsx")) {
+                    workbook.write(fos);
+                    JOptionPane.showMessageDialog(this, "Xuất file Excel thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                } catch (HeadlessException headlessException) {
+                    headlessException.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Lỗi khi xuất file Excel:\n" + headlessException.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

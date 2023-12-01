@@ -10,6 +10,7 @@ import SERVICE.LoaiSanPhamService;
 import SERVICE.MauSacService;
 import SERVICE.SanPhamService;
 import SERVICE.SizeService;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -1630,59 +1632,62 @@ public class ViewSanPham extends javax.swing.JFrame {
 
             cell = row.createCell(12, CellType.STRING);
             cell.setCellValue("TRẠNG THÁI");
-            
+
             for (int i = 0; i < list.size(); i++) {
-                row= worksheet.createRow(4+i);
-                
+                row = worksheet.createRow(4 + i);
+
                 cell = row.createCell(0, CellType.NUMERIC);
                 cell.setCellValue(i + 1);
-                
+
                 cell = row.createCell(1, CellType.STRING);
                 cell.setCellValue(list.get(i).getMaSP());
-                
+
                 cell = row.createCell(2, CellType.STRING);
                 cell.setCellValue(list.get(i).getTenSP());
-                
+
                 cell = row.createCell(3, CellType.STRING);
                 cell.setCellValue(list.get(i).getIdLoaiSP().getTenLoaiSP());
-                
+
                 cell = row.createCell(4, CellType.NUMERIC);
                 cell.setCellValue(list.get(i).getGiaBan());
-                
+
                 cell = row.createCell(5, CellType.NUMERIC);
                 cell.setCellValue(list.get(i).getGiaNhap());
-                
+
                 cell = row.createCell(6, CellType.STRING);
                 cell.setCellValue(list.get(i).getHinhAnh());
-                
+
                 cell = row.createCell(7, CellType.STRING);
                 cell.setCellValue(list.get(i).getMoTa());
-                
+
                 cell = row.createCell(8, CellType.NUMERIC);
                 cell.setCellValue(list.get(i).getSoluong());
-                
+
                 cell = row.createCell(9, CellType.STRING);
                 cell.setCellValue(list.get(i).getIdMauSac().getMauSP());
-                
+
                 cell = row.createCell(10, CellType.STRING);
                 cell.setCellValue(list.get(i).getIdSize().getSizeSP());
-                
+
                 cell = row.createCell(11, CellType.STRING);
                 cell.setCellValue(list.get(i).getIdHang().getTenHangSX());
-                
-                cell = row.createCell(12, CellType.BOOLEAN);
-                cell.setCellValue(list.get(i).isTrangThai() ? "Còn hàng":"Hết hàng");
-            }
 
-            File file = new File("D://NHOM 1- DU AN 1-SD18316//DUAN1-NHOM1//DUAN1_NHOM1_SD18316//DanhSachSanPham.xlsx");
-            try {
-                FileOutputStream fo = new FileOutputStream(file);
-                workbook.write(fo);
-                JOptionPane.showMessageDialog(this, "Xuất file Excel thành công");
-                fo.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Lỗi khi xuất file Excel:\n" + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+                cell = row.createCell(12, CellType.BOOLEAN);
+                cell.setCellValue(list.get(i).isTrangThai() ? "Còn hàng" : "Hết hàng");
+            }
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Chọn nơi lưu file");
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Excel Files (*.xlsx)", "xlsx"));
+            int userSelection = fileChooser.showSaveDialog(null);
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
+                try (FileOutputStream fos = new FileOutputStream(fileToSave.getAbsolutePath() + ".xlsx")) {
+                    workbook.write(fos);
+                    JOptionPane.showMessageDialog(this, "Xuất file Excel thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                } catch (HeadlessException headlessException) {
+                    headlessException.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Lỗi khi xuất file Excel:\n" + headlessException.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
