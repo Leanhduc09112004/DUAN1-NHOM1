@@ -9,12 +9,12 @@ public class KhuyenMai {
     private  String DieuKien;
     private Double TienGiam;
     private Boolean TrangThai;
-    private SanPham IdSp;
+    private String GhiChu;
 
     public KhuyenMai() {
     }
 
-    public KhuyenMai(int IdKM, String MaKM, String TenKM, Date NgayBatDau, Date NgayKetThuc, String DieuKien, Double TienGiam, Boolean TrangThai, SanPham IdSp) {
+    public KhuyenMai(int IdKM, String MaKM, String TenKM, Date NgayBatDau, Date NgayKetThuc, String DieuKien, Double TienGiam, Boolean TrangThai, String GhiChu) {
         this.IdKM = IdKM;
         this.MaKM = MaKM;
         this.TenKM = TenKM;
@@ -23,7 +23,7 @@ public class KhuyenMai {
         this.DieuKien = DieuKien;
         this.TienGiam = TienGiam;
         this.TrangThai = TrangThai;
-        this.IdSp = IdSp;
+        this.GhiChu = GhiChu;
     }
 
     public int getIdKM() {
@@ -90,18 +90,11 @@ public class KhuyenMai {
         this.TrangThai = TrangThai;
     }
 
-    public SanPham getIdSp() {
-        return IdSp;
+    public String getGhiChu() {
+        return GhiChu;
     }
 
-    public void setIdSp(SanPham IdSp) {
-        this.IdSp = IdSp;
+    public void setGhiChu(String GhiChu) {
+        this.GhiChu = GhiChu;
     }
-
-    @Override
-    public String toString() {
-        return TenKM ;
-    }
-
-   
 }
