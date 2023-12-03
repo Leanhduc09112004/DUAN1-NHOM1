@@ -432,6 +432,8 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin sản phẩm"));
 
+        jPanel14.setForeground(new java.awt.Color(255, 204, 204));
+
         jLabel30.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel30.setText("Mã sản phẩm");
 

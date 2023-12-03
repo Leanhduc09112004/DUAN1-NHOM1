@@ -201,19 +201,19 @@ public class ThongKeService {
     public ArrayList<ThongKe> getDoanhThu3(int year) {
         ArrayList<ThongKe> list = new ArrayList<>();
         try {
-           String sql = "SELECT SUM(TongTien-TienGiam) AS TongDT, MONTH(NgayThanhToan)\n"
+            String sql = "SELECT SUM(TongTien-TienGiam) AS TongDT, MONTH(NgayThanhToan)\n"
                     + "FROM HoaDon\n"
                     + "WHERE YEAR(NgayThanhToan) = ? AND TrangThai = 1\n"
                     + "GROUP BY MONTH(NgayThanhToan)";
-;
             Connection cn = DBConnect.getConnection();
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setInt(1, year);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 ThongKe d = new ThongKe();
-                d.setThangThanhToan(rs.getInt(1));
-                d.setTongDT(rs.getDouble(2));
+                d.setTongDT(rs.getDouble(1));
+                d.setThangThanhToan(rs.getInt(2));
+
                 list.add(d);
             }
         } catch (Exception e) {
