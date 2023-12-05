@@ -3,6 +3,7 @@ package VIEW;
 import MODEL.HoaDon;
 import MODEL.KhachHang;
 import SERVICE.KhachHangService;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -653,11 +654,18 @@ public class ViewKhachHang extends javax.swing.JFrame {
         String ma = tblKhachHang.getValueAt(i, 1).toString();
         listHD = service.getHD(ma);
         for (HoaDon x : listHD) {
+            int gia = (int) Math.round(x.getTongTien());
             molHD.addRow(new Object[]{
                 k++, x.getMaHD(), x.getNgayThanhToan(),
-                x.getTongTien(),
+                formatMoney(gia),
                 x.isTrangThai() ? "Đã thanh toán" : "Chưa thanh toán"
             });
         }
     }
+
+    public String formatMoney(int money) {
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        return formatter.format(money);
+    }
+
 }

@@ -491,10 +491,10 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane16" alignment="0" min="-2" pref="812" max="-2" attributes="0"/>
-                              <Component id="jPanel55" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jPanel55" min="-2" max="-2" attributes="0"/>
+                              <Component id="jScrollPane16" min="-2" pref="1053" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="257" max="32767" attributes="0"/>
+                          <EmptySpace pref="16" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
