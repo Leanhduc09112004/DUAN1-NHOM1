@@ -245,14 +245,13 @@ public class ViewSanPham extends javax.swing.JFrame {
             rdoHetHang.setSelected(!trangThai);
         }
     }
-
     public void updateHinh(String image) {
-        ImageIcon icon1 = new ImageIcon("src/img/" + image);
-        Image im = icon1.getImage();
-        ImageIcon icon = new ImageIcon(im.getScaledInstance(lblHinhAnh.getWidth(), lblHinhAnh.getHeight(), im.SCALE_SMOOTH));
-        lblHinhAnh.setIcon(icon);
+//        ImageIcon icon1 = new ImageIcon("src/img/" + image);
+//        Image im = icon1.getImage();
+//        ImageIcon icon = new ImageIcon(im.getScaledInstance(lblHinhAnh.getWidth(), lblHinhAnh.getHeight(), im.SCALE_SMOOTH));
+//        lblHinhAnh.setIcon(icon);
     }
-
+    
     private SanPham getFORMINPUT() {
         SanPham sp = new SanPham();
 
@@ -426,8 +425,6 @@ public class ViewSanPham extends javax.swing.JFrame {
         jScrollPane7 = new javax.swing.JScrollPane();
         tblThuocTinh = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         jTabbedPane1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin sản phẩm"));
@@ -484,8 +481,6 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Mô Tả");
-
-        cboSize.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "=" }));
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -1130,8 +1125,6 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblSANPHAMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSANPHAMMouseClicked
