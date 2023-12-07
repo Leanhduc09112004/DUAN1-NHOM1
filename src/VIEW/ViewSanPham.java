@@ -51,6 +51,7 @@ public class ViewSanPham extends javax.swing.JFrame {
 
     public ViewSanPham() {
         initComponents();
+        setSize(1213, 650);
         setLocationRelativeTo(null);
         tblmodel = (DefaultTableModel) tblSANPHAM.getModel();
         tblmodel2 = (DefaultTableModel) tblThuocTinh.getModel();
@@ -72,9 +73,6 @@ public class ViewSanPham extends javax.swing.JFrame {
         LoadDataTableLoaiSP();
         LoadDataTableSP();
         ShowThuocTinh();
-        if (tblSANPHAM.getRowCount() > 0) {
-            tblSANPHAM.setRowSelectionInterval(0, 0);
-        }
         ShowSanPham();
     }
 
@@ -245,13 +243,23 @@ public class ViewSanPham extends javax.swing.JFrame {
             rdoHetHang.setSelected(!trangThai);
         }
     }
+
     public void updateHinh(String image) {
-//        ImageIcon icon1 = new ImageIcon("src/img/" + image);
-//        Image im = icon1.getImage();
-//        ImageIcon icon = new ImageIcon(im.getScaledInstance(lblHinhAnh.getWidth(), lblHinhAnh.getHeight(), im.SCALE_SMOOTH));
-//        lblHinhAnh.setIcon(icon);
+        if (lblHinhAnh.isShowing() && lblHinhAnh.getWidth() > 0 && lblHinhAnh.getHeight() > 0) {
+            try {
+                ImageIcon icon1 = new ImageIcon("src/img/" + image);
+                Image im = icon1.getImage();
+                int width = lblHinhAnh.getWidth() == 0 ? 1 : lblHinhAnh.getWidth();
+                int height = lblHinhAnh.getHeight() == 0 ? 1 : lblHinhAnh.getHeight();
+
+                ImageIcon icon = new ImageIcon(im.getScaledInstance(width, height, Image.SCALE_SMOOTH));
+                lblHinhAnh.setIcon(icon);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
-    
+
     private SanPham getFORMINPUT() {
         SanPham sp = new SanPham();
 
@@ -525,7 +533,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtMoTa)
                             .addComponent(txtGiaNhap, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel14Layout.createSequentialGroup()
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1095,7 +1103,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1121,8 +1129,8 @@ public class ViewSanPham extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -1152,6 +1160,10 @@ public class ViewSanPham extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Giá bán, giá nhập và số lượng phải là số");
                 return;
             }
+            if (lblHinhAnh.getText().equalsIgnoreCase("")) {
+                JOptionPane.showMessageDialog(this, "Không được bỏ trống hình ảnh");
+                return;
+            }
             SanPham sp = getFORMINPUT();
             if (service.addSanPham(sp) != null) {
                 JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công");
@@ -1179,6 +1191,7 @@ public class ViewSanPham extends javax.swing.JFrame {
             int height = lblHinhAnh.getHeight();
             lblHinhAnh.setIcon(new ImageIcon(img.getScaledInstance(width, height, 0)));
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_lblHinhAnhMouseClicked
 
@@ -1452,6 +1465,10 @@ public class ViewSanPham extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Giá bán, giá nhập và số lượng phải là số");
                 return;
             }
+            if (lblHinhAnh.getText().equalsIgnoreCase("")) {
+                JOptionPane.showMessageDialog(this, "Không được bỏ trống hình ảnh");
+                return;
+            }
             SanPham sp = getFORMINPUT();
             if (service.updateSanPham(sp) != null) {
                 JOptionPane.showMessageDialog(this, "Sửa sản phẩm thành công");
@@ -1478,6 +1495,7 @@ public class ViewSanPham extends javax.swing.JFrame {
         cboLOAISP.setSelectedIndex(0);
         cboSize.setSelectedIndex(0);
         cboMauSac.setSelectedIndex(0);
+        lblHinhAnh.setText("");
     }//GEN-LAST:event_btnCLEARFORMActionPerformed
 
     private void btnTRANGTHAIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTRANGTHAIActionPerformed
