@@ -1160,8 +1160,8 @@ public class ViewSanPham extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Giá bán, giá nhập và số lượng phải là số");
                 return;
             }
-            if (lblHinhAnh.getText().equalsIgnoreCase("")) {
-                JOptionPane.showMessageDialog(this, "Không được bỏ trống hình ảnh");
+            if (lblHinhAnh.getIcon() == null) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn hình ảnh cho sản phẩm");
                 return;
             }
             SanPham sp = getFORMINPUT();
@@ -1465,8 +1465,8 @@ public class ViewSanPham extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Giá bán, giá nhập và số lượng phải là số");
                 return;
             }
-            if (lblHinhAnh.getText().equalsIgnoreCase("")) {
-                JOptionPane.showMessageDialog(this, "Không được bỏ trống hình ảnh");
+            if (lblHinhAnh.getIcon() == null) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn hình ảnh cho sản phẩm");
                 return;
             }
             SanPham sp = getFORMINPUT();
