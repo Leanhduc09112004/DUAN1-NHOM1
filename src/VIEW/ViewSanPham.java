@@ -51,7 +51,7 @@ public class ViewSanPham extends javax.swing.JFrame {
 
     public ViewSanPham() {
         initComponents();
-        setSize(1213, 650);
+        setSize(1250, 750);
         setLocationRelativeTo(null);
         tblmodel = (DefaultTableModel) tblSANPHAM.getModel();
         tblmodel2 = (DefaultTableModel) tblThuocTinh.getModel();
