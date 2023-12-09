@@ -1,13 +1,16 @@
 package VIEW;
+
 import javax.swing.JPanel;
 
 public class ViewMenu extends javax.swing.JFrame {
 
     private JPanel panel;
-    
+
     public ViewMenu() {
         initComponents();
         this.setVisible(true);
+//        panel = new viewNV2();
+//        setPanel(panel);
         setLocationRelativeTo(null);
     }
 
@@ -422,7 +425,7 @@ public class ViewMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tabBanHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabBanHangMouseClicked
-//        panel = new ViewBanHang();
+//        panel = new viewNV2();
 //        setPanel(panel);
     }//GEN-LAST:event_tabBanHangMouseClicked
 

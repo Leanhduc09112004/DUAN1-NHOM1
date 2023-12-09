@@ -11,8 +11,20 @@ public class KhachHang {
     private boolean gtinh; 
     private Date ngSinh ; 
     private String dchi; 
+    private HoaDon IdHD;
 
     public KhachHang() {
+    }
+
+    public KhachHang(String maKH, String hoTen, String email, String sdt, boolean gtinh, Date ngSinh, String dchi, HoaDon IdHD) {
+        this.maKH = maKH;
+        this.hoTen = hoTen;
+        this.email = email;
+        this.sdt = sdt;
+        this.gtinh = gtinh;
+        this.ngSinh = ngSinh;
+        this.dchi = dchi;
+        this.IdHD = IdHD;
     }
 
     public KhachHang(String maKH, String hoTen, String email, String sdt, boolean gtinh, Date ngSinh, String dchi) {
@@ -81,4 +93,13 @@ public class KhachHang {
         this.dchi = dchi;
     }
 
+    public HoaDon getIdHD() {
+        return IdHD;
+    }
+
+    public void setIdHD(HoaDon IdHD) {
+        this.IdHD = IdHD;
+    }
+
+  
 }
