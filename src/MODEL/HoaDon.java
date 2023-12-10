@@ -14,8 +14,12 @@ public class HoaDon {
     private String ghiChu;
     private int idNV;
     private int idKH;
+    private String hinhThucTT;
 
-    public HoaDon(int idHD, String maHD, Date ngayTao, Date ngayThanhToan, float tongTien, float tienGiam, float tienDua, float tongThua, boolean trangThai, String ghiChu, int idNV, int idKH) {
+    public HoaDon() {
+    }
+
+    public HoaDon(int idHD, String maHD, Date ngayTao, Date ngayThanhToan, float tongTien, float tienGiam, float tienDua, float tongThua, boolean trangThai, String ghiChu, int idNV, int idKH, String hinhThucTT) {
         this.idHD = idHD;
         this.maHD = maHD;
         this.ngayTao = ngayTao;
@@ -28,9 +32,7 @@ public class HoaDon {
         this.ghiChu = ghiChu;
         this.idNV = idNV;
         this.idKH = idKH;
-    }
-
-    public HoaDon() {
+        this.hinhThucTT = hinhThucTT;
     }
 
     public int getIdHD() {
@@ -128,6 +130,13 @@ public class HoaDon {
     public void setIdKH(int idKH) {
         this.idKH = idKH;
     }
-    
-    
+
+    public String getHinhThucTT() {
+        return hinhThucTT;
+    }
+
+    public void setHinhThucTT(String hinhThucTT) {
+        this.hinhThucTT = hinhThucTT;
+    }
+  
 }

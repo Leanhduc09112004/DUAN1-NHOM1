@@ -29,6 +29,12 @@ public class ViewKhachHangChiTiet extends javax.swing.JFrame {
         ShowTTKhachHang();
     }
 
+    private String[] thongTinKhachHang;
+
+    public String[] getThongTinKhachHang() {
+        return thongTinKhachHang;
+    }
+
     void LoadDataTable() {
         tblmodel.setRowCount(0);
         listKH = service.getAllTT("", "");
@@ -39,7 +45,7 @@ public class ViewKhachHangChiTiet extends javax.swing.JFrame {
 
     void TimKiem() {
         String timKiem = txtTIMKIEM.getText();
-        listKH = service.searchKhachHang(timKiem, timKiem); 
+        listKH = service.searchKhachHang(timKiem, timKiem);
         tblmodel.setRowCount(0);
         for (KhachHang kh : listKH) {
             tblmodel.addRow(new Object[]{kh.getMaKH(), kh.getHoTen(), kh.isGtinh() ? "Nam" : "Nữ", kh.getEmail(), kh.getSdt(), kh.getDchi(), kh.getNgSinh(), kh.getIdHD().isTrangThai() ? "Đã thanh toán" : "Chưa thanh toán"});
@@ -123,6 +129,7 @@ public class ViewKhachHangChiTiet extends javax.swing.JFrame {
         txtEmail = new javax.swing.JTextField();
         txtSoDienThoai = new javax.swing.JTextField();
         txtDiaChi = new javax.swing.JTextField();
+        btnCHON = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -203,6 +210,13 @@ public class ViewKhachHangChiTiet extends javax.swing.JFrame {
 
         jLabel10.setText("TÌM KIẾM");
 
+        btnCHON.setText("CHỌN");
+        btnCHON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCHONActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -245,7 +259,8 @@ public class ViewKhachHangChiTiet extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
                                     .addComponent(jLabel3)
-                                    .addComponent(jLabel8))))
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(JdateNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
@@ -254,11 +269,11 @@ public class ViewKhachHangChiTiet extends javax.swing.JFrame {
                             .addComponent(txtDiaChi)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnTHEM, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnSUA, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(btnCHON)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                         .addComponent(txtTIMKIEM, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
                 .addGap(24, 24, 24))
@@ -305,12 +320,14 @@ public class ViewKhachHangChiTiet extends javax.swing.JFrame {
                         .addComponent(jLabel9)
                         .addComponent(rdoDaThanhToan)
                         .addComponent(rdoChuaThanhToan)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSUA)
-                    .addComponent(btnTHEM, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTIMKIEM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnSUA)
+                        .addComponent(btnTHEM, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTIMKIEM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10))
+                    .addComponent(btnCHON, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -347,6 +364,11 @@ public class ViewKhachHangChiTiet extends javax.swing.JFrame {
     private void txtTIMKIEMKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTIMKIEMKeyTyped
         TimKiem();
     }//GEN-LAST:event_txtTIMKIEMKeyTyped
+
+    private void btnCHONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCHONActionPerformed
+        thongTinKhachHang = new String[]{txtTenKH.getText(), txtSoDienThoai.getText(),rdoNam.isSelected()?"Nam":"Nữ"};
+        this.dispose();
+    }//GEN-LAST:event_btnCHONActionPerformed
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -373,6 +395,7 @@ public class ViewKhachHangChiTiet extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser JdateNgaySinh;
+    private javax.swing.JButton btnCHON;
     private javax.swing.JButton btnSUA;
     private javax.swing.JButton btnTHEM;
     private javax.swing.ButtonGroup buttonGroup1;

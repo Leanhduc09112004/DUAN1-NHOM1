@@ -113,6 +113,22 @@ public class SanPhamService {
         return row;
     }
 
+    public Integer updateSoLuong(SanPham sp) {
+        Integer row = null;
+        try {
+            String sql = "UPDATE SanPham SET Soluong = ? WHERE MaSP = ?";
+            Connection cn = DBConnect.getConnection();
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setInt(1, sp.getSoluong());
+            pst.setString(2, sp.getMaSP());
+            row = pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
+        }
+        return row;
+    }
+
     public Integer updateTrangThai(SanPham sp) {
         Integer row = null;
         try {
